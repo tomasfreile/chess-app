@@ -17,10 +17,10 @@ public class GameEngineImpl implements GameEngine {
     public List<ChessPiece> chessPieceList(List<Tile> positions){
         List<ChessPiece> pieces = new ArrayList<>();
         String id = "1";
-        for (Tile positionB : positions) {
-            if (!positionB.isEmpty()){
-                Piece piece = positionB.getPiece();
-                ChessPiece newPiece = new ChessPiece(id,piece.getColor().equals(Color.WHITE) ? PlayerColor.WHITE : PlayerColor.BLACK,new Position(positionB.getRow()+1,positionB.getColumn()+1),piece.getType().toString().toLowerCase());
+        for (Tile tile : positions) {
+            if (!tile.isEmpty()){
+                Piece piece = tile.getPiece();
+                ChessPiece newPiece = new ChessPiece(id,piece.getColor().equals(Color.WHITE) ? PlayerColor.WHITE : PlayerColor.BLACK,new Position(tile.getRow()+1,tile.getColumn()+1),piece.getType().toString().toLowerCase());
                 pieces.add(newPiece);
             }
             id = String.valueOf(Integer.parseInt(id)+1);
@@ -81,7 +81,7 @@ public class GameEngineImpl implements GameEngine {
     }
 
     private static boolean isPromotion(ChessPiece movedPiece) {
-        return movedPiece.getPosition().getRow() == 7 && movedPiece.getColor().equals(PlayerColor.WHITE) && movedPiece.getPieceId().equals("pawn") || movedPiece.getPosition().getRow() == 0 && movedPiece.getColor().equals(PlayerColor.BLACK) && movedPiece.getPieceId().equals("pawn");
+        return movedPiece.getPosition().getRow() == 7 && movedPiece.getColor().equals(PlayerColor.WHITE) && movedPiece.getPieceId().equals("pawn") || movedPiece.getPosition().getRow() == 2 && movedPiece.getColor().equals(PlayerColor.BLACK) && movedPiece.getPieceId().equals("pawn");
     }
     
     @NotNull
