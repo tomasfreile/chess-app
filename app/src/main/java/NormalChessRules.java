@@ -1,5 +1,6 @@
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class NormalChessRules implements Rules{
 
@@ -22,14 +23,8 @@ public class NormalChessRules implements Rules{
 
     @Override
     public boolean checkWin(Board board, Color color) {
-        for (Tile p : board.getPositions()) {
-            if (!p.isEmpty()) {
-                if (p.getPiece().getType() == PieceName.KING && p.getPiece().getColor() == color) {
-                    return false;
-                }
-            }
-        }
-        return true;
+        System.out.println("Checkmate:" + isCheckmate(board, color));
+        return isCheckmate(board, color);
     }
 
     @Override
@@ -105,14 +100,26 @@ public class NormalChessRules implements Rules{
 
     private boolean isCheckmate(Board board, Color color){
         Tile kingPosition = findKing(board, color);
-        for (Tile p : board.getPositions()){
-            assert kingPosition != null;
-            if (board.validateMovement(p, kingPosition, this)){
-                return true;
+            for (Tile p : board.getPositions()){
+                if (!p.isEmpty() && p.getPiece().getColor() == color){
+                    for (Tile t : board.getPositions()){
+                        if (board.validateMovement(p, t, this)){
+                            // Create a new board with the updated positions
+                            List<Tile> newPositions = board.getPositions()
+                                .stream()
+                                .map(position -> position == p ? new Tile(p.getRow(), p.getColumn()) : position == t ? new Tile(t.getRow(), t.getColumn(), new Piece(p.getPiece().getType(), p.getPiece().getMoves(), p.getPiece().getColor(), p.getPiece().getMoveCount()+1)) : position)
+                                .collect(Collectors.toList());
+
+                            Board newBoard = new Board(newPositions);
+                            if (!isCheck(newBoard, color)){
+                                return false;
+                            }
+                        }
+                    }
+                }
             }
+            return true;
         }
-        return false;
-    }
 
     private Tile findKing(Board board, Color color) {
         for (Tile p : board.getPositions()) {

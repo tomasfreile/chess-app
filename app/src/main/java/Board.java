@@ -139,7 +139,6 @@ public class Board {
                     row++;
                 }
                 if (row != endRow && getPieceAtPosition(row, column) != null){
-                    System.out.println("There is a piece in the way");
                     return false;
                 }
             }
@@ -156,7 +155,6 @@ public class Board {
                     column++;
                 }
                 if (column != endColumn && getPieceAtPosition(row, column) != null){
-                    System.out.println("There is a piece in the way");
                     return false;
                 }
             }
@@ -178,7 +176,6 @@ public class Board {
                 column++;
             }
             if (column != endColumn && row != endRow && getPieceAtPosition(row, column) != null) {
-                System.out.println("There is a piece in the way");
                 return false;
             }
           }
