@@ -31,9 +31,6 @@ public class GameEngineImpl implements GameEngine {
     @NotNull
     @Override
     public MoveResult applyMove(@NotNull Move move) {
-        if(game.isGameOver()){
-            return new GameOver(game.getCurrentPlayer().equals(game.getPlayer2()) ? PlayerColor.WHITE : PlayerColor.BLACK);
-        }
         if (!game.moveAndSwitchPlayer(game.getBoard().getPosition(move.getFrom().getRow() - 1, move.getFrom().getColumn() - 1), game.getBoard().getPosition(move.getTo().getRow() - 1, move.getTo().getColumn() - 1)).equals(game)) {
             Game result = game.moveAndSwitchPlayer(game.getBoard().getPosition(move.getFrom().getRow() - 1, move.getFrom().getColumn() - 1), game.getBoard().getPosition(move.getTo().getRow() - 1, move.getTo().getColumn() - 1));
             game = result;
@@ -64,20 +61,25 @@ public class GameEngineImpl implements GameEngine {
             assert movedPiece != null;
 
             if (isPromotion(movedPiece)) {
-                ChessPiece updatedPiece = new ChessPiece(movedPiece.getId(), movedPiece.getColor(), move.getTo(), "queen");
-                pieces.add(updatedPiece);
-                return new NewGameState(pieces, result.getCurrentPlayer().getColor().equals(Color.WHITE) ? PlayerColor.WHITE : PlayerColor.BLACK);
+                return updateGameState(movedPiece, move, "queen", result);
             }
             else {
-                ChessPiece updatedPiece = new ChessPiece(movedPiece.getId(), movedPiece.getColor(), move.getTo(), movedPiece.getPieceId());
-                pieces.add(updatedPiece);
-                return new NewGameState(pieces, result.getCurrentPlayer().getColor().equals(Color.WHITE) ? PlayerColor.WHITE : PlayerColor.BLACK);
-
+                return updateGameState(movedPiece, move, movedPiece.getPieceId(), result);
             }
 
         } else {
             return new InvalidMove("Try again");
         }
+    }
+
+    @NotNull
+    private MoveResult updateGameState(ChessPiece movedPiece, @NotNull Move move, String movedPiece1, Game result) {
+        ChessPiece updatedPiece = new ChessPiece(movedPiece.getId(), movedPiece.getColor(), move.getTo(), movedPiece1);
+        pieces.add(updatedPiece);
+        if (result.isGameOver()) {
+            return new GameOver(result.getCurrentPlayer().equals(result.getPlayer2()) ? PlayerColor.WHITE : PlayerColor.BLACK);
+        }
+        return new NewGameState(pieces, result.getCurrentPlayer().getColor().equals(Color.WHITE) ? PlayerColor.WHITE : PlayerColor.BLACK);
     }
 
     private static boolean isPromotion(ChessPiece movedPiece) {
