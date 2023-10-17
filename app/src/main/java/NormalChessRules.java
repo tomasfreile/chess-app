@@ -33,6 +33,11 @@ public class NormalChessRules implements Rules{
     }
 
     @Override
+    public boolean isInCheck(Board board, Color color) {
+        return isCheck(board, color);
+    }
+
+    @Override
     public boolean validateSpecialMovement(Tile origin, Tile destination, Board board) {
         int startRow = origin.getRow();
         int startColumn = origin.getColumn();
@@ -91,7 +96,7 @@ public class NormalChessRules implements Rules{
         Tile kingPosition = findKing(board, color);
         for (Tile p : board.getPositions()){
             assert kingPosition != null;
-            if (board.validateMovement(p, kingPosition, this)){
+            if (!p.isEmpty() && board.validateMovement(p, kingPosition, this)){
                 return true;
             }
         }

@@ -61,15 +61,12 @@ public class Board {
         }
 
         if (start.getPiece().getMoves().isEmpty()) {
-            System.out.println("This piece cannot move");
             return false;
         }
         if (startRow == endRow && startColumn == endColumn) {
-            System.out.println("Cannot move to the same position");
             return false;
         }
         if (end.getPiece() != null && end.getPiece().getColor() == start.getPiece().getColor()) {
-            System.out.println("Cannot take your own piece");
             return false;
         }
 

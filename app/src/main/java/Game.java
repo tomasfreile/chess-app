@@ -1,3 +1,5 @@
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -53,33 +55,17 @@ public class Game {
             System.out.println("Game over");
             return this;
         }
+
         Piece p = from.getPiece();
         Color pieceColor = p.getColor();
         Color nextPlayerColor = currentPlayer == player1 ? player2.getColor() : player1.getColor();
 
         if (pieceColor == currentPlayer.getColor()) {
             if (isPromotion(p, pieceColor,from, to)) {
-                // Create a new board with the updated positions
-                List<Tile> newPositions = board.getPositions()
-                        .stream()
-                        .map(position -> position == from ? new Tile(from.getRow(), from.getColumn()) : position == to ? new Tile(to.getRow(), to.getColumn(), new Piece(PieceName.QUEEN, rules.getPieceMovements().get(PieceName.QUEEN), pieceColor, 0)) : position)
-                        .collect(Collectors.toList());
-                Board newBoard = new Board(newPositions);
-
-                // Create a new game with the updated player and board
-                Player newCurrentPlayer = currentPlayer == player1 ? player2 : player1;
-                return new Game(newBoard, player1, player2, rules, newCurrentPlayer , rules.checkWin(newBoard, nextPlayerColor));
+                return promote(from, to, pieceColor, nextPlayerColor);
             } else if (board.validateMovement(from, to, rules)) {
-                // Create a new board with the updated positions
-                List<Tile> newPositions = board.getPositions()
-                        .stream()
-                        .map(position -> position == from ? new Tile(from.getRow(), from.getColumn()) : position == to ? new Tile(to.getRow(), to.getColumn(), new Piece(p.getType(),p.getMoves(),pieceColor,p.getMoveCount()+1)) : position)
-                        .collect(Collectors.toList());
-                Board newBoard = new Board(newPositions);
-                System.out.println("Move " + from.getRow() + "," + from.getColumn() + " to " + to.getRow() + "," + to.getColumn() + " is valid");
-                // Create a new game with the updated player and board
-                Player newCurrentPlayer = currentPlayer == player1 ? player2 : player1;
-                return new Game(newBoard, player1, player2, rules, newCurrentPlayer, rules.checkWin(newBoard, nextPlayerColor));
+
+                return move(from, to, p, pieceColor, nextPlayerColor);
             } else {
                 System.out.println("The move " + from.getRow() + "," + from.getColumn() + " to " + to.getRow() + "," + to.getColumn() + " is not valid");
                 return this;
@@ -89,6 +75,39 @@ public class Game {
             System.out.println("Cannot move opponent's piece");
             return this;
         }
+    }
+
+    @NotNull
+    private Game move(Tile from, Tile to, Piece p, Color pieceColor, Color nextPlayerColor) {
+        // Create a new board with the updated positions
+        List<Tile> newPositions = board.getPositions()
+                .stream()
+                .map(position -> position == from ? new Tile(from.getRow(), from.getColumn()) : position == to ? new Tile(to.getRow(), to.getColumn(), new Piece(p.getType(), p.getMoves(), pieceColor, p.getMoveCount()+1)) : position)
+                .collect(Collectors.toList());
+        Board newBoard = new Board(newPositions);
+
+        if (rules.isInCheck(newBoard, pieceColor)) {
+            System.out.println("Cannot move into check");
+            return this;
+        }
+
+        // Create a new game with the updated player and board
+        Player newCurrentPlayer = currentPlayer == player1 ? player2 : player1;
+        return new Game(newBoard, player1, player2, rules, newCurrentPlayer, rules.checkWin(newBoard, nextPlayerColor));
+    }
+
+    @NotNull
+    private Game promote(Tile from, Tile to, Color pieceColor, Color nextPlayerColor) {
+        // Create a new board with the updated positions
+        List<Tile> newPositions = board.getPositions()
+                .stream()
+                .map(position -> position == from ? new Tile(from.getRow(), from.getColumn()) : position == to ? new Tile(to.getRow(), to.getColumn(), new Piece(PieceName.QUEEN, rules.getPieceMovements().get(PieceName.QUEEN), pieceColor, 0)) : position)
+                .collect(Collectors.toList());
+        Board newBoard = new Board(newPositions);
+
+        // Create a new game with the updated player and board
+        Player newCurrentPlayer = currentPlayer == player1 ? player2 : player1;
+        return new Game(newBoard, player1, player2, rules, newCurrentPlayer, rules.checkWin(newBoard, nextPlayerColor));
     }
 
     private boolean isPromotion(Piece p, Color pieceColor,Tile from, Tile to) {
