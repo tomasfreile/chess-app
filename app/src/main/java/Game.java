@@ -64,7 +64,6 @@ public class Game {
             if (isPromotion(p, pieceColor,from, to)) {
                 return promote(from, to, pieceColor, nextPlayerColor);
             } else if (board.validateMovement(from, to, rules)) {
-
                 return move(from, to, p, pieceColor, nextPlayerColor);
             } else {
                 System.out.println("The move " + from.getRow() + "," + from.getColumn() + " to " + to.getRow() + "," + to.getColumn() + " is not valid");
@@ -115,4 +114,50 @@ public class Game {
                 p.getType() == PieceName.PAWN && pieceColor == Color.BLACK && to.getRow() == 0 && board.validateMovement(from, to, rules);
     }
 
+//    private boolean isCastle(Piece p, Color pieceColor,Tile from, Tile to) {
+//        int startRow = from.getRow();
+//        int startColumn = from.getColumn();
+//        int endRow = to.getRow();
+//        int endColumn = to.getColumn();
+//
+//        int incrementRow = 0;
+//        int incrementColumn = 0;
+//
+//        if (pieceColor == Color.WHITE){
+//            incrementRow = endRow - startRow;
+//            incrementColumn = endColumn - startColumn;
+//        }
+//        else {
+//            incrementRow = startRow - endRow;
+//            incrementColumn = startColumn - endColumn;
+//        }
+//
+//        if (isWhiteShortCastle(p, pieceColor, incrementRow, incrementColumn, startRow, startColumn)) {
+//            return true;
+//        } else if (isWhiteLongCastle(p, pieceColor, incrementRow, incrementColumn, startRow, startColumn)) {
+//            return true;
+//        } else if (isBlackShortCastle(p, pieceColor, incrementRow, incrementColumn, startRow, startColumn)) {
+//            return true;
+//        } else if (isBlackLongCastle(p, pieceColor, incrementRow, incrementColumn, startRow, startColumn)) {
+//            return true;
+//        }
+//        return false;
+//    }
+
+//    private boolean isBlackShortCastle(Piece p, Color pieceColor, int incrementRow, int incrementColumn, int startRow, int startColumn) {
+//        return pieceColor == Color.BLACK && p.getType() == PieceName.KING && incrementRow == 0 && incrementColumn == 2 && p.getMoveCount() == 0 && board.getPosition(startRow, startColumn + 1).isEmpty() && board.getPosition(startRow, startColumn + 2).isEmpty() && board.getPosition(startRow, startColumn + 3).getPiece().getType() == PieceName.ROOK && board.getPosition(startRow, startColumn + 3).getPiece().getMoveCount() == 0;
+//    }
+//
+//    private boolean isWhiteLongCastle(Piece p, Color pieceColor, int incrementRow, int incrementColumn, int startRow, int startColumn) {
+//        return pieceColor == Color.WHITE && p.getType() == PieceName.KING && incrementRow == 0 && incrementColumn == -2 && p.getMoveCount() == 0 && board.getPosition(startRow, startColumn - 1).isEmpty() && board.getPosition(startRow, startColumn - 2).isEmpty() && board.getPosition(startRow, startColumn - 3).isEmpty() && board.getPosition(startRow, startColumn - 4).getPiece().getType() == PieceName.ROOK && board.getPosition(startRow, startColumn - 4).getPiece().getMoveCount() == 0;
+//    }
+//
+//    private boolean isWhiteShortCastle(Piece p, Color pieceColor, int incrementRow, int incrementColumn, int startRow, int startColumn) {
+//        return pieceColor == Color.WHITE && p.getType() == PieceName.KING && incrementRow == 0 && incrementColumn == 2 && p.getMoveCount() == 0 && board.getPosition(startRow, startColumn + 1).isEmpty() && board.getPosition(startRow, startColumn + 2).isEmpty() && board.getPosition(startRow, startColumn + 3).getPiece().getType() == PieceName.ROOK && board.getPosition(startRow, startColumn + 3).getPiece().getMoveCount() == 0;
+//    }
+//
+//
+//    private boolean isBlackLongCastle(Piece p, Color pieceColor, int incrementRow, int incrementColumn, int startRow, int startColumn) {
+//        return pieceColor == Color.BLACK && p.getType() == PieceName.KING && incrementRow == 0 && incrementColumn == -2 && p.getMoveCount() == 0 && board.getPosition(startRow, startColumn - 1).isEmpty() && board.getPosition(startRow, startColumn - 2).isEmpty() && board.getPosition(startRow, startColumn - 3).isEmpty() && board.getPosition(startRow, startColumn - 4).getPiece().getType() == PieceName.ROOK && board.getPosition(startRow, startColumn - 4).getPiece().getMoveCount() == 0;
+//    }
 }
