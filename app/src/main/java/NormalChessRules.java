@@ -35,7 +35,7 @@ public class NormalChessRules implements Rules{
     @Override
     public boolean isStalemate(Board board, Color color) {
         if (!isCheck(board, color)){
-            return !canMove(board, color);
+            return cannotMove(board, color);
         }
         return false;
     }
@@ -66,25 +66,9 @@ public class NormalChessRules implements Rules{
              return true;
         }
 
-        //castle
-//        if (checkCastle(board, p, incrementRow, incrementColumn, startRow, startColumn, endRow, endColumn)){
-//            return true;
-//        }
         return false;
     }
 
-    private static boolean checkCastle(Board board, Piece p, int incrementRow, int incrementColumn, int startRow, int startColumn, int endRow, int endColumn) {
-        if (p.getColor() == Color.WHITE && p.getType() == PieceName.KING && incrementRow == 0 && incrementColumn == 2 && p.getMoveCount() == 0 && board.getPosition(startRow, startColumn + 1).isEmpty() && board.getPosition(startRow, startColumn + 2).isEmpty() && board.getPosition(startRow, startColumn + 3).getPiece().getType() == PieceName.ROOK && board.getPosition(startRow, startColumn + 3).getPiece().getMoveCount() == 0) {
-            return true;
-        } else if (p.getColor() == Color.WHITE && p.getType() == PieceName.KING && incrementRow == 0 && incrementColumn == -2 && p.getMoveCount() == 0 && board.getPosition(startRow, startColumn - 1).isEmpty() && board.getPosition(startRow, startColumn - 2).isEmpty() && board.getPosition(startRow, startColumn - 3).isEmpty() && board.getPosition(startRow, startColumn - 4).getPiece().getType() == PieceName.ROOK && board.getPosition(startRow, startColumn - 4).getPiece().getMoveCount() == 0) {
-            return true;
-        } else if (p.getColor() == Color.BLACK && p.getType() == PieceName.KING && incrementRow == 0 && incrementColumn == 2 && p.getMoveCount() == 0 && board.getPosition(startRow, startColumn + 1).isEmpty() && board.getPosition(startRow, startColumn + 2).isEmpty() && board.getPosition(startRow, startColumn + 3).getPiece().getType() == PieceName.ROOK && board.getPosition(startRow, startColumn + 3).getPiece().getMoveCount() == 0) {
-            return true;
-        } else if (p.getColor() == Color.BLACK && p.getType() == PieceName.KING && incrementRow == 0 && incrementColumn == -2 && p.getMoveCount() == 0 && board.getPosition(startRow, startColumn - 1).isEmpty() && board.getPosition(startRow, startColumn - 2).isEmpty() && board.getPosition(startRow, startColumn - 3).isEmpty() && board.getPosition(startRow, startColumn - 4).getPiece().getType() == PieceName.ROOK && board.getPosition(startRow, startColumn - 4).getPiece().getMoveCount() == 0) {
-            return true;
-        }
-        return false;
-    }
 
     private static boolean checkPawnSpecialMove(Board board, Piece p, int incrementRow, int incrementColumn, int startRow, int startColumn, int endRow, int endColumn) {
         if (p.getColor() == Color.WHITE)
@@ -108,12 +92,12 @@ public class NormalChessRules implements Rules{
 
     private boolean isCheckmate(Board board, Color color){
             if (isCheck(board, color)){
-                return !canMove(board, color);
+                return cannotMove(board, color);
             }
             return false;
         }
 
-    private boolean canMove(Board board, Color color) {
+    private boolean cannotMove(Board board, Color color) {
         for (Tile p : board.getPositions()){
             if (!p.isEmpty() && p.getPiece().getColor() == color){
                 for (Tile t : board.getPositions()){
@@ -126,13 +110,13 @@ public class NormalChessRules implements Rules{
 
                         Board newBoard = new Board(newPositions);
                         if (!isCheck(newBoard, color)){
-                            return true;
+                            return false;
                         }
                     }
                 }
             }
         }
-        return false;
+        return true;
     }
 
     private Tile findKing(Board board, Color color) {

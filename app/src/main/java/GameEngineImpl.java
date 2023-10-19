@@ -53,11 +53,9 @@ public class GameEngineImpl implements GameEngine {
             if (movedPiece != null) {
                 pieces.remove(movedPiece);
             }
-
             if (capturedPiece != null) {
                 pieces.remove(capturedPiece);
             }
-
             assert movedPiece != null;
 
             if (isPromotion(movedPiece)) {
@@ -85,7 +83,7 @@ public class GameEngineImpl implements GameEngine {
     private static boolean isPromotion(ChessPiece movedPiece) {
         return movedPiece.getPosition().getRow() == 7 && movedPiece.getColor().equals(PlayerColor.WHITE) && movedPiece.getPieceId().equals("pawn") || movedPiece.getPosition().getRow() == 2 && movedPiece.getColor().equals(PlayerColor.BLACK) && movedPiece.getPieceId().equals("pawn");
     }
-    
+
     @NotNull
     @Override
     public InitialState init() {
