@@ -1,6 +1,5 @@
 package commons;
 
-import commons.Color;
 
 public class Player {
 

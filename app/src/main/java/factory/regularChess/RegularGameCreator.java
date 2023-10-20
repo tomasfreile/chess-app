@@ -77,7 +77,7 @@ public class RegularGameCreator {
         Rules rules = new NormalChessRules(startingPositions, winConditions, stalemateConditions);
         Board board = new Board(8,8);
 
-        for (Tile tile : startingPositions) {
+        for (Tile tile : rules.getStartingPositions()) {
             board = board.replacePosition(tile);
         }
 
