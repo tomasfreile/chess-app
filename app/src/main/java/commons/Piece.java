@@ -1,3 +1,7 @@
+package commons;
+
+import chess.PieceName;
+
 import java.util.List;
 
 public class Piece {

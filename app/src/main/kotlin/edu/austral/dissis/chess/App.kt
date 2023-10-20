@@ -3,11 +3,10 @@
  */
 package edu.austral.dissis.chess
 
-import GameEngineImpl
+import chess.GameEngineImpl
 import edu.austral.dissis.chess.gui.CachedImageResolver
 import edu.austral.dissis.chess.gui.DefaultImageResolver
 import edu.austral.dissis.chess.gui.GameView
-import edu.austral.dissis.chess.gui.SimpleGameEngine
 import javafx.application.Application
 import javafx.application.Application.launch
 import javafx.scene.Scene

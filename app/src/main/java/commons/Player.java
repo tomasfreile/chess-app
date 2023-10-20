@@ -1,3 +1,7 @@
+package commons;
+
+import commons.Color;
+
 public class Player {
 
         private final Color color;

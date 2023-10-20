@@ -1,3 +1,5 @@
+package commons;
+
 public class Movement {
 
     private final int incrementRow;
@@ -35,4 +37,6 @@ public class Movement {
         return isTake;
     }
 
+    public static interface StalemateCondition {
+    }
 }

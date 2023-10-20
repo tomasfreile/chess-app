@@ -1,6 +1,11 @@
-import edu.austral.dissis.chess.gui.Position;
+package chess;
+
+import commons.Color;
+import commons.Tile;
 import edu.austral.dissis.chess.gui.*;
+import factory.regularChess.RegularGameCreator;
 import org.jetbrains.annotations.NotNull;
+import commons.Piece;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +15,7 @@ public class GameEngineImpl implements GameEngine {
     Game game;
     List<ChessPiece> pieces;
     public GameEngineImpl() {
-        game = new GameCreator().createRegularGame();
+        game = new RegularGameCreator().createRegularGame();
         pieces = chessPieceList(game.getBoard().getPositions());
     }
 
@@ -89,4 +94,6 @@ public class GameEngineImpl implements GameEngine {
     public InitialState init() {
         return new InitialState(new BoardSize(8,8), pieces,PlayerColor.WHITE);
     }
+
+
 }
