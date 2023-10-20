@@ -11,7 +11,7 @@ import java.util.List;
 public class BishopCreator implements PieceCreator {
     @Override
     public Piece createPiece(Color color) {
-        List<Movement> moves = new ArrayList<Movement>();
+        List<Movement> moves = new ArrayList<>();
         moves.add(new Movement(1, 1, true, false, true));
         moves.add(new Movement(-1, -1, true, false, true));
         moves.add(new Movement(1, -1, true, false, true));
