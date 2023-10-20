@@ -43,7 +43,7 @@ public class RegularGameCreator {
         Piece kingW = kingCreator.createPiece(Color.WHITE);
         Piece kingB = kingCreator.createPiece(Color.BLACK);
 
-        List<Tile> startingPositions = new ArrayList<Tile>();
+        List<Tile> startingPositions = new ArrayList<>();
         startingPositions.add(new Tile(0, 0, rookW));
         startingPositions.add(new Tile(0, 1, knightW));
         startingPositions.add(new Tile(0, 2,bishopW));
@@ -66,11 +66,11 @@ public class RegularGameCreator {
         }
 
 
-        List<WinCondition> winConditions = new ArrayList<WinCondition>();
+        List<WinCondition> winConditions = new ArrayList<>();
         WinCondition winCondition = new NormalChessCheckmate();
         winConditions.add(winCondition);
 
-        List<StalemateCondition> stalemateConditions = new ArrayList<StalemateCondition>();
+        List<StalemateCondition> stalemateConditions = new ArrayList<>();
         StalemateCondition stalemateCondition = new NormalChessStalemate();
         stalemateConditions.add(stalemateCondition);
 

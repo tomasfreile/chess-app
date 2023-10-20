@@ -12,7 +12,7 @@ public class Board {
     public Board(int height, int width) {
         this.height = height;
         this.width = width;
-        this.positions = new ArrayList<Tile>();
+        this.positions = new ArrayList<>();
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width ; j++) {
                 positions.add(new Tile(i, j));
@@ -52,25 +52,25 @@ public class Board {
     }
 
     public String printBoard() {
-        String board = "   |  0   |  1   |  2   |  3   |  4   |  5   |  6   |  7   |\n";
-        board += "-------------------------------------------------------------\n";
+        StringBuilder board = new StringBuilder("   |  0   |  1   |  2   |  3   |  4   |  5   |  6   |  7   |\n");
+        board.append("-------------------------------------------------------------\n");
         for (int i = 0; i < 8; i++) {
-            board += " " + i + " |";
+            board.append(" ").append(i).append(" |");
             for (int j = 0; j < 8; j++) {
                 if (getPieceAtPosition(i, j) != null) {
                     Piece p = getPieceAtPosition(i, j);
                     String pieceString = p.getColor() == Color.WHITE ? "\u001B[32m" : "\u001B[31m"; // Green for white, Red for black
                     pieceString += p.getType().toString().substring(0, 4);
                     pieceString += "\u001B[0m"; // Reset text color
-                    board += " " + pieceString + " |";
+                    board.append(" ").append(pieceString).append(" |");
                 } else {
-                    board += "      |";
+                    board.append("      |");
                 }
             }
-            board += "\n";
-            board += "-------------------------------------------------------------\n";
+            board.append("\n");
+            board.append("-------------------------------------------------------------\n");
         }
-        return board;
+        return board.toString();
     }
 
     public int getHeight() {

@@ -12,7 +12,7 @@ public class KnightCreator implements PieceCreator {
 
     @Override
     public Piece createPiece(Color color) {
-        List<Movement> knightMoves = new ArrayList<Movement>();
+        List<Movement> knightMoves = new ArrayList<>();
         knightMoves.add(new Movement(1, 2, true, true, false));
         knightMoves.add(new Movement(2, 1, true, true, false));
         knightMoves.add(new Movement(-1, 2, true, true, false));

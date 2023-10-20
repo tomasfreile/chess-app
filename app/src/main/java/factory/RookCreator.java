@@ -11,7 +11,7 @@ import java.util.List;
 public class RookCreator implements PieceCreator {
     @Override
     public Piece createPiece(Color color) {
-        List<Movement> rookMoves = new ArrayList<Movement>();
+        List<Movement> rookMoves = new ArrayList<>();
         rookMoves.add(new Movement(1, 0, true, false, true));
         rookMoves.add(new Movement(0, 1, true, false, true));
         rookMoves.add(new Movement(0, -1, true, false, true));
