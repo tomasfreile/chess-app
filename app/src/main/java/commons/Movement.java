@@ -37,6 +37,4 @@ public class Movement {
         return isTake;
     }
 
-    public static interface StalemateCondition {
-    }
 }

@@ -43,7 +43,7 @@ public class RegularGameCreator {
         Piece kingW = kingCreator.createPiece(Color.WHITE);
         Piece kingB = kingCreator.createPiece(Color.BLACK);
 
-        List<Tile> startingPositions = new ArrayList<Tile>();
+        List<Tile> startingPositions = new ArrayList<>();
         startingPositions.add(new Tile(0, 0, rookW));
         startingPositions.add(new Tile(0, 1, knightW));
         startingPositions.add(new Tile(0, 2,bishopW));
@@ -66,23 +66,23 @@ public class RegularGameCreator {
         }
 
 
-        List<WinCondition> winConditions = new ArrayList<WinCondition>();
+        List<WinCondition> winConditions = new ArrayList<>();
         WinCondition winCondition = new NormalChessCheckmate();
         winConditions.add(winCondition);
 
-        List<StalemateCondition> stalemateConditions = new ArrayList<StalemateCondition>();
+        List<StalemateCondition> stalemateConditions = new ArrayList<>();
         StalemateCondition stalemateCondition = new NormalChessStalemate();
         stalemateConditions.add(stalemateCondition);
 
         Rules rules = new NormalChessRules(startingPositions, winConditions, stalemateConditions);
         Board board = new Board(8,8);
 
-        for (Tile tile : startingPositions) {
+        for (Tile tile : rules.getStartingPositions()) {
             board = board.replacePosition(tile);
         }
 
-        Player player1 = new Player(Color.WHITE, "chess.Player 1");
-        Player player2 = new Player(Color.BLACK, "chess.Player 2");
+        Player player1 = new Player(Color.WHITE, "Player 1");
+        Player player2 = new Player(Color.BLACK, "Player 2");
 
         return new Game(board, player1, player2, rules, player1, false);
     }

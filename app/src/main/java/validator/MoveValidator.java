@@ -2,9 +2,6 @@ package validator;
 
 import chess.PieceName;
 import commons.*;
-import validator.JumpMoveValidator;
-import validator.NonJumpMoveValidator;
-
 import java.util.List;
 
 public class MoveValidator {
@@ -71,16 +68,10 @@ public class MoveValidator {
                 if (jumpMoveValidator.validate(m, board, start, end)){
                     return true;
                 }
-                else{
-                    continue;
-                }
             }
             else{ //non-jump moves
                if (nonJumpMoveValidator.validate(m, board, start, end)){
                    return true;
-               }
-               else{
-                   continue;
                }
             }
         }

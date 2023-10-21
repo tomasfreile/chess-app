@@ -11,7 +11,7 @@ import java.util.List;
 public class KingCreator implements PieceCreator {
     @Override
     public Piece createPiece(Color color) {
-        List<Movement> kingMoves = new ArrayList<Movement>();
+        List<Movement> kingMoves = new ArrayList<>();
         kingMoves.add(new Movement(1, 1, true, false, false));
         kingMoves.add(new Movement(-1, -1, true, false, false));
         kingMoves.add(new Movement(1, -1, true, false, false));

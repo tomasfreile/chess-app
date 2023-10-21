@@ -1,7 +1,5 @@
 package commons;
 
-import commons.Piece;
-
 public class Tile {
 
     private final int row;

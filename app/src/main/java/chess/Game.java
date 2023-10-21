@@ -63,7 +63,7 @@ public class Game {
             return this;
         }
         if (gameOver) {
-            System.out.println("chess.commons.Game over");
+            System.out.println("chess.Game over");
             return this;
         }
 
