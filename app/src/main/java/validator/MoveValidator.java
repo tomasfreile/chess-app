@@ -65,17 +65,17 @@ public class MoveValidator {
                 continue;
             }
             if (m.canJump()){  //jump moves
-                if (jumpMoveValidator.validate(m, board, start, end)){
+                if (jumpMoveValidator.validate(m, board, start, end, incrementRow, incrementColumn)){
                     return true;
                 }
             }
             else{ //non-jump moves
-               if (nonJumpMoveValidator.validate(m, board, start, end)){
+               if (nonJumpMoveValidator.validate(m, board, start, end, incrementRow, incrementColumn)){
                    return true;
                }
             }
         }
-        return false;
+        return validateSpecialMovement(start, end, board);
     }
     public boolean validateSpecialMovement(Tile start, Tile end, Board board) {
         Piece p = start.getPiece();

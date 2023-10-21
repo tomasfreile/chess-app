@@ -5,19 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eb0fbf2e-9316-4a07-923d-01dbc3f0d52a" name="Changes" comment="fixed warnings">
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/Board.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/Color.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/Game.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/GameCreator.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/GameEngineImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/GameEngineImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/Main.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/Movement.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/NormalChessRules.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/Piece.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/PieceName.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/Player.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/Rules.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/Tile.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/validator/MoveValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/validator/MoveValidator.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -155,7 +144,7 @@
       <workItem from="1697738531607" duration="12538000" />
       <workItem from="1697761599135" duration="3011000" />
       <workItem from="1697764844196" duration="4592000" />
-      <workItem from="1697840125728" duration="6014000" />
+      <workItem from="1697840125728" duration="6747000" />
     </task>
     <task id="LOCAL-00001" summary="ui integration">
       <option name="closed" value="true" />
@@ -269,7 +258,23 @@
       <option name="project" value="LOCAL" />
       <updated>1697843746512</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="fixed warnings">
+      <option name="closed" value="true" />
+      <created>1697847255154</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1697847255154</updated>
+    </task>
+    <task id="LOCAL-00016" summary="fixed warnings">
+      <option name="closed" value="true" />
+      <created>1697847262589</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1697847262589</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -297,20 +302,5 @@
     <MESSAGE value="added factory, win &amp; stalemate condition interface and more" />
     <MESSAGE value="fixed warnings" />
     <option name="LAST_COMMIT_MESSAGE" value="fixed warnings" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/app/src/main/java/validator/JumpMoveValidator.java</url>
-          <line>9</line>
-          <properties class="validator.JumpMoveValidator" method="validate">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

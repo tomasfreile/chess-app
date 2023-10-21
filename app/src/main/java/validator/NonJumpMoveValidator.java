@@ -7,23 +7,12 @@ import commons.Tile;
 
 public class NonJumpMoveValidator implements Validator {
     @Override
-    public boolean validate(Movement m, Board board, Tile start, Tile end) {
+    public boolean validate(Movement m, Board board, Tile start, Tile end, int incrementRow, int incrementColumn) {
         int startRow = start.getRow();
         int startColumn = start.getColumn();
         int endRow = end.getRow();
         int endColumn = end.getColumn();
 
-        int incrementRow = 0;
-        int incrementColumn = 0;
-
-        if (start.getPiece().getColor() == Color.WHITE){
-            incrementRow = end.getRow() - start.getRow();
-            incrementColumn = end.getColumn() - start.getColumn();
-        }
-        else {
-            incrementRow = start.getRow() - end.getRow();
-            incrementColumn = start.getColumn() - end.getColumn();
-        }
 
         if (m.isLimitless()){
             if (m.getIncrementRow() != 0 && m.getIncrementColumn() != 0 && incrementRow != 0 && incrementColumn != 0){
