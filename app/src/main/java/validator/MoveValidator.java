@@ -9,58 +9,48 @@ public class MoveValidator {
     private final JumpMoveValidator jumpMoveValidator = new JumpMoveValidator();
     private final NonJumpMoveValidator nonJumpMoveValidator = new NonJumpMoveValidator();
     public boolean validateMovement(Tile start, Tile end, Board board) {
-
-        int startRow = start.getRow();
-        int startColumn = start.getColumn();
-        int endRow = end.getRow();
-        int endColumn = end.getColumn();
+        if (isOutOfBounds(board, end.getRow(), end.getColumn())) {
+            return false;
+        }
 
         Piece p = start.getPiece();
-        Color color = p.getColor();
+        Piece endPiece = end.getPiece();
+
+        if (isIllegalMove(start, end, p, endPiece)) {
+            return false;
+        }
+
+        int incrementRow = (p.getColor() == Color.WHITE) ? end.getRow() - start.getRow() : start.getRow() - end.getRow();
+        int incrementColumn = (p.getColor() == Color.WHITE) ? end.getColumn() - start.getColumn() : start.getColumn() - end.getColumn();
 
         List<Movement> moves = p.getMoves();
-
-        if (endRow < 0 || endRow > board.getHeight()-1 || endColumn < 0 || endColumn > board.getWidth()-1) {
-            return false;
-        }
-
-        int incrementRow = 0;
-        int incrementColumn = 0;
-
-        if (color == Color.WHITE){
-            incrementRow = endRow - startRow;
-            incrementColumn = endColumn - startColumn;
-        }
-        else {
-            incrementRow = startRow - endRow;
-            incrementColumn = startColumn - endColumn;
-        }
-
-        if (start.getPiece().getMoves().isEmpty()) {
-            return false;
-        }
-        if (startRow == endRow && startColumn == endColumn) {
-            return false;
-        }
-        if (end.getPiece() != null && end.getPiece().getColor() == start.getPiece().getColor()) {
-            return false;
-        }
 
         // for each move check if it is valid
         return verifyPieceMovements(board, moves, start, end, incrementRow, incrementColumn);
 
     }
+
+    public boolean validateSpecialMovement(Tile start, Tile end, Board board) {
+        Piece p = start.getPiece();
+
+        int incrementRow = (p.getColor() == Color.WHITE) ? end.getRow() - start.getRow() : start.getRow() - end.getRow();
+        int incrementColumn = (p.getColor() == Color.WHITE) ? end.getColumn() - start.getColumn() : start.getColumn() - end.getColumn();
+
+        //2 square pawn move
+        if (checkPawnSpecialMove(board, p, incrementRow, incrementColumn, start.getRow(), start.getColumn(), end.getRow(), end.getColumn())) {
+            return true;
+        }
+
+        return false;
+    }
+
     private boolean verifyPieceMovements(Board board, List<Movement> moves, Tile start, Tile end, int incrementRow, int incrementColumn) {
         for (Movement m : moves){
-            if (!m.canJump() && Math.abs(incrementColumn) != Math.abs(incrementRow) && m.getIncrementColumn() != 0 && m.getIncrementRow() != 0){
+            if (!m.canJump() && Math.abs(incrementColumn) != Math.abs(incrementRow) && (m.isLShaped() || m.isDiagonal())){
                 // This move is invalid, but keep looking for valid moves.
                 continue;
             }
-            if (!m.isTake() && end.getPiece() != null){
-                // This move is invalid, but keep looking for valid moves.
-                continue;
-            }
-            if (m.isTake() && end.getPiece() == null){
+            if ((m.isTake() && end.getPiece() == null) || (!m.isTake() && end.getPiece() != null)) {
                 // This move is invalid, but keep looking for valid moves.
                 continue;
             }
@@ -77,28 +67,15 @@ public class MoveValidator {
         }
         return validateSpecialMovement(start, end, board);
     }
-    public boolean validateSpecialMovement(Tile start, Tile end, Board board) {
-        Piece p = start.getPiece();
-        Color color = p.getColor();
 
-        int incrementRow = 0;
-        int incrementColumn = 0;
-
-        if (color == Color.WHITE){
-            incrementRow = end.getRow() - start.getRow();
-            incrementColumn = end.getColumn() - start.getColumn();
-        }
-        else {
-            incrementRow = start.getRow() - end.getRow();
-            incrementColumn = start.getColumn() - end.getColumn();
-        }
-        //2 square pawn move
-        if (checkPawnSpecialMove(board, p, incrementRow, incrementColumn, start.getRow(), start.getColumn(), end.getRow(), end.getColumn())) {
-            return true;
-        }
-
-        return false;
+    private static boolean isIllegalMove(Tile start, Tile end, Piece p, Piece endPiece) {
+        return start == end || p == null || p.getMoves().isEmpty() || (endPiece != null && endPiece.getColor() == p.getColor());
     }
+
+    private static boolean isOutOfBounds(Board board, int endRow, int endColumn) {
+        return endRow < 0 || endRow >= board.getHeight() || endColumn < 0 || endColumn >= board.getWidth();
+    }
+
     private static boolean checkPawnSpecialMove(Board board, Piece p, int incrementRow, int incrementColumn, int startRow, int startColumn, int endRow, int endColumn) {
         if (p.getColor() == Color.WHITE)
             return p.getType() == PieceName.PAWN && incrementRow == 2 && incrementColumn == 0 && p.getMoveCount() == 0 && board.getPosition(startRow + 1, startColumn).isEmpty() && board.getPosition(endRow, endColumn).isEmpty();

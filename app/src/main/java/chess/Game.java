@@ -55,34 +55,38 @@ public class Game {
 
     public Game moveAndSwitchPlayer(Tile from, Tile to) {
         if (to == null || from == null) {
-            System.out.println("Choose a position inside the board");
-            return this;
+            return printAndReturn("Choose a position inside the board");
         }
+
         if (from.isEmpty()) {
-            System.out.println("Choose a position with a piece");
-            return this;
+            return printAndReturn("Choose a position with a piece");
         }
+
         if (gameOver) {
-            System.out.println("chess.Game over");
-            return this;
+            return printAndReturn("Game over");
         }
 
         Piece p = from.getPiece();
         Color pieceColor = p.getColor();
 
-        if (pieceColor == currentPlayer.getColor()) {
-            if (isPromotion(p, pieceColor, from, to)) {
-                return promote(from, to, pieceColor);
-            } else if (moveValidator.validateMovement(from, to, board)) {
-                return move(from, to, p, pieceColor);
-            } else {
-                System.out.println("The move " + from.getRow() + "," + from.getColumn() + " to " + to.getRow() + "," + to.getColumn() + " is not valid");
-                return this;
-            }
-        } else {
-            System.out.println("Cannot move opponent's piece");
-            return this;
+        if (pieceColor != currentPlayer.getColor()) {
+            return printAndReturn("Cannot move opponent's piece");
         }
+
+        if (isPromotion(p, pieceColor, from, to)) {
+            return promote(from, to, pieceColor);
+        }
+
+        if (moveValidator.validateMovement(from, to, board)) {
+            return move(from, to, p, pieceColor);
+        }
+
+        return printAndReturn("The move " + from.getRow() + "," + from.getColumn() + " to " + to.getRow() + "," + to.getColumn() + " is not valid");
+    }
+
+    private Game printAndReturn(String message) {
+        System.out.println(message);
+        return this;
     }
 
     @NotNull
@@ -99,20 +103,26 @@ public class Game {
 
     @NotNull
     private Game updateGame(Tile from, Tile to, Piece p, Color pieceColor) {
-        List<Tile> newPositions = board.getPositions()
-                .stream()
-                .map(position -> position == from ? new Tile(from.getRow(), from.getColumn()) : position == to ? new Tile(to.getRow(), to.getColumn(), new Piece(p.getType(), p.getMoves(), pieceColor, p.getMoveCount() + 1)) : position)
+        // Create a new list of positions by mapping the old positions with updated or unchanged tiles.
+        List<Tile> newPositions = board.getPositions().stream()
+                .map(position -> position == from ? new Tile(from.getRow(), from.getColumn()) :
+                        position == to ? new Tile(to.getRow(), to.getColumn(), new Piece(p.getType(), p.getMoves(), pieceColor, p.getMoveCount() + 1)) :
+                                position)
                 .collect(Collectors.toList());
+
+        // Create a new board with the updated positions.
         Board newBoard = new Board(newPositions, board.getHeight(), board.getWidth());
 
         if (rules.isInCheck(newBoard, pieceColor)) {
-            System.out.println("Cannot move into check");
-            return this;
+            printAndReturn("Cannot move into check");
         }
 
-        // Create a new game with the updated player and board
-        Player nextPlayer = currentPlayer == player1 ? player2 : player1;
-        return new Game(newBoard, player1, player2, rules, nextPlayer, rules.checkWin(newBoard, nextPlayer.getColor()));
+        // Switch to the next player and check for a win condition.
+        Player nextPlayer = (currentPlayer == player1) ? player2 : player1;
+        boolean gameOver = rules.checkWin(newBoard, nextPlayer.getColor());
+
+        // Create a new game with the updated board, players, and game over status.
+        return new Game(newBoard, player1, player2, rules, nextPlayer, gameOver);
     }
 
     private boolean isPromotion(Piece p, Color pieceColor, Tile from, Tile to) {
