@@ -37,4 +37,20 @@ public class Movement {
         return isTake;
     }
 
+    public boolean isDiagonal() {
+        return incrementRow != 0 && incrementColumn != 0 && Math.abs(incrementRow) == Math.abs(incrementColumn);
+    }
+
+    public boolean isHorizontal() {
+        return incrementRow == 0 && incrementColumn != 0;
+    }
+
+    public boolean isVertical() {
+        return incrementRow != 0 && incrementColumn == 0;
+    }
+
+    public boolean isLShaped() {
+        return incrementRow != 0 && incrementColumn != 0 && Math.abs(incrementRow) != Math.abs(incrementColumn);
+    }
+
 }
