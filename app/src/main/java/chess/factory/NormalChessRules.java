@@ -1,8 +1,8 @@
-package chess.factory.regularChess;
+package chess.factory;
 
-import chess.ChessMoveVerifier;
+import chess.factory.ChessMoveVerifier;
 import commons.*;
-import commons.validator.MoveHandler;
+import commons.MoveHandler;
 import commons.rules.Rules;
 import commons.rules.StalemateCondition;
 import commons.rules.WinCondition;

@@ -1,4 +1,4 @@
-package chess.factory;
+package commons;
 
 import commons.Color;
 import commons.Piece;

@@ -1,4 +1,4 @@
-package chess;
+package chess.factory;
 
 import commons.Board;
 import commons.Movement;
@@ -11,9 +11,13 @@ import java.util.List;
 
 public class ChessMoveVerifier implements MoveVerifier{
 
-    private final JumpMoveValidator jumpMoveValidator = new JumpMoveValidator();
-    private final NonJumpMoveValidator nonJumpMoveValidator = new NonJumpMoveValidator();
+    private final JumpMoveValidator jumpMoveValidator;
+    private final NonJumpMoveValidator nonJumpMoveValidator;
 
+    public ChessMoveVerifier() {
+        this.jumpMoveValidator = new JumpMoveValidator();
+        this.nonJumpMoveValidator = new NonJumpMoveValidator();
+    }
     @Override
     public boolean verifyPieceMovements(Board board, List<Movement> moves, Tile start, Tile end, int incrementRow, int incrementColumn) {
         for (Movement m : moves){

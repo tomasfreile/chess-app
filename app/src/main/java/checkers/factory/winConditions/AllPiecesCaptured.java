@@ -1,4 +1,4 @@
-package checkers.factory;
+package checkers.factory.winConditions;
 
 import commons.Board;
 import commons.Color;

@@ -1,9 +1,6 @@
-package chess.factory;
+package chess.factory.piece;
 
-import commons.PieceName;
-import commons.Color;
-import commons.Movement;
-import commons.Piece;
+import commons.*;
 
 import java.util.ArrayList;
 import java.util.List;

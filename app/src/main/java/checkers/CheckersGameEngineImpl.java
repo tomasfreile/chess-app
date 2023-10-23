@@ -1,22 +1,25 @@
-package chess;
+package checkers;
 
-import commons.*;
+import checkers.factory.CheckersGameCreator;
+import commons.Color;
+import commons.Game;
+import commons.PieceTranslator;
+import commons.Tile;
 import edu.austral.dissis.chess.gui.*;
-import chess.factory.RegularGameCreator;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class ChessGameEngineImpl implements GameEngine {
+public class CheckersGameEngineImpl implements GameEngine {
 
     Game game;
     List<ChessPiece> pieces;
     private PieceTranslator pieceTranslator = new PieceTranslator();
-    public ChessGameEngineImpl() {
-        game = new RegularGameCreator().createGame();
+
+    public CheckersGameEngineImpl() {
+        game = new CheckersGameCreator().createGame();
         pieces = pieceTranslator.translatePieceList(game.getBoard().getPositions());
     }
-
     @NotNull
     @Override
     public MoveResult applyMove(@NotNull Move move) {
@@ -36,25 +39,13 @@ public class ChessGameEngineImpl implements GameEngine {
             pieces.remove(movedPiece);
         }
 
-        ChessPiece capturedPiece = findPiece(move.getTo());
+        ChessPiece capturedPiece = findPiece(new Position((move.getFrom().getRow() + move.getTo().getRow()) / 2, (move.getFrom().getColumn() + move.getTo().getColumn()) / 2));
         if (capturedPiece != null) {
             pieces.remove(capturedPiece);
         }
 
         assert movedPiece != null;
-        String pieceId = isPromotion(movedPiece) ? "queen" : movedPiece.getPieceId();
-
-        return updateGameState(movedPiece, move, pieceId, result);
-    }
-
-    @NotNull
-    private MoveResult updateGameState(ChessPiece movedPiece, @NotNull Move move, String movedPiece1, Game result) {
-        ChessPiece updatedPiece = new ChessPiece(movedPiece.getId(), movedPiece.getColor(), move.getTo(), movedPiece1);
-        pieces.add(updatedPiece);
-        if (result.isGameOver()) {
-            return new GameOver(result.getCurrentPlayer().equals(result.getPlayer2()) ? PlayerColor.WHITE : PlayerColor.BLACK);
-        }
-        return new NewGameState(pieces, result.getCurrentPlayer().getColor().equals(Color.WHITE) ? PlayerColor.WHITE : PlayerColor.BLACK);
+        return updateGameState(movedPiece, move, movedPiece.getPieceId(), result);
     }
 
     @NotNull
@@ -63,10 +54,16 @@ public class ChessGameEngineImpl implements GameEngine {
         return new InitialState(new BoardSize(8,8), pieces, PlayerColor.WHITE);
     }
 
-
-    private static boolean isPromotion(ChessPiece movedPiece) {
-        return movedPiece.getPosition().getRow() == 7 && movedPiece.getColor().equals(PlayerColor.WHITE) && movedPiece.getPieceId().equals("pawn") || movedPiece.getPosition().getRow() == 2 && movedPiece.getColor().equals(PlayerColor.BLACK) && movedPiece.getPieceId().equals("pawn");
+    @NotNull
+    private MoveResult updateGameState(ChessPiece movedPiece, @NotNull Move move, String movedPieceName, Game result) {
+        ChessPiece updatedPiece = new ChessPiece(movedPiece.getId(), movedPiece.getColor(), move.getTo(), movedPieceName);
+        pieces.add(updatedPiece);
+        if (result.isGameOver()) {
+            return new GameOver(result.getCurrentPlayer().equals(result.getPlayer2()) ? PlayerColor.WHITE : PlayerColor.BLACK);
+        }
+        return new NewGameState(pieces, result.getCurrentPlayer().getColor().equals(Color.WHITE) ? PlayerColor.WHITE : PlayerColor.BLACK);
     }
+
     private ChessPiece findPiece(Position position) {
         for (ChessPiece piece : pieces) {
             if (piece.getPosition().getRow() == position.getRow() && piece.getPosition().getColumn() == position.getColumn()) {
@@ -75,4 +72,5 @@ public class ChessGameEngineImpl implements GameEngine {
         }
         return null;
     }
+
 }

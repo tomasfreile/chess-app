@@ -1,9 +1,9 @@
 package checkers;
 
-import chess.ChessMoveVerifier;
+import checkers.factory.CheckersMoveVerifier;
 import commons.*;
 import commons.rules.Rules;
-import commons.validator.MoveHandler;
+import commons.MoveHandler;
 import commons.validator.MoveVerifier;
 
 import java.util.List;
@@ -19,7 +19,7 @@ public class CheckersGame implements Game{
     private MoveHandler moveValidator;
     private boolean gameOver;
 
-    private final MoveVerifier gameVerifier = new ChessMoveVerifier();
+    private final MoveVerifier gameVerifier = new CheckersMoveVerifier();
 
     public CheckersGame(Board board, Player player1, Player player2, Rules rules, Player currentPlayer, boolean gameOver) {
         this.player1 = player1;
@@ -33,15 +33,19 @@ public class CheckersGame implements Game{
 
     @Override
     public Game moveAndSwitchPlayer(Tile from, Tile to) {
-        if (moveValidator.validateMovement(from, to, board, gameVerifier)) {
+        //if you jump over a piece you capture it
+        if (moveValidator.validateMovement(from, to, board, gameVerifier)){
             List<Tile> newPositions = board.getPositions()
                     .stream()
-                    .map(position -> position == from ? new Tile(from.getRow(), from.getColumn()) : position == to ? new Tile(to.getRow(), to.getColumn(), new Piece(from.getPiece().getType(), from.getPiece().getMoves(), from.getPiece().getColor(), from.getPiece().getMoveCount()+1)) : position)
+                    .map(position
+                            -> position == from ? new Tile(from.getRow(), from.getColumn())
+                            : position == to ? new Tile(to.getRow(), to.getColumn(), new Piece(from.getPiece().getType(), from.getPiece().getMoves(), from.getPiece().getColor(), from.getPiece().getMoveCount()+1))
+                            : Math.abs(from.getRow() - to.getRow()) == 2 && Math.abs(from.getColumn() - to.getColumn()) == 2 && position.getRow() == (from.getRow() + to.getRow()) / 2 && position.getColumn() == (from.getColumn() + to.getColumn()) / 2 ? new Tile(position.getRow(), position.getColumn())
+                            : position)
                     .collect(Collectors.toList());
 
             Board newBoard = new Board(newPositions, board.getHeight(), board.getWidth());
-            Player newPlayer = currentPlayer == player1 ? player2 : player1;
-            return new CheckersGame(newBoard, player1, player2, rules, newPlayer, false);
+            return new CheckersGame(newBoard, player1, player2, rules, currentPlayer == player1 ? player2 : player1, false);
         }
         return this;
     }

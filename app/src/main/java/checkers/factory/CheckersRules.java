@@ -6,7 +6,7 @@ import commons.Tile;
 import commons.rules.Rules;
 import commons.rules.StalemateCondition;
 import commons.rules.WinCondition;
-import commons.validator.MoveHandler;
+import commons.MoveHandler;
 
 import java.util.List;
 

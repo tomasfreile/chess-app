@@ -1,13 +1,11 @@
-package commons.validator;
+package commons;
 
 import commons.*;
+import commons.validator.MoveVerifier;
 
 import java.util.List;
 
 public class MoveHandler {
-
-    private final JumpMoveValidator jumpMoveValidator = new JumpMoveValidator();
-    private final NonJumpMoveValidator nonJumpMoveValidator = new NonJumpMoveValidator();
 
     public boolean validateMovement(Tile start, Tile end, Board board, MoveVerifier verifier) {
         if (isOutOfBounds(board, end.getRow(), end.getColumn())) {

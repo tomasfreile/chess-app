@@ -1,12 +1,14 @@
 package checkers.factory;
 
 import checkers.CheckersGame;
-import chess.factory.PieceCreator;
+import checkers.factory.piece.CheckersPawnCreator;
+import checkers.factory.winConditions.AllPiecesCaptured;
+import checkers.factory.winConditions.NoMovesAvailable;
+import commons.PieceCreator;
 import commons.*;
 import commons.rules.Rules;
 import commons.rules.StalemateCondition;
 import commons.rules.WinCondition;
-import javafx.css.Rule;
 
 import java.util.ArrayList;
 import java.util.List;

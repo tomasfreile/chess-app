@@ -1,6 +1,9 @@
-package chess.factory.regularChess;
+package chess.factory;
 
-import chess.factory.*;
+import chess.factory.NormalChessRules;
+import chess.factory.piece.*;
+import chess.factory.stalemateConditions.NormalChessStalemate;
+import chess.factory.winConditions.NormalChessCheckmate;
 import commons.GameCreator;
 import commons.rules.Rules;
 import commons.rules.StalemateCondition;

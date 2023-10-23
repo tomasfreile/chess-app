@@ -1,6 +1,6 @@
-package checkers.factory;
+package checkers.factory.piece;
 
-import chess.factory.PieceCreator;
+import commons.PieceCreator;
 import commons.Color;
 import commons.Movement;
 import commons.Piece;

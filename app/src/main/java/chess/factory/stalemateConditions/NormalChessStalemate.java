@@ -1,9 +1,9 @@
-package chess.factory.regularChess;
+package chess.factory.stalemateConditions;
 
-import chess.ChessMoveVerifier;
+import chess.factory.ChessMoveVerifier;
 import commons.PieceName;
-import commons.rules.WinCondition;
-import commons.validator.MoveHandler;
+import commons.rules.StalemateCondition;
+import commons.MoveHandler;
 import commons.Board;
 import commons.Color;
 import commons.Piece;
@@ -13,28 +13,14 @@ import commons.validator.MoveVerifier;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class NormalChessCheckmate implements WinCondition {
+public class NormalChessStalemate implements StalemateCondition {
 
     MoveHandler moveValidator = new MoveHandler();
     MoveVerifier moveVerifier = new ChessMoveVerifier();
+
     @Override
-    public boolean checkWin(Board board, Color color) {
-        return isCheckmate(board, color);
-    }
-
-    private boolean isCheck(Board board, Color color){
-        Tile kingPosition = findKing(board, color);
-        for (Tile p : board.getPositions()){
-            assert kingPosition != null;
-            if (!p.isEmpty() && moveValidator.validateMovement(p, kingPosition, board, moveVerifier)){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean isCheckmate(Board board, Color color){
-        if (isCheck(board, color)){
+    public boolean isStalemate(Board board, Color color) {
+        if (!isCheck(board, color)){
             return cannotMove(board, color);
         }
         return false;
@@ -51,7 +37,7 @@ public class NormalChessCheckmate implements WinCondition {
                                 .map(position -> position == p ? new Tile(p.getRow(), p.getColumn()) : position == t ? new Tile(t.getRow(), t.getColumn(), new Piece(p.getPiece().getType(), p.getPiece().getMoves(), p.getPiece().getColor(), p.getPiece().getMoveCount()+1)) : position)
                                 .collect(Collectors.toList());
 
-                        Board newBoard = new Board(newPositions, board.getHeight(), board.getHeight());
+                        Board newBoard = new Board(newPositions, board.getHeight(), board.getWidth());
                         if (!isCheck(newBoard, color)){
                             return false;
                         }
@@ -60,6 +46,17 @@ public class NormalChessCheckmate implements WinCondition {
             }
         }
         return true;
+    }
+
+    private boolean isCheck(Board board, Color color){
+        Tile kingPosition = findKing(board, color);
+        for (Tile p : board.getPositions()){
+            assert kingPosition != null;
+            if (!p.isEmpty() && moveValidator.validateMovement(p, kingPosition, board, moveVerifier)){
+                return true;
+            }
+        }
+        return false;
     }
 
     private Tile findKing(Board board, Color color) {

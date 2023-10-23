@@ -1,9 +1,10 @@
 package chess;
 
+import chess.factory.ChessMoveVerifier;
 import commons.*;
-import chess.factory.PieceCreator;
-import chess.factory.QueenCreator;
-import commons.validator.MoveHandler;
+import commons.PieceCreator;
+import chess.factory.piece.QueenCreator;
+import commons.MoveHandler;
 import commons.validator.MoveVerifier;
 import org.jetbrains.annotations.NotNull;
 import commons.rules.Rules;
@@ -18,9 +19,8 @@ public class ChessGame implements Game{
     private final Rules rules;
     private final Player currentPlayer;
     private final boolean gameOver;
-    private final MoveHandler moveValidator = new MoveHandler();
-
-    private final MoveVerifier chessGameVerifier = new ChessMoveVerifier();
+    private final MoveHandler moveValidator;
+    private final MoveVerifier chessGameVerifier;
 
     public ChessGame(Board board, Player player1, Player player2, Rules rules, Player currentPlayer, boolean gameOver) {
         this.board = board;
@@ -29,6 +29,8 @@ public class ChessGame implements Game{
         this.rules = rules;
         this.currentPlayer = currentPlayer;
         this.gameOver = gameOver;
+        this.moveValidator = new MoveHandler();
+        this.chessGameVerifier = new ChessMoveVerifier();
     }
 
     public Board getBoard() {
@@ -83,7 +85,6 @@ public class ChessGame implements Game{
             return move(from, to, p, pieceColor);
         }
 
-
         return printAndReturn("The move " + from.getRow() + "," + from.getColumn() + " to " + to.getRow() + "," + to.getColumn() + " is not valid");
     }
 
@@ -94,18 +95,6 @@ public class ChessGame implements Game{
 
     @NotNull
     private Game move(Tile from, Tile to, Piece p, Color pieceColor) {
-        return updateGame(from, to, p, pieceColor);
-    }
-
-    @NotNull
-    private Game promote(Tile from, Tile to, Color pieceColor) {
-        PieceCreator pieceCreator = new QueenCreator();
-        Piece p = pieceCreator.createPiece(pieceColor);
-        return updateGame(from, to, p, pieceColor);
-    }
-
-    @NotNull
-    private Game updateGame(Tile from, Tile to, Piece p, Color pieceColor) {
         // Create a new list of positions by mapping the old positions with updated or unchanged tiles.
         List<Tile> newPositions = board.getPositions().stream()
                 .map(position -> position == from ? new Tile(from.getRow(), from.getColumn()) :
@@ -117,7 +106,7 @@ public class ChessGame implements Game{
         Board newBoard = new Board(newPositions, board.getHeight(), board.getWidth());
 
         if (rules.isInCheck(newBoard, pieceColor)) {
-            printAndReturn("Cannot move into check");
+            return printAndReturn("Cannot move into check");
         }
 
         // Switch to the next player and check for a win condition.
@@ -127,6 +116,14 @@ public class ChessGame implements Game{
         // Create a new game with the updated board, players, and game over status.
         return new ChessGame(newBoard, player1, player2, rules, nextPlayer, gameOver);
     }
+
+    @NotNull
+    private Game promote(Tile from, Tile to, Color pieceColor) {
+        PieceCreator pieceCreator = new QueenCreator();
+        Piece p = pieceCreator.createPiece(pieceColor);
+        return move(from, to, p, pieceColor);
+    }
+
 
     private boolean isPromotion(Piece p, Color pieceColor, Tile from, Tile to) {
         return p.getType() == PieceName.PAWN && pieceColor == Color.WHITE && to.getRow() == 7 && moveValidator.validateMovement(from, to, board, chessGameVerifier) ||
