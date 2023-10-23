@@ -1,6 +1,4 @@
-package factory;
-
-import chess.Game;
+package commons;
 
 public interface GameCreator {
     Game createGame();

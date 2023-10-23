@@ -1,7 +1,6 @@
-package validator;
+package commons.validator;
 
 import commons.Board;
-import commons.Color;
 import commons.Movement;
 import commons.Tile;
 

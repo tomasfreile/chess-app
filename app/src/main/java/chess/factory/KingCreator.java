@@ -1,6 +1,6 @@
-package factory;
+package chess.factory;
 
-import chess.PieceName;
+import commons.PieceName;
 import commons.Color;
 import commons.Movement;
 import commons.Piece;

@@ -3,7 +3,7 @@
  */
 package edu.austral.dissis.chess
 
-import chess.GameEngineImpl
+import chess.ChessGameEngineImpl
 import edu.austral.dissis.chess.gui.CachedImageResolver
 import edu.austral.dissis.chess.gui.DefaultImageResolver
 import edu.austral.dissis.chess.gui.GameView
@@ -18,7 +18,7 @@ fun main() {
 }
 
 class ChessGameApplication : Application() {
-    private val gameEngine = GameEngineImpl()
+    private val gameEngine = ChessGameEngineImpl()
 
     private val imageResolver = CachedImageResolver(DefaultImageResolver())
 

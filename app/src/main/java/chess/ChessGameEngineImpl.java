@@ -1,21 +1,25 @@
 package chess;
 
+import checkers.CheckersGame;
+import checkers.factory.CheckersGameCreator;
 import commons.Color;
+import commons.Game;
 import commons.Tile;
 import edu.austral.dissis.chess.gui.*;
-import factory.regularChess.RegularGameCreator;
+import chess.factory.regularChess.RegularGameCreator;
 import org.jetbrains.annotations.NotNull;
 import commons.Piece;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameEngineImpl implements GameEngine {
+public class ChessGameEngineImpl implements GameEngine {
 
     Game game;
     List<ChessPiece> pieces;
-    public GameEngineImpl() {
-        game = new RegularGameCreator().createRegularGame();
+    public ChessGameEngineImpl() {
+        game = new RegularGameCreator().createGame();
+        //game = new CheckersGameCreator().createGame();
         pieces = chessPieceList(game.getBoard().getPositions());
     }
 

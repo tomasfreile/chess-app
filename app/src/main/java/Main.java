@@ -1,12 +1,13 @@
-import factory.regularChess.RegularGameCreator;
-import chess.Game;
+import chess.factory.regularChess.RegularGameCreator;
+
+import commons.Game;
 
 import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
 
-        Game game = new RegularGameCreator().createRegularGame();
+        Game game = new RegularGameCreator().createGame();
 
         Scanner scanner = new Scanner(System.in);
         while (!game.isGameOver()) {

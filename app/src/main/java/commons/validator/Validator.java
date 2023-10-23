@@ -1,4 +1,4 @@
-package validator;
+package commons.validator;
 
 import commons.Board;
 import commons.Movement;

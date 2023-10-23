@@ -1,4 +1,4 @@
-package rules;
+package commons.rules;
 
 import commons.Board;
 import commons.Color;
@@ -13,4 +13,6 @@ public interface Rules {
     boolean checkWin(Board board, Color color);
     boolean isInCheck(Board board, Color color);
     boolean isStalemate(Board board, Color color);
+
+    boolean validateSpecialMovement(Tile start, Tile end, Board board);
 }

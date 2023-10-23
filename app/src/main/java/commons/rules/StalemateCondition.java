@@ -1,4 +1,4 @@
-package rules;
+package commons.rules;
 
 import commons.Board;
 import commons.Color;

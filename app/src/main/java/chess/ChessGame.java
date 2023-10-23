@@ -1,26 +1,28 @@
 package chess;
 
 import commons.*;
-import factory.PieceCreator;
-import factory.QueenCreator;
+import chess.factory.PieceCreator;
+import chess.factory.QueenCreator;
+import commons.validator.MoveHandler;
+import commons.validator.MoveVerifier;
 import org.jetbrains.annotations.NotNull;
-import rules.Rules;
-import validator.MoveValidator;
+import commons.rules.Rules;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Game {
+public class ChessGame implements Game{
     private final Board board;
     private final Player player1;
     private final Player player2;
     private final Rules rules;
     private final Player currentPlayer;
     private final boolean gameOver;
+    private final MoveHandler moveValidator = new MoveHandler();
 
-    private final MoveValidator moveValidator = new MoveValidator();
+    private final MoveVerifier chessGameVerifier = new ChessMoveVerifier();
 
-    public Game(Board board, Player player1, Player player2, Rules rules, Player currentPlayer, boolean gameOver) {
+    public ChessGame(Board board, Player player1, Player player2, Rules rules, Player currentPlayer, boolean gameOver) {
         this.board = board;
         this.player1 = player1;
         this.player2 = player2;
@@ -77,9 +79,10 @@ public class Game {
             return promote(from, to, pieceColor);
         }
 
-        if (moveValidator.validateMovement(from, to, board)) {
+        if (moveValidator.validateMovement(from, to, board, chessGameVerifier) || rules.validateSpecialMovement(from, to, board)) {
             return move(from, to, p, pieceColor);
         }
+
 
         return printAndReturn("The move " + from.getRow() + "," + from.getColumn() + " to " + to.getRow() + "," + to.getColumn() + " is not valid");
     }
@@ -122,12 +125,12 @@ public class Game {
         boolean gameOver = rules.checkWin(newBoard, nextPlayer.getColor());
 
         // Create a new game with the updated board, players, and game over status.
-        return new Game(newBoard, player1, player2, rules, nextPlayer, gameOver);
+        return new ChessGame(newBoard, player1, player2, rules, nextPlayer, gameOver);
     }
 
     private boolean isPromotion(Piece p, Color pieceColor, Tile from, Tile to) {
-        return p.getType() == PieceName.PAWN && pieceColor == Color.WHITE && to.getRow() == 7 && moveValidator.validateMovement(from, to, board) ||
-                p.getType() == PieceName.PAWN && pieceColor == Color.BLACK && to.getRow() == 0 && moveValidator.validateMovement(from, to, board);
+        return p.getType() == PieceName.PAWN && pieceColor == Color.WHITE && to.getRow() == 7 && moveValidator.validateMovement(from, to, board, chessGameVerifier) ||
+                p.getType() == PieceName.PAWN && pieceColor == Color.BLACK && to.getRow() == 0 && moveValidator.validateMovement(from, to, board, chessGameVerifier);
     }
 }
 

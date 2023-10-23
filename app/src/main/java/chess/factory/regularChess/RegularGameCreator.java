@@ -1,18 +1,22 @@
-package factory.regularChess;
+package chess.factory.regularChess;
 
+import chess.factory.*;
+import commons.GameCreator;
+import commons.rules.Rules;
+import commons.rules.StalemateCondition;
+import commons.rules.WinCondition;
 import commons.*;
-import factory.*;
-import rules.*;
 import chess.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RegularGameCreator {
+public class RegularGameCreator implements GameCreator {
     public RegularGameCreator() {
     }
 
-    public Game createRegularGame(){
+    @Override
+    public Game createGame(){
         //rook
         PieceCreator rookCreator = new RookCreator();
         Piece rookW = rookCreator.createPiece(Color.WHITE);
@@ -84,6 +88,8 @@ public class RegularGameCreator {
         Player player1 = new Player(Color.WHITE, "Player 1");
         Player player2 = new Player(Color.BLACK, "Player 2");
 
-        return new Game(board, player1, player2, rules, player1, false);
+        return new ChessGame(board, player1, player2, rules, player1, false);
     }
+
+
 }
