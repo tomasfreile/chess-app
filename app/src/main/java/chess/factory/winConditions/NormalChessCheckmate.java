@@ -1,12 +1,12 @@
 package chess.factory.winConditions;
 
 import chess.factory.ChessMoveVerifier;
-import commons.PieceName;
+import commons.piece.PieceName;
 import commons.rules.WinCondition;
 import commons.MoveHandler;
 import commons.Board;
 import commons.Color;
-import commons.Piece;
+import commons.piece.Piece;
 import commons.Tile;
 import commons.validator.MoveVerifier;
 

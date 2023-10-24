@@ -1,8 +1,9 @@
 package chess.factory;
 
-import chess.factory.ChessMoveVerifier;
 import commons.*;
 import commons.MoveHandler;
+import commons.piece.Piece;
+import commons.piece.PieceName;
 import commons.rules.Rules;
 import commons.rules.StalemateCondition;
 import commons.rules.WinCondition;

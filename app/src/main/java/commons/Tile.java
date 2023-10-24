@@ -1,5 +1,7 @@
 package commons;
 
+import commons.piece.Piece;
+
 public class Tile {
 
     private final int row;

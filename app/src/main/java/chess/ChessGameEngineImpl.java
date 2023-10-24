@@ -1,6 +1,7 @@
 package chess;
 
 import commons.*;
+import commons.piece.PieceTranslator;
 import edu.austral.dissis.chess.gui.*;
 import chess.factory.RegularGameCreator;
 import org.jetbrains.annotations.NotNull;

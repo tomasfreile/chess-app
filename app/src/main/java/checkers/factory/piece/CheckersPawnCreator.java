@@ -1,10 +1,10 @@
 package checkers.factory.piece;
 
-import commons.PieceCreator;
+import commons.piece.PieceCreator;
 import commons.Color;
 import commons.Movement;
-import commons.Piece;
-import commons.PieceName;
+import commons.piece.Piece;
+import commons.piece.PieceName;
 
 import java.util.ArrayList;
 import java.util.List;

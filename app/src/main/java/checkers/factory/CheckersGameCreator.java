@@ -1,10 +1,10 @@
 package checkers.factory;
 
-import checkers.CheckersGame;
 import checkers.factory.piece.CheckersPawnCreator;
 import checkers.factory.winConditions.AllPiecesCaptured;
 import checkers.factory.winConditions.NoMovesAvailable;
-import commons.PieceCreator;
+import commons.piece.Piece;
+import commons.piece.PieceCreator;
 import commons.*;
 import commons.rules.Rules;
 import commons.rules.StalemateCondition;
@@ -70,6 +70,6 @@ public class CheckersGameCreator implements GameCreator {
         Player player1 = new Player(Color.WHITE, "Player 1");
         Player player2 = new Player(Color.BLACK, "Player 2");
 
-        return new CheckersGame(board, player1, player2, rules, player1, false);
+        return new Game(board, player1, player2, rules, player1, false, new CheckersPieceMover(), new CheckersMoveVerifier());
     }
 }

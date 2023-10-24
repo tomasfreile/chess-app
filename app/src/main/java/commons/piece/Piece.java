@@ -1,4 +1,7 @@
-package commons;
+package commons.piece;
+
+import commons.Color;
+import commons.Movement;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package commons;
 
-import commons.*;
+import commons.piece.Piece;
 import commons.validator.MoveVerifier;
 
 import java.util.List;

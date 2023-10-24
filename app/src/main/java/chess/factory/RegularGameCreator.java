@@ -1,15 +1,15 @@
 package chess.factory;
 
-import chess.factory.NormalChessRules;
 import chess.factory.piece.*;
 import chess.factory.stalemateConditions.NormalChessStalemate;
 import chess.factory.winConditions.NormalChessCheckmate;
 import commons.GameCreator;
+import commons.piece.Piece;
+import commons.piece.PieceCreator;
 import commons.rules.Rules;
 import commons.rules.StalemateCondition;
 import commons.rules.WinCondition;
 import commons.*;
-import chess.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,7 +91,7 @@ public class RegularGameCreator implements GameCreator {
         Player player1 = new Player(Color.WHITE, "Player 1");
         Player player2 = new Player(Color.BLACK, "Player 2");
 
-        return new ChessGame(board, player1, player2, rules, player1, false);
+        return new Game(board, player1, player2, rules, player1, false, new ChessPieceMover(), new ChessMoveVerifier());
     }
 
 

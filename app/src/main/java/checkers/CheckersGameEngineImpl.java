@@ -3,7 +3,7 @@ package checkers;
 import checkers.factory.CheckersGameCreator;
 import commons.Color;
 import commons.Game;
-import commons.PieceTranslator;
+import commons.piece.PieceTranslator;
 import commons.Tile;
 import edu.austral.dissis.chess.gui.*;
 import org.jetbrains.annotations.NotNull;
@@ -44,8 +44,10 @@ public class CheckersGameEngineImpl implements GameEngine {
             pieces.remove(capturedPiece);
         }
 
+        String pieceId = isPromotion(movedPiece) ? "queen" : movedPiece.getPieceId();
+
         assert movedPiece != null;
-        return updateGameState(movedPiece, move, movedPiece.getPieceId(), result);
+        return updateGameState(movedPiece, move, pieceId, result);
     }
 
     @NotNull
@@ -71,6 +73,10 @@ public class CheckersGameEngineImpl implements GameEngine {
             }
         }
         return null;
+    }
+
+    private static boolean isPromotion(ChessPiece movedPiece) {
+        return movedPiece.getPosition().getRow() == 7 && movedPiece.getColor().equals(PlayerColor.WHITE) && movedPiece.getPieceId().equals("pawn") || movedPiece.getPosition().getRow() == 2 && movedPiece.getColor().equals(PlayerColor.BLACK) && movedPiece.getPieceId().equals("pawn");
     }
 
 }

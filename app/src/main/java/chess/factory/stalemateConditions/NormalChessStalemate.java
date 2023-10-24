@@ -1,12 +1,12 @@
 package chess.factory.stalemateConditions;
 
 import chess.factory.ChessMoveVerifier;
-import commons.PieceName;
+import commons.piece.PieceName;
 import commons.rules.StalemateCondition;
 import commons.MoveHandler;
 import commons.Board;
 import commons.Color;
-import commons.Piece;
+import commons.piece.Piece;
 import commons.Tile;
 import commons.validator.MoveVerifier;
 

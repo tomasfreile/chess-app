@@ -1,5 +1,8 @@
-package commons;
+package commons.piece;
 
+import commons.Color;
+import commons.Tile;
+import commons.piece.Piece;
 import edu.austral.dissis.chess.gui.ChessPiece;
 import edu.austral.dissis.chess.gui.PlayerColor;
 import edu.austral.dissis.chess.gui.Position;

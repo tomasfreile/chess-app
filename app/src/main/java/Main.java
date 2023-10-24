@@ -1,6 +1,4 @@
 import checkers.factory.CheckersGameCreator;
-import chess.factory.RegularGameCreator;
-
 import commons.Game;
 
 import java.util.*;
@@ -8,8 +6,8 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) {
 
-        Game game = new RegularGameCreator().createGame();
-        //Game game = new CheckersGameCreator().createGame();
+        //Game game = new RegularGameCreator().createGame();
+        Game game = new CheckersGameCreator().createGame();
 
         System.out.println(game.getBoard().printBoard());
 
