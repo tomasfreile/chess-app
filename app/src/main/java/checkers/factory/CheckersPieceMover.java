@@ -1,8 +1,11 @@
 package checkers.factory;
 
 
+import checkers.factory.piece.CheckersQueenCreator;
+import chess.factory.piece.QueenCreator;
 import commons.*;
 import commons.piece.Piece;
+import commons.piece.PieceCreator;
 import commons.piece.PieceMover;
 import commons.rules.Rules;
 
@@ -34,5 +37,13 @@ public class CheckersPieceMover implements PieceMover {
         boolean gameOver = rules.checkWin(newBoard, nextPlayer.getColor());
 
         return new Game(newBoard, player1, player2, rules, nextPlayer, gameOver, this, game.getMoveVerifier());
+    }
+
+    @Override
+    public Game promote(Tile from, Tile to, Piece p, Game game) {
+        Color pieceColor = p.getColor();
+        PieceCreator pieceCreator = new CheckersQueenCreator();
+        Piece newPiece = pieceCreator.createPiece(pieceColor);
+        return move(from, to, newPiece, game);
     }
 }

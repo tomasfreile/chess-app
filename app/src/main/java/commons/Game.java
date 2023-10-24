@@ -86,7 +86,7 @@ public class Game {
         }
 
         if (isPromotion(p, pieceColor, from, to)) {
-            return promote(from, to);
+            return pieceMover.promote(from, to, p, this);
         }
 
         if (moveHandler.validateMovement(from, to, board, moveVerifier) || rules.validateSpecialMovement(from, to, board)) {
@@ -100,16 +100,6 @@ public class Game {
         System.out.println(message);
         return this;
     }
-    
-
-    @NotNull
-    private Game promote(Tile from, Tile to) {
-        Color pieceColor = from.getPiece().getColor();
-        PieceCreator pieceCreator = new QueenCreator();
-        Piece p = pieceCreator.createPiece(pieceColor);
-        return pieceMover.move(from, to, p, this);
-    }
-
 
     private boolean isPromotion(Piece p, Color pieceColor, Tile from, Tile to) {
         return p.getType() == PieceName.PAWN && pieceColor == Color.WHITE && to.getRow() == 7 && moveHandler.validateMovement(from, to, board, moveVerifier) ||

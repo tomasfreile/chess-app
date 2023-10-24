@@ -1,7 +1,9 @@
 package chess.factory;
 
+import chess.factory.piece.QueenCreator;
 import commons.*;
 import commons.piece.Piece;
+import commons.piece.PieceCreator;
 import commons.piece.PieceMover;
 import commons.rules.Rules;
 
@@ -38,5 +40,13 @@ public class ChessPieceMover implements PieceMover {
 
         // Create a new game with the updated board, players, and game over status.
         return new Game(newBoard, player1, player2, rules, nextPlayer, gameOver, this, game.getMoveVerifier());
+    }
+
+    @Override
+    public Game promote(Tile from, Tile to, Piece p, Game game) {
+        Color pieceColor = p.getColor();
+        PieceCreator pieceCreator = new QueenCreator();
+        Piece newPiece = pieceCreator.createPiece(pieceColor);
+        return move(from, to, newPiece, game);
     }
 }
