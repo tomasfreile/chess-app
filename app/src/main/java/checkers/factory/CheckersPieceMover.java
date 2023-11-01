@@ -2,6 +2,7 @@ package checkers.factory;
 
 
 import checkers.factory.piece.CheckersQueenCreator;
+import checkers.validator.RequiredCaptureValidator;
 import commons.*;
 import commons.piece.Piece;
 import commons.piece.PieceCreator;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class CheckersPieceMover implements PieceMover {
+    private final RequiredCaptureValidator multipleMoveValidator = new RequiredCaptureValidator();
     @Override
     public Game move(Tile from, Tile to, Piece p, Game game) {
         Board board = game.getBoard();
@@ -42,6 +44,14 @@ public class CheckersPieceMover implements PieceMover {
         Player nextPlayer = (currentPlayer == player1) ? player2 : player1;
         boolean gameOver = rules.checkWin(newBoard, nextPlayer.getColor());
 
+
+        //automatically capture another piece if possible
+//        if (canDoubleCapture(newBoard, to, p)){
+//            Tile availableCapture = findAvailableCapture(newBoard, to, p);
+//            newBoard = move(to, availableCapture, p, game).getBoard();
+//        }
+
+
         return new Game(newBoard, player1, player2, rules, nextPlayer, gameOver, this, game.getMoveVerifier());
     }
 
@@ -52,4 +62,23 @@ public class CheckersPieceMover implements PieceMover {
         Piece newPiece = pieceCreator.createPiece(pieceColor);
         return move(from, to, newPiece, game);
     }
+
+//    private boolean canDoubleCapture(Board newBoard, Tile to, Piece p){
+//        for (Tile t : newBoard.getPositions()){
+//            if (multipleMoveValidator.isCapture(newBoard, to, t)){
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
+//
+//    private Tile findAvailableCapture(Board newBoard, Tile to, Piece p) {
+//        for (Tile t : newBoard.getPositions()){
+//            if (multipleMoveValidator.isCapture(newBoard, to, t)){
+//                return t;
+//            }
+//        }
+//        return null;
+//    }
+
 }

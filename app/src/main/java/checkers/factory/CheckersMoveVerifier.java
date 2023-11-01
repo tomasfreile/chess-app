@@ -25,7 +25,7 @@ public class CheckersMoveVerifier implements MoveVerifier {
                 continue;
             }
             if (m.canJump()) {  //jump moves
-                if (m.isLimitless()) { // Queen capture
+                if (isQueenCapture(incrementRow, incrementColumn, m)) { //queen capture
                     if (!hasObstacles(board, start.getRow(), start.getColumn(), end.getRow(), end.getColumn())) {
                         return jumpMoveValidator.validate(m, board, start, end, incrementRow, incrementColumn);
                     }
@@ -51,7 +51,15 @@ public class CheckersMoveVerifier implements MoveVerifier {
         return false;
     }
 
+    private static boolean isQueenCapture(int incrementRow, int incrementColumn, Movement m) {
+        return m.isLimitless() && Math.abs(incrementColumn) == Math.abs(incrementRow);
+    }
+
     private boolean hasObstacles(Board board, int startRow, int startColumn, int endRow, int endColumn){
+
+        if (Math.abs(endRow - startRow) != Math.abs(endColumn - startColumn)){
+            return false;
+        }
         int differenceRow = Math.abs(endRow - startRow);
         int differenceColumn = Math.abs(endColumn - startColumn);
 
@@ -67,13 +75,13 @@ public class CheckersMoveVerifier implements MoveVerifier {
 
         while (row != endRow - rowDirection || column != endColumn - columnDirection) {
             if (board.getPieceAtPosition(row, column) != null) {
-                return false;
+                return true;
             }
             row += rowDirection;
             column += columnDirection;
         }
 
-        return true;
+        return false;
     }
 
 }
