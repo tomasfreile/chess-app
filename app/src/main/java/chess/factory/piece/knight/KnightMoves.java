@@ -1,17 +1,13 @@
-package chess.factory.piece;
+package chess.factory.piece.knight;
 
-import commons.*;
-import commons.piece.Piece;
-import commons.piece.PieceCreator;
-import commons.piece.PieceName;
+import commons.Movement;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class KnightCreator implements PieceCreator {
-
-    @Override
-    public Piece createPiece(Color color) {
+public class KnightMoves {
+    public List<Movement> getMoves() {
         List<Movement> knightMoves = new ArrayList<>();
         knightMoves.add(new Movement(1, 2, true, true, false));
         knightMoves.add(new Movement(2, 1, true, true, false));
@@ -29,6 +25,6 @@ public class KnightCreator implements PieceCreator {
         knightMoves.add(new Movement(2, -1, false, true, false));
         knightMoves.add(new Movement(-1, -2, false, true, false));
         knightMoves.add(new Movement(-2, -1, false, true, false));
-        return new Piece(PieceName.KNIGHT, knightMoves, color, 0);
+        return knightMoves;
     }
 }

@@ -1,13 +1,8 @@
 package commons;
 
-import chess.factory.ChessMoveVerifier;
-import chess.factory.piece.QueenCreator;
 import commons.piece.Piece;
-import commons.piece.PieceCreator;
 import commons.piece.PieceMover;
-import commons.piece.PieceName;
 import commons.validator.MoveVerifier;
-import org.jetbrains.annotations.NotNull;
 import commons.rules.Rules;
 
 public class Game {
@@ -85,7 +80,7 @@ public class Game {
             return printAndReturn("Cannot move opponent's piece");
         }
 
-        if (isPromotion(p, pieceColor, from, to)) {
+        if (moveHandler.isPromotion(from, to, board, moveVerifier)) {
             return pieceMover.promote(from, to, p, this);
         }
 
@@ -101,10 +96,6 @@ public class Game {
         return this;
     }
 
-    private boolean isPromotion(Piece p, Color pieceColor, Tile from, Tile to) {
-        return p.getType() == PieceName.PAWN && pieceColor == Color.WHITE && to.getRow() == 7 && moveHandler.validateMovement(from, to, board, moveVerifier) ||
-                p.getType() == PieceName.PAWN && pieceColor == Color.BLACK && to.getRow() == 0 && moveHandler.validateMovement(from, to, board, moveVerifier);
-    }
 }
 
 

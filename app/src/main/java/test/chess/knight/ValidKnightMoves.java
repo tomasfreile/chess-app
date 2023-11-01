@@ -1,13 +1,13 @@
 package test.chess.knight;
 
-import chess.factory.piece.KnightCreator;
+import chess.factory.piece.knight.KnightCreator;
 import commons.Board;
 import commons.Color;
 import commons.Game;
 import commons.Tile;
 import commons.piece.PieceCreator;
 import org.junit.Test;
-import test.chess.TestGameCreator;
+import test.chess.TestChessGameCreator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ import static org.junit.Assert.assertTrue;
 
 public class ValidKnightMoves {
     PieceCreator pieceCreator = new KnightCreator();
-    TestGameCreator testGameCreator = new TestGameCreator();
+    TestChessGameCreator testGameCreator = new TestChessGameCreator();
 
     @Test
     public void testValidKnightMoves() {

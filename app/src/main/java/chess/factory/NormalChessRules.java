@@ -44,7 +44,7 @@ public class NormalChessRules implements Rules {
         return false;
     }
     @Override
-    public boolean isInCheck(Board board, Color color) {
+    public boolean cannotMove(Board board, Color color, Tile start, Tile end) {
         return isCheck(board, color);
     }
     @Override

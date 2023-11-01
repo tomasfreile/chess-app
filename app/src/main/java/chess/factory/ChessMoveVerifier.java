@@ -25,7 +25,7 @@ public class ChessMoveVerifier implements MoveVerifier{
                 // This move is invalid, but keep looking for valid moves.
                 continue;
             }
-            if ((m.isTake() && end.getPiece() == null) || (!m.isTake() && end.getPiece() != null)) {
+            if ((m.isCapture() && end.getPiece() == null) || (!m.isCapture() && end.getPiece() != null)) {
                 // This move is invalid, but keep looking for valid moves.
                 continue;
             }

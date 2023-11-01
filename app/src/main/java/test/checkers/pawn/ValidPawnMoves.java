@@ -1,13 +1,13 @@
-package test.chess.pawn;
+package test.checkers.pawn;
 
-import chess.factory.piece.pawn.PawnCreator;
+import checkers.factory.piece.CheckersPawnCreator;
 import commons.Board;
 import commons.Color;
 import commons.Game;
 import commons.Tile;
 import commons.piece.PieceCreator;
 import org.junit.Test;
-import test.chess.TestChessGameCreator;
+import test.checkers.TestCheckersGameCreator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +16,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class ValidPawnMoves {
-    PieceCreator pieceCreator = new PawnCreator();
-    TestChessGameCreator testGameCreator = new TestChessGameCreator();
+    PieceCreator pieceCreator = new CheckersPawnCreator();
+    TestCheckersGameCreator testGameCreator = new TestCheckersGameCreator();
 
     @Test
     public void testValidPawnMoves() {
@@ -26,7 +26,8 @@ public class ValidPawnMoves {
         System.out.println(game.getBoard().printBoard());
 
         List<Tile> availableMoves = new ArrayList<>();
-        availableMoves.add(board.getPosition(4, 3));
+        availableMoves.add(board.getPosition(4, 4));
+        availableMoves.add(board.getPosition(4, 2));
 
 
         for (Tile p : board.getPositions()){

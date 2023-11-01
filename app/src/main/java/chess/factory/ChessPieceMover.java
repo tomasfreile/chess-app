@@ -1,6 +1,6 @@
 package chess.factory;
 
-import chess.factory.piece.QueenCreator;
+import chess.factory.piece.queen.QueenCreator;
 import commons.*;
 import commons.piece.Piece;
 import commons.piece.PieceCreator;
@@ -29,7 +29,7 @@ public class ChessPieceMover implements PieceMover {
         // Create a new board with the updated positions.
         Board newBoard = new Board(newPositions, board.getHeight(), board.getWidth());
 
-        if (rules.isInCheck(newBoard, pieceColor)) {
+        if (rules.cannotMove(newBoard, pieceColor, from, to)) {
             System.out.println("Cannot move into check");
             return game;
         }

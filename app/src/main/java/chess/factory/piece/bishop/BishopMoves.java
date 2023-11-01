@@ -1,16 +1,12 @@
-package chess.factory.piece;
+package chess.factory.piece.bishop;
 
-import commons.*;
-import commons.piece.Piece;
-import commons.piece.PieceCreator;
-import commons.piece.PieceName;
+import commons.Movement;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class BishopCreator implements PieceCreator {
-    @Override
-    public Piece createPiece(Color color) {
+public class BishopMoves {
+    public List<Movement> getMoves() {
         List<Movement> moves = new ArrayList<>();
         moves.add(new Movement(1, 1, true, false, true));
         moves.add(new Movement(-1, -1, true, false, true));
@@ -20,7 +16,8 @@ public class BishopCreator implements PieceCreator {
         moves.add(new Movement(-1, -1, false, false, true));
         moves.add(new Movement(1, -1, false, false, true));
         moves.add(new Movement(-1, 1, false, false, true));
-
-        return new Piece(PieceName.BISHOP, moves, color, 0);
+        return moves;
     }
+
+
 }

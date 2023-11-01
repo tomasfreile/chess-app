@@ -4,7 +4,7 @@ public class Movement {
 
     private final int incrementRow;
     private final int incrementColumn;
-    private final boolean isTake;
+    private final boolean isCapture;
     private final boolean canJump;
     private final boolean limitless;
 
@@ -12,7 +12,7 @@ public class Movement {
     public Movement(int incrementRow, int incrementColumn, boolean isTake, boolean canJump, boolean limitless) {
         this.incrementRow = incrementRow;
         this.incrementColumn = incrementColumn;
-        this.isTake = isTake;
+        this.isCapture = isTake;
         this.canJump = canJump;
         this.limitless = limitless;
     }
@@ -33,8 +33,8 @@ public class Movement {
         return limitless;
     }
 
-    public boolean isTake() {
-        return isTake;
+    public boolean isCapture() {
+        return isCapture;
     }
 
     public boolean isDiagonal() {

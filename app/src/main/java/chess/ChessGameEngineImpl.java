@@ -3,7 +3,7 @@ package chess;
 import commons.*;
 import commons.piece.PieceTranslator;
 import edu.austral.dissis.chess.gui.*;
-import chess.factory.RegularGameCreator;
+import chess.factory.ChessGameCreator;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -14,7 +14,7 @@ public class ChessGameEngineImpl implements GameEngine {
     List<ChessPiece> pieces;
     private PieceTranslator pieceTranslator = new PieceTranslator();
     public ChessGameEngineImpl() {
-        game = new RegularGameCreator().createGame();
+        game = new ChessGameCreator().createGame();
         pieces = pieceTranslator.translatePieceList(game.getBoard().getPositions());
     }
 
@@ -61,12 +61,12 @@ public class ChessGameEngineImpl implements GameEngine {
     @NotNull
     @Override
     public InitialState init() {
-        return new InitialState(new BoardSize(8,8), pieces, PlayerColor.WHITE);
+        return new InitialState(new BoardSize(game.getBoard().getWidth(),game.getBoard().getHeight()), pieces, PlayerColor.WHITE);
     }
 
 
     private static boolean isPromotion(ChessPiece movedPiece) {
-        return movedPiece.getPosition().getRow() == 7 && movedPiece.getColor().equals(PlayerColor.WHITE) && movedPiece.getPieceId().equals("pawn") || movedPiece.getPosition().getRow() == 2 && movedPiece.getColor().equals(PlayerColor.BLACK) && movedPiece.getPieceId().equals("pawn");
+        return  movedPiece.getPieceId().equals("pawn") && (movedPiece.getPosition().getRow() == 7 && movedPiece.getColor().equals(PlayerColor.WHITE) || movedPiece.getPosition().getRow() == 2 && movedPiece.getColor().equals(PlayerColor.BLACK));
     }
     private ChessPiece findPiece(Position position) {
         for (ChessPiece piece : pieces) {

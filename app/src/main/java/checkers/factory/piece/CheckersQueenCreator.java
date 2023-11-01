@@ -16,10 +16,11 @@ public class CheckersQueenCreator implements PieceCreator {
         checkerQueenMoves.add(new Movement(1, -1, false, false, true));
         checkerQueenMoves.add(new Movement(-1, 1, false, false, true));
         checkerQueenMoves.add(new Movement(-1, -1, false, false, true));
-        checkerQueenMoves.add(new Movement(2, 2, true, true, true));
-        checkerQueenMoves.add(new Movement(2, -2, true, true, true));
-        checkerQueenMoves.add(new Movement(-2, 2, true, true, true));
-        checkerQueenMoves.add(new Movement(-2, -2, true, true, true));
+        checkerQueenMoves.add(new Movement(1, 1, true, true, true));
+        checkerQueenMoves.add(new Movement(1, -1, true, true, true));
+        checkerQueenMoves.add(new Movement(-1, 1, true, true, true));
+        checkerQueenMoves.add(new Movement(-1, -1, true, true, true));
+
         return new Piece(PieceName.QUEEN, checkerQueenMoves, color, 0);
 
     }

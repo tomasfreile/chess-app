@@ -1,16 +1,12 @@
-package chess.factory.piece;
+package chess.factory.piece.rook;
 
-import commons.*;
-import commons.piece.Piece;
-import commons.piece.PieceCreator;
-import commons.piece.PieceName;
+import commons.Movement;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RookCreator implements PieceCreator {
-    @Override
-    public Piece createPiece(Color color) {
+public class RookMoves {
+    public List<Movement> getMoves() {
         List<Movement> rookMoves = new ArrayList<>();
         rookMoves.add(new Movement(1, 0, true, false, true));
         rookMoves.add(new Movement(0, 1, true, false, true));
@@ -20,6 +16,6 @@ public class RookCreator implements PieceCreator {
         rookMoves.add(new Movement(0, -1, false, false, true));
         rookMoves.add(new Movement(1, 0, false, false, true));
         rookMoves.add(new Movement(-1, 0, false, false, true));
-        return new Piece(PieceName.ROOK, rookMoves, color, 0);
+        return rookMoves;
     }
 }

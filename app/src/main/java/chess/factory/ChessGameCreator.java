@@ -1,6 +1,12 @@
 package chess.factory;
 
-import chess.factory.piece.*;
+import chess.factory.piece.archbishop.ArchbishopCreator;
+import chess.factory.piece.bishop.BishopCreator;
+import chess.factory.piece.king.KingCreator;
+import chess.factory.piece.knight.KnightCreator;
+import chess.factory.piece.pawn.PawnCreator;
+import chess.factory.piece.queen.QueenCreator;
+import chess.factory.piece.rook.RookCreator;
 import chess.factory.stalemateConditions.NormalChessStalemate;
 import chess.factory.winConditions.NormalChessCheckmate;
 import commons.GameCreator;
@@ -14,12 +20,15 @@ import commons.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RegularGameCreator implements GameCreator {
-    public RegularGameCreator() {
+public class ChessGameCreator implements GameCreator {
+    public ChessGameCreator() {
     }
 
     @Override
     public Game createGame(){
+
+        Board board = new Board(10,10);
+
         //rook
         PieceCreator rookCreator = new RookCreator();
         Piece rookW = rookCreator.createPiece(Color.WHITE);
@@ -50,6 +59,12 @@ public class RegularGameCreator implements GameCreator {
         Piece kingW = kingCreator.createPiece(Color.WHITE);
         Piece kingB = kingCreator.createPiece(Color.BLACK);
 
+        //archbishop
+        PieceCreator archbishopCreator = new ArchbishopCreator();
+        Piece archbishopW = archbishopCreator.createPiece(Color.WHITE);
+        Piece archbishopB = archbishopCreator.createPiece(Color.BLACK);
+
+
         List<Tile> startingPositions = new ArrayList<>();
         startingPositions.add(new Tile(0, 0, rookW));
         startingPositions.add(new Tile(0, 1, knightW));
@@ -67,7 +82,11 @@ public class RegularGameCreator implements GameCreator {
         startingPositions.add(new Tile(7, 5,bishopB));
         startingPositions.add(new Tile(7, 6, knightB));
         startingPositions.add(new Tile(7, 7, rookB));
-        for (int i = 0; i < 8; i++){
+//        startingPositions.add(new Tile(0, 8, archbishopW));
+//        startingPositions.add(new Tile(7, 8, archbishopB));
+
+
+        for (int i = 0; i < board.getWidth(); i++) {
             startingPositions.add(new Tile(1, i, pawnW));
             startingPositions.add(new Tile(6, i, pawnB));
         }
@@ -82,7 +101,6 @@ public class RegularGameCreator implements GameCreator {
         stalemateConditions.add(stalemateCondition);
 
         Rules rules = new NormalChessRules(startingPositions, winConditions, stalemateConditions);
-        Board board = new Board(8,8);
 
         for (Tile tile : rules.getStartingPositions()) {
             board = board.replacePosition(tile);

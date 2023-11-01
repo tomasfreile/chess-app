@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 public class NormalChessStalemate implements StalemateCondition {
 
-    MoveHandler moveValidator = new MoveHandler();
+    MoveHandler moveHandler = new MoveHandler();
     MoveVerifier moveVerifier = new ChessMoveVerifier();
 
     @Override
@@ -30,7 +30,7 @@ public class NormalChessStalemate implements StalemateCondition {
         for (Tile p : board.getPositions()){
             if (!p.isEmpty() && p.getPiece().getColor() == color){
                 for (Tile t : board.getPositions()){
-                    if (moveValidator.validateMovement(p, t, board, moveVerifier)){
+                    if (moveHandler.validateMovement(p, t, board, moveVerifier)){
                         // Create a new board with the updated positions
                         List<Tile> newPositions = board.getPositions()
                                 .stream()
@@ -52,7 +52,7 @@ public class NormalChessStalemate implements StalemateCondition {
         Tile kingPosition = findKing(board, color);
         for (Tile p : board.getPositions()){
             assert kingPosition != null;
-            if (!p.isEmpty() && moveValidator.validateMovement(p, kingPosition, board, moveVerifier)){
+            if (!p.isEmpty() && moveHandler.validateMovement(p, kingPosition, board, moveVerifier)){
                 return true;
             }
         }

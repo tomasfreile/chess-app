@@ -11,7 +11,7 @@ public interface Rules {
     List<WinCondition> getWinConditions();
     List<StalemateCondition> getStalemateConditions();
     boolean checkWin(Board board, Color color);
-    boolean isInCheck(Board board, Color color);
+    boolean cannotMove(Board board, Color color, Tile start, Tile end);
     boolean isStalemate(Board board, Color color);
 
     boolean validateSpecialMovement(Tile start, Tile end, Board board);

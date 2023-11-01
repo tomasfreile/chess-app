@@ -1,6 +1,7 @@
 package commons;
 
 import commons.piece.Piece;
+import commons.piece.PieceName;
 import commons.validator.MoveVerifier;
 
 import java.util.List;
@@ -35,6 +36,13 @@ public class MoveHandler {
 
     private static boolean isOutOfBounds(Board board, int endRow, int endColumn) {
         return endRow < 0 || endRow >= board.getHeight() || endColumn < 0 || endColumn >= board.getWidth();
+    }
+
+    public boolean isPromotion(Tile from, Tile to, Board board, MoveVerifier moveVerifier) {
+        Piece p = from.getPiece();
+        Color pieceColor = p.getColor();
+        return p.getType() == PieceName.PAWN && pieceColor == Color.WHITE && to.getRow() == 7 && validateMovement(from, to, board, moveVerifier) ||
+                p.getType() == PieceName.PAWN && pieceColor == Color.BLACK && to.getRow() == 0 && validateMovement(from, to, board, moveVerifier);
     }
 
 }

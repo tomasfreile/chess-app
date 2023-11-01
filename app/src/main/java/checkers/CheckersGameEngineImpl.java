@@ -39,14 +39,15 @@ public class CheckersGameEngineImpl implements GameEngine {
             pieces.remove(movedPiece);
         }
 
-        ChessPiece capturedPiece = findPiece(new Position((move.getFrom().getRow() + move.getTo().getRow()) / 2, (move.getFrom().getColumn() + move.getTo().getColumn()) / 2));
+        assert movedPiece != null;
+        ChessPiece capturedPiece = findCapturedPiece(move, movedPiece);
+
         if (capturedPiece != null) {
             pieces.remove(capturedPiece);
         }
 
-        String pieceId = isPromotion(movedPiece) ? "queen" : movedPiece.getPieceId();
+        String pieceId = isPromotion(move, movedPiece) ? "queen" : movedPiece.getPieceId();
 
-        assert movedPiece != null;
         return updateGameState(movedPiece, move, pieceId, result);
     }
 
@@ -75,8 +76,14 @@ public class CheckersGameEngineImpl implements GameEngine {
         return null;
     }
 
-    private static boolean isPromotion(ChessPiece movedPiece) {
-        return movedPiece.getPosition().getRow() == 7 && movedPiece.getColor().equals(PlayerColor.WHITE) && movedPiece.getPieceId().equals("pawn") || movedPiece.getPosition().getRow() == 2 && movedPiece.getColor().equals(PlayerColor.BLACK) && movedPiece.getPieceId().equals("pawn");
+    private static boolean isPromotion(Move move, ChessPiece movedPiece) {
+        return  movedPiece.getPieceId().equals("pawn") && (move.getTo().getRow() == 8 && movedPiece.getColor().equals(PlayerColor.WHITE) || move.getTo().getRow() == 1 && movedPiece.getColor().equals(PlayerColor.BLACK));
+    }
+
+    private ChessPiece findCapturedPiece(@NotNull Move move, @NotNull ChessPiece movedPiece) {
+        int rowDirection = Integer.compare(move.getTo().getRow(), move.getFrom().getRow());
+        int columnDirection = Integer.compare(move.getTo().getColumn(), move.getFrom().getColumn());
+        return findPiece(new Position(move.getTo().getRow() - rowDirection, move.getTo().getColumn() - columnDirection));
     }
 
 }
