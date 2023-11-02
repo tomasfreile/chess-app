@@ -20,6 +20,8 @@ public class CheckersPawnCreator implements PieceCreator {
         checkerPawnMoves.add(new Movement(1, -1, false, false, false));
         checkerPawnMoves.add(new Movement(2, 2, true, true, false));
         checkerPawnMoves.add(new Movement(2, -2, true, true, false));
+        checkerPawnMoves.add(new Movement(-2, 2, true, true, false));
+        checkerPawnMoves.add(new Movement(-2, -2, true, true, false));
         return new Piece(PieceName.PAWN, checkerPawnMoves, color, 0);
     }
 }
