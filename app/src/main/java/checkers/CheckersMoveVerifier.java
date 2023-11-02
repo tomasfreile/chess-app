@@ -1,4 +1,4 @@
-package checkers.factory;
+package checkers;
 
 import commons.Board;
 import commons.Movement;
@@ -15,6 +15,9 @@ public class CheckersMoveVerifier implements MoveVerifier {
     private final NonJumpMoveValidator nonJumpMoveValidator = new NonJumpMoveValidator();
     @Override
     public boolean verifyPieceMovements(Board board, List<Movement> moves, Tile start, Tile end, int incrementRow, int incrementColumn) {
+        if (Math.abs(incrementColumn) != Math.abs(incrementRow)) {
+            return false;
+        }
         for (Movement m : moves) {
             if (!m.canJump() && Math.abs(incrementColumn) != Math.abs(incrementRow) && (m.isLShaped() || m.isDiagonal())){
                 // This move is invalid, but keep looking for valid moves.
@@ -25,7 +28,7 @@ public class CheckersMoveVerifier implements MoveVerifier {
                 continue;
             }
             if (m.canJump()) {  //jump moves
-                if (isQueenCapture(incrementRow, incrementColumn, m)) { //queen capture
+                if (m.isLimitless()) { //queen capture
                     if (!hasObstacles(board, start.getRow(), start.getColumn(), end.getRow(), end.getColumn())) {
                         return jumpMoveValidator.validate(m, board, start, end, incrementRow, incrementColumn);
                     }
@@ -49,10 +52,6 @@ public class CheckersMoveVerifier implements MoveVerifier {
             }
         }
         return false;
-    }
-
-    private static boolean isQueenCapture(int incrementRow, int incrementColumn, Movement m) {
-        return m.isLimitless() && Math.abs(incrementColumn) == Math.abs(incrementRow);
     }
 
     private boolean hasObstacles(Board board, int startRow, int startColumn, int endRow, int endColumn){

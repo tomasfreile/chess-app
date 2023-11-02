@@ -1,4 +1,4 @@
-package chess.factory;
+package chess;
 
 import commons.Board;
 import commons.Movement;

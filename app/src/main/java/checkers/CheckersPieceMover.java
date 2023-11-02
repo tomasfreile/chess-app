@@ -1,8 +1,7 @@
-package checkers.factory;
+package checkers;
 
 
 import checkers.factory.piece.CheckersQueenCreator;
-import checkers.validator.RequiredCaptureValidator;
 import commons.*;
 import commons.piece.Piece;
 import commons.piece.PieceCreator;
@@ -44,14 +43,6 @@ public class CheckersPieceMover implements PieceMover {
         Player nextPlayer = (currentPlayer == player1) ? player2 : player1;
         boolean gameOver = rules.checkWin(newBoard, nextPlayer.getColor());
 
-
-        //automatically capture another piece if possible
-//        if (canDoubleCapture(newBoard, to, p)){
-//            Tile availableCapture = findAvailableCapture(newBoard, to, p);
-//            newBoard = move(to, availableCapture, p, game).getBoard();
-//        }
-
-
         return new Game(newBoard, player1, player2, rules, nextPlayer, gameOver, this, game.getMoveVerifier());
     }
 
@@ -63,22 +54,11 @@ public class CheckersPieceMover implements PieceMover {
         return move(from, to, newPiece, game);
     }
 
-//    private boolean canDoubleCapture(Board newBoard, Tile to, Piece p){
-//        for (Tile t : newBoard.getPositions()){
-//            if (multipleMoveValidator.isCapture(newBoard, to, t)){
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
-//
-//    private Tile findAvailableCapture(Board newBoard, Tile to, Piece p) {
-//        for (Tile t : newBoard.getPositions()){
-//            if (multipleMoveValidator.isCapture(newBoard, to, t)){
-//                return t;
-//            }
-//        }
-//        return null;
-//    }
+    @Override
+    public Tile getCaptureTile(Tile from, Tile to) {
+        int rowDirection = Integer.compare(to.getRow(), from.getRow());
+        int columnDirection = Integer.compare(to.getColumn(), from.getColumn());
+        return new Tile(to.getRow() - rowDirection, to.getColumn() - columnDirection);
+    }
 
 }

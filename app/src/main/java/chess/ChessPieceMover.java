@@ -1,4 +1,4 @@
-package chess.factory;
+package chess;
 
 import chess.factory.piece.queen.QueenCreator;
 import commons.*;
@@ -49,4 +49,10 @@ public class ChessPieceMover implements PieceMover {
         Piece newPiece = pieceCreator.createPiece(pieceColor);
         return move(from, to, newPiece, game);
     }
+
+    @Override
+    public Tile getCaptureTile(Tile from, Tile to) {
+        return to;
+    }
+
 }

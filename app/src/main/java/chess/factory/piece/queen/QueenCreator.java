@@ -5,7 +5,6 @@ import commons.piece.Piece;
 import commons.piece.PieceCreator;
 import commons.piece.PieceName;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class QueenCreator implements PieceCreator {

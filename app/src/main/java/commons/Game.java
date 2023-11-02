@@ -16,6 +16,7 @@ public class Game {
     private final MoveVerifier moveVerifier;
     private final PieceMover pieceMover;
 
+
     public Game(Board board, Player player1, Player player2, Rules rules, Player currentPlayer, boolean gameOver, PieceMover pieceMover, MoveVerifier moveVerifier) {
         this.board = board;
         this.player1 = player1;
@@ -60,11 +61,11 @@ public class Game {
         return moveVerifier;
     }
 
-    public Game moveAndSwitchPlayer(Tile from, Tile to) {
-        if (to == null || from == null) {
-            return printAndReturn("Choose a position inside the board");
-        }
+    public PieceMover getPieceMover() {
+        return pieceMover;
+    }
 
+    public Game moveAndSwitchPlayer(Tile from, Tile to) {
         if (from.isEmpty()) {
             return printAndReturn("Choose a position with a piece");
         }
@@ -74,9 +75,8 @@ public class Game {
         }
 
         Piece p = from.getPiece();
-        Color pieceColor = p.getColor();
 
-        if (pieceColor != currentPlayer.getColor()) {
+        if (p.getColor() != currentPlayer.getColor()) {
             return printAndReturn("Cannot move opponent's piece");
         }
 

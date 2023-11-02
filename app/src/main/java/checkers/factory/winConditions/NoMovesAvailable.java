@@ -1,6 +1,6 @@
 package checkers.factory.winConditions;
 
-import checkers.factory.CheckersMoveVerifier;
+import checkers.CheckersMoveVerifier;
 import commons.Board;
 import commons.Color;
 import commons.MoveHandler;

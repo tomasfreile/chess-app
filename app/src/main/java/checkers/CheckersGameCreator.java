@@ -1,4 +1,4 @@
-package checkers.factory;
+package checkers;
 
 import checkers.factory.piece.CheckersPawnCreator;
 import checkers.factory.winConditions.AllPiecesCaptured;
@@ -33,15 +33,15 @@ public class CheckersGameCreator implements GameCreator {
                 new Tile(1, 2, pawnW),
                 new Tile(1, 4, pawnW),
                 new Tile(1, 6, pawnW),
-                new Tile(2, 1, pawnW),
-                new Tile(2, 3, pawnW),
-                new Tile(2, 5, pawnW),
-                new Tile(2, 7, pawnW),
-                new Tile(5, 0, pawnB),
-                new Tile(5, 2, pawnB),
-                new Tile(5, 4, pawnB),
-                new Tile(5, 6, pawnB),
-                new Tile(6, 1, pawnB),
+//                new Tile(2, 1, pawnW),
+//                new Tile(2, 3, pawnW),
+//                new Tile(2, 5, pawnW),
+//                new Tile(2, 7, pawnW),
+//                new Tile(5, 0, pawnB),
+//                new Tile(5, 2, pawnB),
+//                new Tile(5, 4, pawnB),
+//                new Tile(5, 6, pawnB),
+//                new Tile(6, 1, pawnB),
                 new Tile(6, 3, pawnB),
                 new Tile(6, 5, pawnB),
                 new Tile(6, 7, pawnB),

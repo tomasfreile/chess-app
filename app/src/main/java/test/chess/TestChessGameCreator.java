@@ -1,8 +1,8 @@
 package test.chess;
 
-import chess.factory.ChessMoveVerifier;
-import chess.factory.ChessPieceMover;
-import chess.factory.NormalChessRules;
+import chess.ChessMoveVerifier;
+import chess.ChessPieceMover;
+import chess.NormalChessRules;
 import commons.*;
 import commons.piece.Piece;
 import commons.rules.Rules;

@@ -1,8 +1,8 @@
 package test.checkers;
 
-import checkers.factory.CheckersMoveVerifier;
-import checkers.factory.CheckersPieceMover;
-import checkers.factory.CheckersRules;
+import checkers.CheckersMoveVerifier;
+import checkers.CheckersPieceMover;
+import checkers.CheckersRules;
 import commons.*;
 import commons.piece.Piece;
 import commons.rules.Rules;

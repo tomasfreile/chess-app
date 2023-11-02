@@ -1,4 +1,4 @@
-import checkers.factory.CheckersGameCreator;
+import checkers.CheckersGameCreator;
 import commons.Game;
 
 import java.util.*;

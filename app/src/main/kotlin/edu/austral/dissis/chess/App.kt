@@ -3,8 +3,9 @@
  */
 package edu.austral.dissis.chess
 
-import checkers.CheckersGameEngineImpl
-import chess.ChessGameEngineImpl
+import checkers.CheckersGameCreator
+import chess.ChessGameCreator
+import commons.GameEngineImpl
 import edu.austral.dissis.chess.gui.CachedImageResolver
 import edu.austral.dissis.chess.gui.DefaultImageResolver
 import edu.austral.dissis.chess.gui.GameView
@@ -19,8 +20,8 @@ fun main() {
 }
 
 class ChessGameApplication : Application() {
-    private val chessGameEngine = ChessGameEngineImpl()
-    private val checkersGameEngine = CheckersGameEngineImpl()
+    private val chess = GameEngineImpl(ChessGameCreator().createGame())
+    private val checkers = GameEngineImpl(CheckersGameCreator().createGame())
 
     private val imageResolver = CachedImageResolver(DefaultImageResolver())
 
@@ -31,7 +32,7 @@ class ChessGameApplication : Application() {
     override fun start(primaryStage: Stage) {
         primaryStage.title = GameTitle
 
-        val root = GameView(checkersGameEngine, imageResolver)
+        val root = GameView(chess, imageResolver)
         primaryStage.scene = Scene(root)
 
         primaryStage.show()

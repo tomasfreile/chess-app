@@ -1,4 +1,4 @@
-package chess.factory;
+package chess;
 
 import chess.factory.piece.archbishop.ArchbishopCreator;
 import chess.factory.piece.bishop.BishopCreator;
@@ -27,7 +27,7 @@ public class ChessGameCreator implements GameCreator {
     @Override
     public Game createGame(){
 
-        Board board = new Board(10,10);
+        Board board = new Board(8,8);
 
         //rook
         PieceCreator rookCreator = new RookCreator();

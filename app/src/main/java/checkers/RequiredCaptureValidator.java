@@ -1,6 +1,5 @@
-package checkers.validator;
+package checkers;
 
-import checkers.factory.CheckersMoveVerifier;
 import commons.Board;
 import commons.Color;
 import commons.MoveHandler;
