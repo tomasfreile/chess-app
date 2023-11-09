@@ -36,5 +36,16 @@ public class RequiredCaptureValidator {
 
     }
 
+    public boolean hasAvailableCapturesFromTile(Board board, Tile from) {
+        Piece p = from.getPiece();
+        for (Tile t : board.getPositions()){
+            if (moveHandler.validateMovement(from, t, board, moveVerifier)){
+                if (isCapture(board, from, t)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
 }

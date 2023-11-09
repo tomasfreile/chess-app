@@ -47,8 +47,8 @@ public class CheckersGameCreator implements GameCreator {
                 new Tile(6, 7, pawnB),
                 new Tile(7, 0, pawnB),
                 new Tile(7, 2, pawnB),
-                new Tile(7, 4, pawnB),
-                new Tile(7, 6, pawnB)
+               new Tile(7, 6, pawnB)
+
         );
 
         List<WinCondition> winConditions = List.of(

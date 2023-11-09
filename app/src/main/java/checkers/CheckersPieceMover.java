@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class CheckersPieceMover implements PieceMover {
-    private final RequiredCaptureValidator multipleMoveValidator = new RequiredCaptureValidator();
+    private final RequiredCaptureValidator requiredCaptureValidator = new RequiredCaptureValidator();
     @Override
     public Game move(Tile from, Tile to, Piece p, Game game) {
         Board board = game.getBoard();
@@ -42,6 +42,11 @@ public class CheckersPieceMover implements PieceMover {
 
         Player nextPlayer = (currentPlayer == player1) ? player2 : player1;
         boolean gameOver = rules.checkWin(newBoard, nextPlayer.getColor());
+
+        if (requiredCaptureValidator.isCapture(board,from,to) && requiredCaptureValidator.hasAvailableCapturesFromTile(newBoard, newBoard.getPosition(to.getRow(), to.getColumn()))){
+            //you can capture again
+            return new Game(newBoard, player1, player2, rules, currentPlayer, gameOver, this, game.getMoveVerifier());
+        }
 
         return new Game(newBoard, player1, player2, rules, nextPlayer, gameOver, this, game.getMoveVerifier());
     }
