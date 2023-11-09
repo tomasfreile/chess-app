@@ -43,12 +43,16 @@ public class CheckersPieceMover implements PieceMover {
         Player nextPlayer = (currentPlayer == player1) ? player2 : player1;
         boolean gameOver = rules.checkWin(newBoard, nextPlayer.getColor());
 
-        if (requiredCaptureValidator.isCapture(board,from,to) && requiredCaptureValidator.hasAvailableCapturesFromTile(newBoard, newBoard.getPosition(to.getRow(), to.getColumn()))){
+        if (canReCapture(from, to, board, newBoard)){
             //you can capture again
             return new Game(newBoard, player1, player2, rules, currentPlayer, gameOver, this, game.getMoveVerifier());
         }
 
         return new Game(newBoard, player1, player2, rules, nextPlayer, gameOver, this, game.getMoveVerifier());
+    }
+
+    private boolean canReCapture(Tile from, Tile to, Board board, Board newBoard) {
+        return requiredCaptureValidator.isCapture(board, from, to) && requiredCaptureValidator.hasAvailableCapturesFromTile(newBoard, newBoard.getPosition(to.getRow(), to.getColumn()));
     }
 
     @Override
