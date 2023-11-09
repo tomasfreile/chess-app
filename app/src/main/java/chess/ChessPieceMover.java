@@ -5,6 +5,9 @@ import commons.*;
 import commons.piece.Piece;
 import commons.piece.PieceCreator;
 import commons.piece.PieceMover;
+import commons.result.GameMoveResult;
+import commons.result.SuccessfulMove;
+import commons.result.UnsuccessfulMove;
 import commons.rules.Rules;
 
 import java.util.List;
@@ -12,7 +15,7 @@ import java.util.stream.Collectors;
 
 public class ChessPieceMover implements PieceMover {
     @Override
-    public Game move(Tile from, Tile to, Piece p, Game game) {
+    public GameMoveResult move(Tile from, Tile to, Piece p, Game game) {
         Color pieceColor = p.getColor();
         Board board = game.getBoard();
         Rules rules = game.getRules();
@@ -30,8 +33,7 @@ public class ChessPieceMover implements PieceMover {
         Board newBoard = new Board(newPositions, board.getHeight(), board.getWidth());
 
         if (rules.cannotMove(newBoard, pieceColor, from, to)) {
-            System.out.println("Cannot move into check");
-            return game;
+            return new UnsuccessfulMove("Cannot move into check", game);
         }
 
         // Switch to the next player and check for a win condition.
@@ -39,11 +41,12 @@ public class ChessPieceMover implements PieceMover {
         boolean gameOver = rules.checkWin(newBoard, nextPlayer.getColor());
 
         // Create a new game with the updated board, players, and game over status.
-        return new Game(newBoard, player1, player2, rules, nextPlayer, gameOver, this, game.getMoveVerifier());
+        Game newGame = new Game(newBoard, player1, player2, rules, nextPlayer, gameOver, this, game.getMoveVerifier());
+        return new SuccessfulMove(newGame);
     }
 
     @Override
-    public Game promote(Tile from, Tile to, Piece p, Game game) {
+    public GameMoveResult promote(Tile from, Tile to, Piece p, Game game) {
         Color pieceColor = p.getColor();
         PieceCreator pieceCreator = new QueenCreator();
         Piece newPiece = pieceCreator.createPiece(pieceColor);

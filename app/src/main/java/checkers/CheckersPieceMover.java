@@ -6,6 +6,9 @@ import commons.*;
 import commons.piece.Piece;
 import commons.piece.PieceCreator;
 import commons.piece.PieceMover;
+import commons.result.GameMoveResult;
+import commons.result.SuccessfulMove;
+import commons.result.UnsuccessfulMove;
 import commons.rules.Rules;
 
 import java.util.List;
@@ -14,7 +17,7 @@ import java.util.stream.Collectors;
 public class CheckersPieceMover implements PieceMover {
     private final RequiredCaptureValidator requiredCaptureValidator = new RequiredCaptureValidator();
     @Override
-    public Game move(Tile from, Tile to, Piece p, Game game) {
+    public GameMoveResult move(Tile from, Tile to, Piece p, Game game) {
         Board board = game.getBoard();
         Rules rules = game.getRules();
         Player player1 = game.getPlayer1();
@@ -22,8 +25,7 @@ public class CheckersPieceMover implements PieceMover {
         Player currentPlayer = game.getCurrentPlayer();
 
         if(rules.cannotMove(board, p.getColor(), from, to)){
-            System.out.println("You have to capture a piece");
-            return game;
+            return new UnsuccessfulMove("You have to capture a piece if you can", game);
         }
 
         int rowDirection = Integer.compare(to.getRow(), from.getRow());
@@ -43,12 +45,7 @@ public class CheckersPieceMover implements PieceMover {
         Player nextPlayer = (currentPlayer == player1) ? player2 : player1;
         boolean gameOver = rules.checkWin(newBoard, nextPlayer.getColor());
 
-        if (canReCapture(from, to, board, newBoard)){
-            //you can capture again
-            return new Game(newBoard, player1, player2, rules, currentPlayer, gameOver, this, game.getMoveVerifier());
-        }
-
-        return new Game(newBoard, player1, player2, rules, nextPlayer, gameOver, this, game.getMoveVerifier());
+        return canReCapture(from, to, board, newBoard) ? new SuccessfulMove(new Game(newBoard, player1, player2, rules, currentPlayer, gameOver, this, game.getMoveVerifier())) : new SuccessfulMove(new Game(newBoard, player1, player2, rules, nextPlayer, gameOver, game.getPieceMover(), game.getMoveVerifier()));
     }
 
     private boolean canReCapture(Tile from, Tile to, Board board, Board newBoard) {
@@ -56,7 +53,7 @@ public class CheckersPieceMover implements PieceMover {
     }
 
     @Override
-    public Game promote(Tile from, Tile to, Piece p, Game game) {
+    public GameMoveResult promote(Tile from, Tile to, Piece p, Game game) {
         Color pieceColor = p.getColor();
         PieceCreator pieceCreator = new CheckersQueenCreator();
         Piece newPiece = pieceCreator.createPiece(pieceColor);

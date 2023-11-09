@@ -1,7 +1,7 @@
 plugins {
     java
     application
-    kotlin("jvm") version "1.7.10"
+    kotlin("jvm") version "1.9.0"
     id("org.openjfx.javafxplugin").version("0.0.13")
 
 }
@@ -19,12 +19,20 @@ repositories {
             password = System.getenv("GITHUB_TOKEN")
         }
     }
+    maven {
+        url = uri("https://maven.pkg.github.com/austral-ingsis/chess-simple-client-server")
+        credentials {
+            username = System.getenv("GITHUB_ACTOR")
+            password = System.getenv("GITHUB_TOKEN")
+        }
+    }
 }
 
 dependencies {
     implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("edu.austral.dissis.chess:chess-ui:1.0.0")
+    implementation("edu.austral.dissis.chess:simple-client-server:1.2.0")
     implementation("junit:junit:4.13.1")
     implementation("junit:junit:4.13.1")
 }
@@ -32,6 +40,10 @@ dependencies {
 javafx {
     version = "18"
     modules = listOf("javafx.graphics")
+}
+
+tasks.test {
+    useJUnitPlatform()
 }
 
 application {

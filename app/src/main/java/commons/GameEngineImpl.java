@@ -1,6 +1,9 @@
 package commons;
 
 import commons.piece.PieceTranslator;
+import commons.result.EndGame;
+import commons.result.GameMoveResult;
+import commons.result.UnsuccessfulMove;
 import edu.austral.dissis.chess.gui.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,13 +24,13 @@ public class GameEngineImpl implements GameEngine{
         Tile from = game.getBoard().getPosition(move.getFrom().getRow() - 1, move.getFrom().getColumn() - 1);
         Tile to = game.getBoard().getPosition(move.getTo().getRow() - 1, move.getTo().getColumn() - 1);
 
-        Game result = game.moveAndSwitchPlayer(from, to);
+        GameMoveResult result = game.moveAndSwitchPlayer(from, to);
 
-        if (result.equals(game)) {
-            return new InvalidMove("Try again");
+        if (result instanceof UnsuccessfulMove) {
+            return new InvalidMove(result.getMessage());
         }
 
-        game = result;
+        game = result.getGame();
 
         ChessPiece movedPiece = findPiece(move.getFrom());
         if (movedPiece != null) {
@@ -43,7 +46,7 @@ public class GameEngineImpl implements GameEngine{
 
         String pieceId = isPromotion(move, movedPiece) ? "queen" : movedPiece.getPieceId();
 
-        return updateGameState(movedPiece, move, pieceId, result);
+        return updateGameState(movedPiece, move, pieceId, result.getGame());
     }
 
     @NotNull

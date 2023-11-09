@@ -2,6 +2,8 @@ package commons;
 
 import commons.piece.Piece;
 import commons.piece.PieceMover;
+import commons.result.GameMoveResult;
+import commons.result.UnsuccessfulMove;
 import commons.validator.MoveVerifier;
 import commons.rules.Rules;
 
@@ -65,19 +67,19 @@ public class Game {
         return pieceMover;
     }
 
-    public Game moveAndSwitchPlayer(Tile from, Tile to) {
+    public GameMoveResult moveAndSwitchPlayer(Tile from, Tile to) {
         if (from.isEmpty()) {
-            return printAndReturn("Choose a position with a piece");
+            return new UnsuccessfulMove("Choose a position with a piece", this);
         }
 
         if (gameOver) {
-            return printAndReturn("Game over");
+            return new UnsuccessfulMove("Game is over", this);
         }
 
         Piece p = from.getPiece();
 
         if (p.getColor() != currentPlayer.getColor()) {
-            return printAndReturn("Cannot move opponent's piece");
+            return new UnsuccessfulMove("Choose a piece of your color", this);
         }
 
         if (moveHandler.isPromotion(from, to, board, moveVerifier)) {
@@ -88,12 +90,7 @@ public class Game {
             return pieceMover.move(from, to, p, this);
         }
 
-        return printAndReturn("The move " + from.getRow() + "," + from.getColumn() + " to " + to.getRow() + "," + to.getColumn() + " is not valid");
-    }
-
-    private Game printAndReturn(String message) {
-        System.out.println(message);
-        return this;
+        return new UnsuccessfulMove("Invalid move", this);
     }
 
 }
