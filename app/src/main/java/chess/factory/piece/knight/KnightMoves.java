@@ -1,6 +1,6 @@
 package chess.factory.piece.knight;
 
-import commons.Movement;
+import commons.move.Movement;
 
 
 import java.util.ArrayList;

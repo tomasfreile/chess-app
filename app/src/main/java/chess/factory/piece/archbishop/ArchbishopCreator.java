@@ -3,7 +3,7 @@ package chess.factory.piece.archbishop;
 import chess.factory.piece.bishop.BishopMoves;
 import chess.factory.piece.knight.KnightMoves;
 import commons.Color;
-import commons.Movement;
+import commons.move.Movement;
 import commons.piece.Piece;
 import commons.piece.PieceCreator;
 import commons.piece.PieceName;

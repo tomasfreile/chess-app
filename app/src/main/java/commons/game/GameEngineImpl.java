@@ -1,13 +1,16 @@
-package commons;
+package commons.game;
 
-import commons.piece.PieceTranslator;
-import commons.result.EndGame;
+import commons.Color;
+import commons.Tile;
+import commons.adapter.PieceTranslator;
 import commons.result.GameMoveResult;
 import commons.result.UnsuccessfulMove;
 import edu.austral.dissis.chess.gui.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+
+import static java.sql.DriverManager.println;
 
 public class GameEngineImpl implements GameEngine{
     Game game;
@@ -55,7 +58,6 @@ public class GameEngineImpl implements GameEngine{
         return new InitialState(new BoardSize(game.getBoard().getHeight(),game.getBoard().getWidth()), pieces, PlayerColor.WHITE);
     }
 
-    @NotNull
     private MoveResult updateGameState(ChessPiece movedPiece, @NotNull Move move, String movedPieceName, Game result) {
         ChessPiece updatedPiece = new ChessPiece(movedPiece.getId(), movedPiece.getColor(), move.getTo(), movedPieceName);
         pieces.add(updatedPiece);

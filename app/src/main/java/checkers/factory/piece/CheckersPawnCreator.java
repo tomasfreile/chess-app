@@ -2,7 +2,7 @@ package checkers.factory.piece;
 
 import commons.piece.PieceCreator;
 import commons.Color;
-import commons.Movement;
+import commons.move.Movement;
 import commons.piece.Piece;
 import commons.piece.PieceName;
 

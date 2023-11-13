@@ -1,6 +1,7 @@
 package chess.factory.piece.pawn;
 
 import commons.*;
+import commons.move.Movement;
 import commons.piece.Piece;
 import commons.piece.PieceCreator;
 import commons.piece.PieceName;

@@ -1,8 +1,13 @@
-package checkers;
+package checkers.factory;
 
+import checkers.CheckersMoveVerifier;
+import checkers.CheckersPieceMover;
 import checkers.factory.piece.CheckersPawnCreator;
 import checkers.factory.winConditions.AllPiecesCaptured;
 import checkers.factory.winConditions.NoMovesAvailable;
+import checkers.rules.CheckersRules;
+import commons.game.Game;
+import commons.game.GameCreator;
 import commons.piece.Piece;
 import commons.piece.PieceCreator;
 import commons.*;

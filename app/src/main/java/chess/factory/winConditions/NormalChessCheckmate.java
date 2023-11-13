@@ -3,7 +3,7 @@ package chess.factory.winConditions;
 import chess.ChessMoveVerifier;
 import commons.piece.PieceName;
 import commons.rules.WinCondition;
-import commons.MoveHandler;
+import commons.move.MoveHandler;
 import commons.Board;
 import commons.Color;
 import commons.piece.Piece;

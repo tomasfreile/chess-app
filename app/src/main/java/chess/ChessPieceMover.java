@@ -2,6 +2,7 @@ package chess;
 
 import chess.factory.piece.queen.QueenCreator;
 import commons.*;
+import commons.game.Game;
 import commons.piece.Piece;
 import commons.piece.PieceCreator;
 import commons.piece.PieceMover;
@@ -42,6 +43,7 @@ public class ChessPieceMover implements PieceMover {
 
         // Create a new game with the updated board, players, and game over status.
         Game newGame = new Game(newBoard, player1, player2, rules, nextPlayer, gameOver, this, game.getMoveVerifier());
+
         return new SuccessfulMove(newGame);
     }
 

@@ -1,5 +1,7 @@
-package chess;
+package chess.factory;
 
+import chess.ChessMoveVerifier;
+import chess.ChessPieceMover;
 import chess.factory.piece.archbishop.ArchbishopCreator;
 import chess.factory.piece.bishop.BishopCreator;
 import chess.factory.piece.king.KingCreator;
@@ -9,7 +11,9 @@ import chess.factory.piece.queen.QueenCreator;
 import chess.factory.piece.rook.RookCreator;
 import chess.factory.stalemateConditions.NormalChessStalemate;
 import chess.factory.winConditions.NormalChessCheckmate;
-import commons.GameCreator;
+import chess.rules.NormalChessRules;
+import commons.game.GameCreator;
+import commons.game.Game;
 import commons.piece.Piece;
 import commons.piece.PieceCreator;
 import commons.rules.Rules;

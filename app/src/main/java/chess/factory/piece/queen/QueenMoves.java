@@ -2,7 +2,7 @@ package chess.factory.piece.queen;
 
 import chess.factory.piece.bishop.BishopMoves;
 import chess.factory.piece.rook.RookMoves;
-import commons.Movement;
+import commons.move.Movement;
 
 import java.util.List;
 

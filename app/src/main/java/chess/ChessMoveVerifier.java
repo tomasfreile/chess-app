@@ -1,7 +1,7 @@
 package chess;
 
 import commons.Board;
-import commons.Movement;
+import commons.move.Movement;
 import commons.Tile;
 import commons.validator.JumpMoveValidator;
 import commons.validator.MoveVerifier;

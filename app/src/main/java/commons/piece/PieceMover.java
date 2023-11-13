@@ -1,8 +1,7 @@
 package commons.piece;
 
-import commons.Game;
+import commons.game.Game;
 import commons.Tile;
-import commons.piece.Piece;
 import commons.result.GameMoveResult;
 
 public interface PieceMover {

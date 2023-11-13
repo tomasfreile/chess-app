@@ -1,7 +1,8 @@
-package chess;
+package chess.rules;
 
+import chess.ChessMoveVerifier;
 import commons.*;
-import commons.MoveHandler;
+import commons.move.MoveHandler;
 import commons.piece.Piece;
 import commons.piece.PieceName;
 import commons.rules.Rules;

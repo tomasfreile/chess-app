@@ -2,8 +2,9 @@ package test.checkers;
 
 import checkers.CheckersMoveVerifier;
 import checkers.CheckersPieceMover;
-import checkers.CheckersRules;
+import checkers.rules.CheckersRules;
 import commons.*;
+import commons.game.Game;
 import commons.piece.Piece;
 import commons.rules.Rules;
 

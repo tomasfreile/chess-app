@@ -3,7 +3,7 @@ package checkers.factory.winConditions;
 import checkers.CheckersMoveVerifier;
 import commons.Board;
 import commons.Color;
-import commons.MoveHandler;
+import commons.move.MoveHandler;
 import commons.Tile;
 import commons.rules.WinCondition;
 import commons.validator.MoveVerifier;

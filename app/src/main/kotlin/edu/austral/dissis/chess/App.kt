@@ -3,21 +3,22 @@
  */
 package edu.austral.dissis.chess
 
-import checkers.CheckersGameCreator
-import chess.ChessGameCreator
-import commons.GameEngineImpl
+import checkers.factory.CheckersGameCreator
+import chess.factory.ChessGameCreator
+import commons.game.GameEngineImpl
 import edu.austral.dissis.chess.gui.CachedImageResolver
 import edu.austral.dissis.chess.gui.DefaultImageResolver
 import edu.austral.dissis.chess.gui.GameView
+import edu.austral.dissis.chess.gui.createGameViewFrom
 import javafx.application.Application
-import javafx.application.Application.launch
 import javafx.scene.Scene
 import javafx.stage.Stage
 
 
 fun main() {
-    launch(ChessGameApplication::class.java)
+    Application.launch(ChessGameApplication::class.java)
 }
+
 
 class ChessGameApplication : Application() {
     private val chess = GameEngineImpl(ChessGameCreator().createGame())
@@ -30,11 +31,16 @@ class ChessGameApplication : Application() {
     }
 
     override fun start(primaryStage: Stage) {
+
         primaryStage.title = GameTitle
 
-        val root = GameView(checkers, imageResolver)
+        val root = createGameViewFrom(chess, imageResolver)
+        //val root = GameView(imageResolver)
+
         primaryStage.scene = Scene(root)
 
         primaryStage.show()
     }
+
+
 }

@@ -1,7 +1,7 @@
 package commons.validator;
 
 import commons.Board;
-import commons.Movement;
+import commons.move.Movement;
 import commons.Tile;
 
 public interface Validator {

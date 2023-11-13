@@ -1,4 +1,4 @@
-package commons.piece;
+package commons.adapter;
 
 import commons.Color;
 import commons.Tile;

@@ -1,5 +1,8 @@
-package commons;
+package commons.move;
 
+import commons.Board;
+import commons.Color;
+import commons.Tile;
 import commons.piece.Piece;
 import commons.piece.PieceName;
 import commons.validator.MoveVerifier;

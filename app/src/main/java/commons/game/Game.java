@@ -1,5 +1,9 @@
-package commons;
+package commons.game;
 
+import commons.Board;
+import commons.Player;
+import commons.Tile;
+import commons.move.MoveHandler;
 import commons.piece.Piece;
 import commons.piece.PieceMover;
 import commons.result.GameMoveResult;

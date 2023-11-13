@@ -3,7 +3,7 @@ package test.chess.queen;
 import chess.factory.piece.queen.QueenCreator;
 import commons.Board;
 import commons.Color;
-import commons.Game;
+import commons.game.Game;
 import commons.Tile;
 import commons.piece.PieceCreator;
 import org.junit.Test;

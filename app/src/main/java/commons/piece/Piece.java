@@ -1,7 +1,7 @@
 package commons.piece;
 
 import commons.Color;
-import commons.Movement;
+import commons.move.Movement;
 
 import java.util.List;
 

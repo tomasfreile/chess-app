@@ -1,5 +1,6 @@
-package checkers;
+package checkers.rules;
 
+import checkers.validator.RequiredCaptureValidator;
 import commons.*;
 import commons.rules.Rules;
 import commons.rules.StalemateCondition;

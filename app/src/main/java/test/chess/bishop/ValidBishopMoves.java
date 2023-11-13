@@ -3,7 +3,7 @@ package test.chess.bishop;
 import chess.factory.piece.bishop.BishopCreator;
 import commons.Board;
 import commons.Color;
-import commons.Game;
+import commons.game.Game;
 import commons.Tile;
 import commons.piece.PieceCreator;
 import org.junit.Test;

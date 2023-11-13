@@ -2,7 +2,9 @@ package checkers;
 
 
 import checkers.factory.piece.CheckersQueenCreator;
+import checkers.validator.RequiredCaptureValidator;
 import commons.*;
+import commons.game.Game;
 import commons.piece.Piece;
 import commons.piece.PieceCreator;
 import commons.piece.PieceMover;

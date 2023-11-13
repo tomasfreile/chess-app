@@ -1,6 +1,6 @@
 package commons.result;
 
-import commons.Game;
+import commons.game.Game;
 
 public class UnsuccessfulMove implements GameMoveResult {
     String message;

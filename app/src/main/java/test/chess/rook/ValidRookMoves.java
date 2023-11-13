@@ -2,6 +2,7 @@ package test.chess.rook;
 
 import chess.factory.piece.rook.RookCreator;
 import commons.*;
+import commons.game.Game;
 import commons.piece.PieceCreator;
 import org.junit.Test;
 import test.chess.TestChessGameCreator;

@@ -1,6 +1,6 @@
 package commons.result;
 
-import commons.Game;
+import commons.game.Game;
 
 public interface GameMoveResult {
     String getMessage();
