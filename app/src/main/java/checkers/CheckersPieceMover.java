@@ -9,6 +9,7 @@ import commons.piece.Piece;
 import commons.piece.PieceCreator;
 import commons.piece.PieceMover;
 import commons.result.GameMoveResult;
+import commons.result.GameOverResult;
 import commons.result.SuccessfulMove;
 import commons.result.UnsuccessfulMove;
 import commons.rules.Rules;
@@ -47,7 +48,11 @@ public class CheckersPieceMover implements PieceMover {
         Player nextPlayer = (currentPlayer == player1) ? player2 : player1;
         boolean gameOver = rules.checkWin(newBoard, nextPlayer.getColor());
 
-        return canReCapture(from, to, board, newBoard) ? new SuccessfulMove(new Game(newBoard, player1, player2, rules, currentPlayer, gameOver, this, game.getMoveVerifier())) : new SuccessfulMove(new Game(newBoard, player1, player2, rules, nextPlayer, gameOver, game.getPieceMover(), game.getMoveVerifier()));
+        if (gameOver) {
+            return new GameOverResult(new Game(newBoard, player1, player2, rules, nextPlayer, true, this, game.getMoveVerifier()));
+        }
+
+        return canReCapture(from, to, board, newBoard) ? new SuccessfulMove(new Game(newBoard, player1, player2, rules, currentPlayer, false, this, game.getMoveVerifier())) : new SuccessfulMove(new Game(newBoard, player1, player2, rules, nextPlayer, gameOver, game.getPieceMover(), game.getMoveVerifier()));
     }
 
     private boolean canReCapture(Tile from, Tile to, Board board, Board newBoard) {

@@ -55,22 +55,22 @@ class Client() {
         return NettyClientBuilder.createDefault()
             .withAddress(InetSocketAddress(8080))
             .addMessageListener(
-                "initResult",
+                "init",
                 object : TypeReference<Message<InitialState>>() {},
                 InitListener(this)
             )
             .addMessageListener(
-                "nextMoveResult",
+                "validMove",
                 object : TypeReference<Message<NewGameState>> () {},
                 ValidMoveListener(this)
             )
             .addMessageListener(
-                "sameMoveResult",
+                "invalidMove",
                 object : TypeReference<Message<InvalidMove>> () {},
                 InvalidMoveListener(this)
             )
             .addMessageListener(
-                "finishGameResult",
+                "gameOver",
                 object : TypeReference<Message<GameOver>> () {},
                 GameOverListener(this)
             )

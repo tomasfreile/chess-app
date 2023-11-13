@@ -4,6 +4,7 @@ import commons.Color;
 import commons.Tile;
 import commons.adapter.PieceTranslator;
 import commons.result.GameMoveResult;
+import commons.result.GameOverResult;
 import commons.result.UnsuccessfulMove;
 import edu.austral.dissis.chess.gui.*;
 import org.jetbrains.annotations.NotNull;
@@ -31,6 +32,9 @@ public class GameEngineImpl implements GameEngine{
 
         if (result instanceof UnsuccessfulMove) {
             return new InvalidMove(result.getMessage());
+        } else if (result instanceof GameOverResult) {
+            PlayerColor winner = ((GameOverResult) result).getWinner().equals(Color.WHITE) ? PlayerColor.WHITE : PlayerColor.BLACK;
+            return new GameOver(winner);
         }
 
         game = result.getGame();
@@ -61,9 +65,6 @@ public class GameEngineImpl implements GameEngine{
     private MoveResult updateGameState(ChessPiece movedPiece, @NotNull Move move, String movedPieceName, Game result) {
         ChessPiece updatedPiece = new ChessPiece(movedPiece.getId(), movedPiece.getColor(), move.getTo(), movedPieceName);
         pieces.add(updatedPiece);
-        if (result.isGameOver()) {
-            return new GameOver(result.getCurrentPlayer().equals(result.getPlayer2()) ? PlayerColor.WHITE : PlayerColor.BLACK);
-        }
         return new NewGameState(pieces, result.getCurrentPlayer().getColor().equals(Color.WHITE) ? PlayerColor.WHITE : PlayerColor.BLACK);
     }
 

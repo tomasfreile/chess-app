@@ -5,6 +5,7 @@ import commons.Color
 import commons.Player
 import commons.game.Game
 import commons.adapter.PieceTranslator
+import commons.result.GameOverResult
 import commons.result.SuccessfulMove
 import commons.result.UnsuccessfulMove
 import edu.austral.dissis.chess.gui.*
@@ -36,20 +37,17 @@ class Server(private var game: Game, private val builder: ServerBuilder = NettyS
             .build()
     }
 
-    private fun handleColor(winner: Player): PlayerColor {
-        return when (winner.color) {
-            Color.WHITE -> PlayerColor.WHITE
-            Color.BLACK -> PlayerColor.BLACK
-        }
-
+    private fun handleColor(winner: Color): PlayerColor {
+        return if (winner == Color.WHITE) PlayerColor.WHITE else PlayerColor.BLACK
     }
 
     fun handleMove(move: Move) {
         val from = game.board.getPosition(move.from.row - 1, move.from.column - 1)
         val to = game.board.getPosition(move.to.row - 1, move.to.column - 1)
         when (val result = game.moveAndSwitchPlayer(from, to)) {
-            is SuccessfulMove -> server.broadcast(Message("nextMoveResult", handleNextMove(result, move)))
-            is UnsuccessfulMove -> server.broadcast(Message("sameMoveResult", InvalidMove(result.message)))
+            is SuccessfulMove -> server.broadcast(Message("validMove", handleNextMove(result, move)))
+            is UnsuccessfulMove -> server.broadcast(Message("invalidMove", InvalidMove(result.message)))
+            is GameOverResult -> server.broadcast(Message("gameOver", GameOver(handleColor(result.winner))))
         }
     }
 
@@ -70,10 +68,10 @@ class Server(private var game: Game, private val builder: ServerBuilder = NettyS
     }
 
     fun handleInit() {
-        server.broadcast(Message("initResult", InitialState(
+        server.broadcast(Message("init", InitialState(
             BoardSize(game.board.height, game.board.width),
             PieceTranslator().translatePieceList(game.board.positions),
-            handleColor(game.currentPlayer)
+            handleColor(game.currentPlayer.color)
         )
         ))
     }
@@ -83,16 +81,7 @@ class Server(private var game: Game, private val builder: ServerBuilder = NettyS
     private fun updateGameState(movedPiece: ChessPiece, move: Move, movedPieceName: String, result: Game): MoveResult {
         val updatedPiece = ChessPiece(movedPiece.id, movedPiece.color, move.to, movedPieceName)
         pieces.add(updatedPiece)
-        return if (result.isGameOver) {
-            println("Game over")
-            GameOver(if (result.currentPlayer == result.player2) PlayerColor.WHITE else PlayerColor.BLACK)
-        } else {
-            println("Next move")
-            NewGameState(
-                pieces,
-                if (result.currentPlayer.color == Color.WHITE) PlayerColor.WHITE else PlayerColor.BLACK
-            )
-        }
+        return NewGameState(pieces, handleColor(result.currentPlayer.color))
     }
 
     private fun findPiece(position: Position): ChessPiece? {

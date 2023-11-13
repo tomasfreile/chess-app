@@ -7,6 +7,7 @@ import commons.piece.Piece;
 import commons.piece.PieceCreator;
 import commons.piece.PieceMover;
 import commons.result.GameMoveResult;
+import commons.result.GameOverResult;
 import commons.result.SuccessfulMove;
 import commons.result.UnsuccessfulMove;
 import commons.rules.Rules;
@@ -43,6 +44,10 @@ public class ChessPieceMover implements PieceMover {
 
         // Create a new game with the updated board, players, and game over status.
         Game newGame = new Game(newBoard, player1, player2, rules, nextPlayer, gameOver, this, game.getMoveVerifier());
+
+        if (gameOver) {
+            return new GameOverResult(newGame);
+        }
 
         return new SuccessfulMove(newGame);
     }
