@@ -5,7 +5,7 @@ import edu.austral.dissis.chess.gui.Move
 
 class MovementListener(private val client: Client) : GameEventListener {
     override fun handleMove(move: Move) {
-        client.sendNewMove(move)
+        client.move(move)
     }
 
 }

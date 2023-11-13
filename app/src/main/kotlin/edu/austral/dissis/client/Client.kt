@@ -19,10 +19,6 @@ class Client() {
         gameView.addListener(MovementListener(this))
     }
 
-    fun acceptMove(message: Message<MoveResult>) {
-        gameView.handleMoveResult(message.payload)
-    }
-
     fun handleInit(message: Message<InitialState>) {
         gameView.handleInitialState(message.payload)
     }
@@ -35,21 +31,14 @@ class Client() {
         gameView.handleMoveResult(message.payload)
     }
 
-    fun handleFinishGame(message: Message<GameOver>) {
+    fun handleGameOver(message: Message<GameOver>) {
         gameView.handleMoveResult(message.payload)
     }
 
-    fun sendNewMove(move: Move) {
+    fun move(move: Move) {
         client.send(Message("move", move))
     }
 
-    fun connect() {
-        client.connect()
-    }
-
-    fun disconnect() {
-        client.closeConnection()
-    }
 
     private fun build() : Client {
         return NettyClientBuilder.createDefault()

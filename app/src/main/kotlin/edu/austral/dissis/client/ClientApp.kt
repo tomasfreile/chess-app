@@ -8,10 +8,10 @@ import javafx.scene.Scene
 import javafx.stage.Stage
 
 fun main() {
-    Application.launch(GameUI::class.java)
+    Application.launch(app::class.java)
 }
 
-class GameUI : Application() {
+class app : Application() {
 
     private val imageResolver = CachedImageResolver(DefaultImageResolver())
     companion object {
@@ -22,7 +22,9 @@ class GameUI : Application() {
         primaryStage.title = title
         val root = GameView(imageResolver)
         primaryStage.scene = Scene(root)
+
         client.start(root)
+
         primaryStage.show()
     }
 

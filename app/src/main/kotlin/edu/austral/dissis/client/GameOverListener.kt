@@ -6,7 +6,7 @@ import edu.austral.ingsis.clientserver.MessageListener
 
 class GameOverListener (val client: Client) : MessageListener<GameOver> {
     override fun handleMessage(message: Message<GameOver>) {
-        client.handleFinishGame(message)
+        client.handleGameOver(message)
     }
 
 }
