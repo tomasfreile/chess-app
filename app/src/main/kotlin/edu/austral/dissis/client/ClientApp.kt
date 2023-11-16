@@ -16,14 +16,14 @@ class app : Application() {
     private val imageResolver = CachedImageResolver(DefaultImageResolver())
     companion object {
         const val title = "Chess"
-        val client = Client()
+
     }
     override fun start(primaryStage: Stage) {
         primaryStage.title = title
         val root = GameView(imageResolver)
         primaryStage.scene = Scene(root)
-
-        client.start(root)
+        val client = ChessClient(root)
+        client.start()
 
         primaryStage.show()
     }

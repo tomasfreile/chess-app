@@ -4,7 +4,7 @@ import edu.austral.dissis.chess.gui.InvalidMove
 import edu.austral.ingsis.clientserver.Message
 import edu.austral.ingsis.clientserver.MessageListener
 
-class InvalidMoveListener(val client: Client) : MessageListener<InvalidMove> {
+class InvalidMoveListener(val client: ChessClient) : MessageListener<InvalidMove> {
     override fun handleMessage(message: Message<InvalidMove>) {
         client.handleInvalidMove(message)
     }

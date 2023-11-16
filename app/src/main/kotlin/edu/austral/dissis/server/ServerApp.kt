@@ -4,5 +4,5 @@ import chess.factory.ChessGameCreator
 
 fun main() {
     val chess = ChessGameCreator().createGame()
-    Server(chess)
+    ChessServer(chess)
 }

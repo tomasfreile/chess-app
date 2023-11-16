@@ -8,12 +8,9 @@ import edu.austral.ingsis.clientserver.Client
 import java.net.InetSocketAddress
 
 
-class Client() {
-    private lateinit var client: Client
-    private lateinit var gameView: GameView
-    fun start(newGameView: GameView) {
-        gameView = newGameView
-        client = build()
+class ChessClient(private var gameView: GameView) {
+    private var client: Client = build()
+    fun start() {
         client.connect()
         client.send(Message("init", Unit))
         gameView.addListener(MovementListener(this))
