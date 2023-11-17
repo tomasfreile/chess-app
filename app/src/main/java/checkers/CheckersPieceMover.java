@@ -14,7 +14,9 @@ import commons.result.SuccessfulMove;
 import commons.result.UnsuccessfulMove;
 import commons.rules.Rules;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class CheckersPieceMover implements PieceMover {
@@ -31,17 +33,23 @@ public class CheckersPieceMover implements PieceMover {
             return new UnsuccessfulMove("You have to capture a piece if you can", game);
         }
 
-        int rowDirection = Integer.compare(to.getRow(), from.getRow());
-        int columnDirection = Integer.compare(to.getColumn(), from.getColumn());
+            int rowDirection = Integer.compare(to.getRow(), from.getRow());
+            int columnDirection = Integer.compare(to.getColumn(), from.getColumn());
 
-        List<Tile> newPositions = board.getPositions()
-                .stream()
-                .map(position
-                        -> position == from ? new Tile(from.getRow(), from.getColumn())
-                        : position == to ? new Tile(to.getRow(), to.getColumn(), new Piece(p.getType(), p.getMoves(), p.getColor(), p.getMoveCount()))
-                        : position.getRow() + rowDirection == to.getRow() && position.getColumn() + columnDirection == to.getColumn() ? new Tile(position.getRow(), position.getColumn())
-                        : position)
-                .collect(Collectors.toList());
+
+        Map<Tile, Piece> newPositions = board.getPositions();
+
+        Iterator<Tile> iterator = newPositions.keySet().iterator();
+        while (iterator.hasNext()) {
+            Tile tile = iterator.next();
+            if (tile.getRow() == from.getRow() && tile.getColumn() == from.getColumn()) {
+                iterator.remove();
+            }
+            if (tile.getRow() + rowDirection == to.getRow() && tile.getColumn() + columnDirection == to.getColumn()) {
+                iterator.remove();
+            }
+        }
+        newPositions.put(to, new Piece(p.getType(), p.getMoves(), p.getColor(), p.getMoveCount() + 1));
 
         Board newBoard = new Board(newPositions, board.getHeight(), board.getWidth());
 
@@ -56,7 +64,7 @@ public class CheckersPieceMover implements PieceMover {
     }
 
     private boolean canReCapture(Tile from, Tile to, Board board, Board newBoard) {
-        return requiredCaptureValidator.isCapture(board, from, to) && requiredCaptureValidator.hasAvailableCapturesFromTile(newBoard, newBoard.getPosition(to.getRow(), to.getColumn()));
+        return requiredCaptureValidator.isCapture(board, from, to) && requiredCaptureValidator.hasAvailableCapturesFromTile(newBoard, to);
     }
 
     @Override

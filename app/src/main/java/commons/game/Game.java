@@ -51,16 +51,8 @@ public class Game {
         return rules;
     }
 
-    public boolean isGameOver() {
-        return gameOver;
-    }
-
     public Player getCurrentPlayer() {
         return currentPlayer;
-    }
-
-    public MoveHandler getMoveHandler() {
-        return moveHandler;
     }
 
     public MoveVerifier getMoveVerifier() {
@@ -72,15 +64,11 @@ public class Game {
     }
 
     public GameMoveResult moveAndSwitchPlayer(Tile from, Tile to) {
-        if (from.isEmpty()) {
+        if (!board.isPositionOccupied(from)) {
             return new UnsuccessfulMove("Choose a position with a piece", this);
         }
 
-        if (gameOver) {
-            return new UnsuccessfulMove("Game is over", this);
-        }
-
-        Piece p = from.getPiece();
+        Piece p = board.getPieceAtPosition(from.getRow(), from.getColumn());
 
         if (p.getColor() != currentPlayer.getColor()) {
             return new UnsuccessfulMove("Choose a piece of your color", this);
@@ -90,7 +78,7 @@ public class Game {
             return pieceMover.promote(from, to, p, this);
         }
 
-        if (moveHandler.validateMovement(from, to, board, moveVerifier) || rules.validateSpecialMovement(from, to, board)) {
+        if (moveHandler.validateMovement(from, to, board, moveVerifier)) {
             return pieceMover.move(from, to, p, this);
         }
 

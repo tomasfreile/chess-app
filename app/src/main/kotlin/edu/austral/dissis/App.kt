@@ -22,6 +22,7 @@ fun main() {
 class ChessGameApplication : Application() {
     private val chess = GameEngineImpl(ChessGameCreator().createGame())
     private val checkers = GameEngineImpl(CheckersGameCreator().createGame())
+    //private val capablanca = GameEngineImpl(CapablancaChessGameCreator().createGame())
 
     private val imageResolver = CachedImageResolver(DefaultImageResolver())
 
@@ -33,7 +34,7 @@ class ChessGameApplication : Application() {
 
         primaryStage.title = GameTitle
 
-        val root = createGameViewFrom(chess, imageResolver)
+        val root = createGameViewFrom(checkers, imageResolver)
         //val root = GameView(imageResolver)
 
         primaryStage.scene = Scene(root)

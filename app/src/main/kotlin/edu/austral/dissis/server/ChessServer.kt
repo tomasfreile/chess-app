@@ -13,8 +13,8 @@ import edu.austral.ingsis.clientserver.netty.server.NettyServerBuilder
 
 class ChessServer(private var game: Game, private val builder: ServerBuilder = NettyServerBuilder.createDefault()) {
     private var server: Server
-    private var pieces: MutableList<ChessPiece> = PieceTranslator().translatePieceList(game.board.positions)
-    val gameEngine = GameEngineImpl(game)
+   // private var pieces: MutableList<ChessPiece> = PieceTranslator().translatePieceList(game.board.positions)
+    private val gameEngine = GameEngineImpl(game)
 
     init {
         server = buildServer()
@@ -46,14 +46,10 @@ class ChessServer(private var game: Game, private val builder: ServerBuilder = N
         }
     }
 
-    fun handleNewGameState(result: NewGameState){
-        pieces = result.pieces.toMutableList()
-
-    }
 
     fun handleInit() {
         server.broadcast(Message("init", InitialState(
-            BoardSize(game.board.height, game.board.width),
+            BoardSize(game.board.width, game.board.height),
             PieceTranslator().translatePieceList(game.board.positions),
             if (game.currentPlayer.color == Color.WHITE) PlayerColor.WHITE else PlayerColor.BLACK
         )

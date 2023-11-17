@@ -12,29 +12,39 @@ import commons.result.SuccessfulMove;
 import commons.result.UnsuccessfulMove;
 import commons.rules.Rules;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ChessPieceMover implements PieceMover {
     @Override
-    public GameMoveResult move(Tile from, Tile to, Piece p, Game game) {
-        Color pieceColor = p.getColor();
+    public GameMoveResult move(Tile from, Tile to, Piece piece, Game game) {
         Board board = game.getBoard();
         Rules rules = game.getRules();
         Player player1 = game.getPlayer1();
         Player player2 = game.getPlayer2();
         Player currentPlayer = game.getCurrentPlayer();
         // Create a new list of positions by mapping the old positions with updated or unchanged tiles.
-        List<Tile> newPositions = board.getPositions().stream()
-                .map(position -> position == from ? new Tile(from.getRow(), from.getColumn()) :
-                        position == to ? new Tile(to.getRow(), to.getColumn(), new Piece(p.getType(), p.getMoves(), pieceColor, p.getMoveCount() + 1)) :
-                                position)
-                .collect(Collectors.toList());
+        Map<Tile, Piece> newPositions = board.getPositions();
+        //remove from and add to
+        Iterator<Tile> iterator = newPositions.keySet().iterator();
+        while (iterator.hasNext()) {
+            Tile tile = iterator.next();
+            if (tile.getRow() == from.getRow() && tile.getColumn() == from.getColumn()) {
+                iterator.remove();
+            }
+            if (tile.getRow() == to.getRow() && tile.getColumn() == to.getColumn()) {
+                iterator.remove();
+            }
+        }
 
-        // Create a new board with the updated positions.
+        newPositions.put(to, new Piece(piece.getType(),piece.getMoves(),piece.getColor(),piece.getMoveCount()+1));
+
+
         Board newBoard = new Board(newPositions, board.getHeight(), board.getWidth());
 
-        if (rules.cannotMove(newBoard, pieceColor, from, to)) {
+        if (rules.cannotMove(newBoard, piece.getColor(), from, to)) {
             return new UnsuccessfulMove("Cannot move into check", game);
         }
 

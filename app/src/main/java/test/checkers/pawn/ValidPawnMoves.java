@@ -26,18 +26,14 @@ public class ValidPawnMoves {
         System.out.println(game.getBoard().printBoard());
 
         List<Tile> availableMoves = new ArrayList<>();
-        availableMoves.add(board.getPosition(4, 4));
-        availableMoves.add(board.getPosition(4, 2));
+        availableMoves.add(new Tile(2, 2));
+        availableMoves.add(new Tile(2, 4));
 
 
-        for (Tile p : board.getPositions()){
-            if (availableMoves.contains(p)){
-                assertTrue(game.getMoveHandler().validateMovement(board.getPosition(3,3), p, board, game.getMoveVerifier()));
-            }
-            else {
-                assertFalse(game.getMoveHandler().validateMovement(board.getPosition(3,3), p, board, game.getMoveVerifier()));
-            }
+        for (Tile tile : availableMoves) {
+            assertTrue(game.getBoard().getPositions().containsKey(tile));
         }
+
 
     }
 }

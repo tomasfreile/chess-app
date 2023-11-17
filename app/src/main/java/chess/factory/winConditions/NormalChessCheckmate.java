@@ -11,6 +11,7 @@ import commons.Tile;
 import commons.validator.MoveVerifier;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class NormalChessCheckmate implements WinCondition {
@@ -24,10 +25,12 @@ public class NormalChessCheckmate implements WinCondition {
 
     private boolean isCheck(Board board, Color color){
         Tile kingPosition = findKing(board, color);
-        for (Tile p : board.getPositions()){
-            assert kingPosition != null;
-            if (!p.isEmpty() && moveValidator.validateMovement(p, kingPosition, board, moveVerifier)){
-                return true;
+        Map<Tile, Piece> positions = board.getPositions();
+        for (Map.Entry<Tile, Piece> entry : positions.entrySet()) {
+            if (entry.getValue().getColor() != color) {
+                if (moveValidator.validateMovement(entry.getKey(), kingPosition, board, moveVerifier)) {
+                    return true;
+                }
             }
         }
         return false;
@@ -40,20 +43,37 @@ public class NormalChessCheckmate implements WinCondition {
         return false;
     }
 
-    private boolean cannotMove(Board board, Color color) {
-        for (Tile p : board.getPositions()){
-            if (!p.isEmpty() && p.getPiece().getColor() == color){
-                for (Tile t : board.getPositions()){
-                    if (moveValidator.validateMovement(p, t, board, moveVerifier)){
-                        // Create a new board with the updated positions
-                        List<Tile> newPositions = board.getPositions()
-                                .stream()
-                                .map(position -> position == p ? new Tile(p.getRow(), p.getColumn()) : position == t ? new Tile(t.getRow(), t.getColumn(), new Piece(p.getPiece().getType(), p.getPiece().getMoves(), p.getPiece().getColor(), p.getPiece().getMoveCount()+1)) : position)
-                                .collect(Collectors.toList());
-
-                        Board newBoard = new Board(newPositions, board.getHeight(), board.getHeight());
-                        if (!isCheck(newBoard, color)){
-                            return false;
+    private boolean cannotMove(Board board, Color color){
+        Map<Tile,Piece> pieces = board.getPositions();
+        for (Map.Entry<Tile, Piece> entry : pieces.entrySet()) {
+            if (entry.getValue().getColor() == color) {
+                for (int row = 0; row < board.getHeight(); row++) {
+                    for (int column = 0; column < board.getWidth(); column++) {
+                        Tile start = new Tile(row, column);
+                        Tile end = new Tile(row, column);
+                        if (moveValidator.validateMovement(start, end, board, moveVerifier)) {
+                            Map<Tile, Piece> newPositions = pieces.entrySet().stream()
+                                    .collect(Collectors.toMap(
+                                            e -> {
+                                                Tile tile = e.getKey();
+                                                if (tile.getRow() == start.getRow() && tile.getColumn() == start.getColumn()) {
+                                                    return new Tile(end.getRow(), end.getColumn());
+                                                }
+                                                return tile;
+                                            },
+                                            e -> {
+                                                Tile tile = e.getKey();
+                                                Piece piece = e.getValue();
+                                                if (tile.getRow() == start.getRow() && tile.getColumn() == start.getColumn()) {
+                                                    return new Piece(PieceName.PAWN, piece.getMoves(), color, piece.getMoveCount() + 1);
+                                                }
+                                                return piece;
+                                            }
+                                    ));
+                            Board newBoard = new Board(newPositions, board.getHeight(), board.getWidth());
+                            if (!isCheck(newBoard, color)){
+                                return false;
+                            }
                         }
                     }
                 }
@@ -63,11 +83,10 @@ public class NormalChessCheckmate implements WinCondition {
     }
 
     private Tile findKing(Board board, Color color) {
-        for (Tile p : board.getPositions()) {
-            if (!p.isEmpty()) {
-                if (p.getPiece().getType() == PieceName.KING && p.getPiece().getColor() == color) {
-                    return p;
-                }
+        Map<Tile, Piece> positions = board.getPositions();
+        for (Map.Entry<Tile, Piece> entry : positions.entrySet()) {
+            if (entry.getValue().getType() == PieceName.KING && entry.getValue().getColor() == color) {
+                return entry.getKey();
             }
         }
         return null;

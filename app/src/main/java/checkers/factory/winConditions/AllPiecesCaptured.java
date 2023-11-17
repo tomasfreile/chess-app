@@ -3,13 +3,17 @@ package checkers.factory.winConditions;
 import commons.Board;
 import commons.Color;
 import commons.Tile;
+import commons.piece.Piece;
 import commons.rules.WinCondition;
+
+import java.util.Map;
 
 public class AllPiecesCaptured implements WinCondition {
     @Override
     public boolean checkWin(Board board, Color color) {
-        for (Tile tile : board.getPositions()) {
-            if (tile.getPiece() != null && tile.getPiece().getColor() == color) {
+        Map<Tile, Piece> pieces = board.getPositions();
+        for (Piece piece : pieces.values()) {
+            if (piece.getColor() == color) {
                 return false;
             }
         }

@@ -20,7 +20,7 @@ class ChessClient(private var gameView: GameView) {
         gameView.handleInitialState(message.payload)
     }
 
-    fun handleNewGameState( message: Message<NewGameState>) {
+    fun handleNewGameState(message: Message<NewGameState>) {
         gameView.handleMoveResult(message.payload)
     }
 

@@ -22,7 +22,9 @@ import commons.rules.WinCondition;
 import commons.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ChessGameCreator implements GameCreator {
     public ChessGameCreator() {
@@ -30,8 +32,6 @@ public class ChessGameCreator implements GameCreator {
 
     @Override
     public Game createGame(){
-
-        Board board = new Board(8,8);
 
         //rook
         PieceCreator rookCreator = new RookCreator();
@@ -63,37 +63,39 @@ public class ChessGameCreator implements GameCreator {
         Piece kingW = kingCreator.createPiece(Color.WHITE);
         Piece kingB = kingCreator.createPiece(Color.BLACK);
 
-        //archbishop
-        PieceCreator archbishopCreator = new ArchbishopCreator();
-        Piece archbishopW = archbishopCreator.createPiece(Color.WHITE);
-        Piece archbishopB = archbishopCreator.createPiece(Color.BLACK);
-
-
-        List<Tile> startingPositions = new ArrayList<>();
-        startingPositions.add(new Tile(0, 0, rookW));
-        startingPositions.add(new Tile(0, 1, knightW));
-        startingPositions.add(new Tile(0, 2,bishopW));
-        startingPositions.add(new Tile(0, 3,queenW));
-        startingPositions.add(new Tile(0, 4, kingW));
-        startingPositions.add(new Tile(0, 5, bishopW));
-        startingPositions.add(new Tile(0, 6, knightW));
-        startingPositions.add(new Tile(0, 7, rookW));
-        startingPositions.add(new Tile(7, 0, rookB));
-        startingPositions.add(new Tile(7, 1, knightB));
-        startingPositions.add(new Tile(7, 2, bishopB));
-        startingPositions.add(new Tile(7, 3,queenB));
-        startingPositions.add(new Tile(7, 4, kingB));
-        startingPositions.add(new Tile(7, 5,bishopB));
-        startingPositions.add(new Tile(7, 6, knightB));
-        startingPositions.add(new Tile(7, 7, rookB));
-//        startingPositions.add(new Tile(0, 8, archbishopW));
-//        startingPositions.add(new Tile(7, 8, archbishopB));
-
-
-        for (int i = 0; i < board.getWidth(); i++) {
-            startingPositions.add(new Tile(1, i, pawnW));
-            startingPositions.add(new Tile(6, i, pawnB));
-        }
+        Map<Tile,Piece> startingPositions = new HashMap<>();
+        startingPositions.put(new Tile(0,0),rookW);
+        startingPositions.put(new Tile(0,1),knightW);
+        startingPositions.put(new Tile(0,2),bishopW);
+        startingPositions.put(new Tile(0,3),queenW);
+        startingPositions.put(new Tile(0,4),kingW);
+        startingPositions.put(new Tile(0,5),bishopW);
+        startingPositions.put(new Tile(0,6),knightW);
+        startingPositions.put(new Tile(0,7),rookW);
+        startingPositions.put(new Tile(1,0),pawnW);
+        startingPositions.put(new Tile(1,1),pawnW);
+        startingPositions.put(new Tile(1,2),pawnW);
+        startingPositions.put(new Tile(1,3),pawnW);
+        startingPositions.put(new Tile(1,4),pawnW);
+        startingPositions.put(new Tile(1,5),pawnW);
+        startingPositions.put(new Tile(1,6),pawnW);
+        startingPositions.put(new Tile(1,7),pawnW);
+        startingPositions.put(new Tile(6,0),pawnB);
+        startingPositions.put(new Tile(6,1),pawnB);
+        startingPositions.put(new Tile(6,2),pawnB);
+        startingPositions.put(new Tile(6,3),pawnB);
+        startingPositions.put(new Tile(6,4),pawnB);
+        startingPositions.put(new Tile(6,5),pawnB);
+        startingPositions.put(new Tile(6,6),pawnB);
+        startingPositions.put(new Tile(6,7),pawnB);
+        startingPositions.put(new Tile(7,0),rookB);
+        startingPositions.put(new Tile(7,1),knightB);
+        startingPositions.put(new Tile(7,2),bishopB);
+        startingPositions.put(new Tile(7,3),queenB);
+        startingPositions.put(new Tile(7,4),kingB);
+        startingPositions.put(new Tile(7,5),bishopB);
+        startingPositions.put(new Tile(7,6),knightB);
+        startingPositions.put(new Tile(7,7),rookB);
 
 
         List<WinCondition> winConditions = new ArrayList<>();
@@ -104,11 +106,10 @@ public class ChessGameCreator implements GameCreator {
         StalemateCondition stalemateCondition = new NormalChessStalemate();
         stalemateConditions.add(stalemateCondition);
 
-        Rules rules = new NormalChessRules(startingPositions, winConditions, stalemateConditions);
+        Rules rules = new NormalChessRules(winConditions, stalemateConditions);
 
-        for (Tile tile : rules.getStartingPositions()) {
-            board = board.replacePosition(tile);
-        }
+        Board board = new Board(startingPositions, 8, 8);
+
 
         Player player1 = new Player(Color.WHITE, "Player 1");
         Player player2 = new Player(Color.BLACK, "Player 2");

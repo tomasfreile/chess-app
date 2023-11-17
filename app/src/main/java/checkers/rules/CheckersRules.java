@@ -10,21 +10,15 @@ import java.util.List;
 
 
 public class CheckersRules implements Rules {
-
-    private final List<Tile> startingPositions;
     private final List<WinCondition> winConditions;
     private final List<StalemateCondition> stalemateConditions;
     private final RequiredCaptureValidator requiredCaptureValidator = new RequiredCaptureValidator();
 
 
-    public CheckersRules(List<Tile> startingPositions, List<WinCondition> winConditions, List<StalemateCondition> stalemateConditions) {
-        this.startingPositions = startingPositions;
+    public CheckersRules(List<WinCondition> winConditions, List<StalemateCondition> stalemateConditions) {
+
         this.winConditions = winConditions;
         this.stalemateConditions = stalemateConditions;
-    }
-    @Override
-    public List<Tile> getStartingPositions() {
-        return startingPositions;
     }
 
     @Override
@@ -63,11 +57,6 @@ public class CheckersRules implements Rules {
                 return true;
             }
         }
-        return false;
-    }
-
-    @Override
-    public boolean validateSpecialMovement(Tile start, Tile end, Board board) {
         return false;
     }
 

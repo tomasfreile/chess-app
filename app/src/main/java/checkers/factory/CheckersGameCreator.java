@@ -16,7 +16,9 @@ import commons.rules.StalemateCondition;
 import commons.rules.WinCondition;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CheckersGameCreator implements GameCreator {
     public CheckersGameCreator() {
@@ -29,32 +31,31 @@ public class CheckersGameCreator implements GameCreator {
         Piece pawnW = checkerPawnCreator.createPiece(Color.WHITE);
         Piece pawnB = checkerPawnCreator.createPiece(Color.BLACK);
 
-        List<Tile> startingPositions = List.of(
-                new Tile(0, 1, pawnW),
-                new Tile(0, 3, pawnW),
-                new Tile(0, 5, pawnW),
-                new Tile(0, 7, pawnW),
-                new Tile(1, 0, pawnW),
-                new Tile(1, 2, pawnW),
-                new Tile(1, 4, pawnW),
-                new Tile(1, 6, pawnW),
-                new Tile(2, 1, pawnW),
-                new Tile(2, 3, pawnW),
-                new Tile(2, 5, pawnW),
-                new Tile(2, 7, pawnW),
-                new Tile(5, 0, pawnB),
-                new Tile(5, 2, pawnB),
-                new Tile(5, 4, pawnB),
-                new Tile(5, 6, pawnB),
-                new Tile(6, 1, pawnB),
-                new Tile(6, 3, pawnB),
-                new Tile(6, 5, pawnB),
-                new Tile(6, 7, pawnB),
-                new Tile(7, 0, pawnB),
-                new Tile(7, 2, pawnB),
-               new Tile(7, 6, pawnB)
-
-        );
+        Map<Tile,Piece> startingPositions = new HashMap<>();
+        startingPositions.put(new Tile(0,1), pawnB);
+        startingPositions.put(new Tile(0,3), pawnB);
+        startingPositions.put(new Tile(0,5), pawnB);
+        startingPositions.put(new Tile(0,7), pawnB);
+        startingPositions.put(new Tile(1,0), pawnB);
+        startingPositions.put(new Tile(1,2), pawnB);
+        startingPositions.put(new Tile(1,4), pawnB);
+        startingPositions.put(new Tile(1,6), pawnB);
+        startingPositions.put(new Tile(2,1), pawnB);
+        startingPositions.put(new Tile(2,3), pawnB);
+        startingPositions.put(new Tile(2,5), pawnB);
+        startingPositions.put(new Tile(2,7), pawnB);
+        startingPositions.put(new Tile(5,0), pawnW);
+        startingPositions.put(new Tile(5,2), pawnW);
+        startingPositions.put(new Tile(5,4), pawnW);
+        startingPositions.put(new Tile(5,6), pawnW);
+        startingPositions.put(new Tile(6,1), pawnW);
+        startingPositions.put(new Tile(6,3), pawnW);
+        startingPositions.put(new Tile(6,5), pawnW);
+        startingPositions.put(new Tile(6,7), pawnW);
+        startingPositions.put(new Tile(7,0), pawnW);
+        startingPositions.put(new Tile(7,2), pawnW);
+        startingPositions.put(new Tile(7,4), pawnW);
+        startingPositions.put(new Tile(7,6), pawnW);
 
         List<WinCondition> winConditions = List.of(
                 new AllPiecesCaptured(),
@@ -63,13 +64,11 @@ public class CheckersGameCreator implements GameCreator {
 
         List<StalemateCondition> stalemateConditions = new ArrayList<>();
 
-        Rules rules = new CheckersRules(startingPositions, winConditions, stalemateConditions);
+        Rules rules = new CheckersRules(winConditions, stalemateConditions);
 
-        Board board = new Board(8,8);
+        Board board = new Board(startingPositions,8,8);
 
-        for (Tile tile : rules.getStartingPositions()) {
-            board = board.replacePosition(tile);
-        }
+
 
 
         Player player1 = new Player(Color.WHITE, "Player 1");

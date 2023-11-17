@@ -1,5 +1,6 @@
 package commons.game;
 
+import commons.Board;
 import commons.Color;
 import commons.Tile;
 import commons.adapter.PieceTranslator;
@@ -10,8 +11,6 @@ import edu.austral.dissis.chess.gui.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-
-import static java.sql.DriverManager.println;
 
 public class GameEngineImpl implements GameEngine{
     Game game;
@@ -25,9 +24,8 @@ public class GameEngineImpl implements GameEngine{
     @NotNull
     @Override
     public MoveResult applyMove(@NotNull Move move) {
-        Tile from = game.getBoard().getPosition(move.getFrom().getRow() - 1, move.getFrom().getColumn() - 1);
-        Tile to = game.getBoard().getPosition(move.getTo().getRow() - 1, move.getTo().getColumn() - 1);
-
+        Tile from = new Tile(move.getFrom().getRow() - 1, move.getFrom().getColumn() - 1);
+        Tile to = new Tile(move.getTo().getRow() - 1, move.getTo().getColumn() - 1);
         GameMoveResult result = game.moveAndSwitchPlayer(from, to);
 
         if (result instanceof UnsuccessfulMove) {
@@ -51,7 +49,7 @@ public class GameEngineImpl implements GameEngine{
             pieces.remove(capturedPiece);
         }
 
-        String pieceId = isPromotion(move, movedPiece) ? "queen" : movedPiece.getPieceId();
+        String pieceId = isPromotion(move, movedPiece, game.getBoard()) ? "queen" : movedPiece.getPieceId();
 
         return updateGameState(movedPiece, move, pieceId, result.getGame());
     }
@@ -59,7 +57,7 @@ public class GameEngineImpl implements GameEngine{
     @NotNull
     @Override
     public InitialState init() {
-        return new InitialState(new BoardSize(game.getBoard().getHeight(),game.getBoard().getWidth()), pieces, PlayerColor.WHITE);
+        return new InitialState(new BoardSize(game.getBoard().getWidth(),game.getBoard().getHeight()), pieces, PlayerColor.WHITE);
     }
 
     private MoveResult updateGameState(ChessPiece movedPiece, @NotNull Move move, String movedPieceName, Game result) {
@@ -77,12 +75,12 @@ public class GameEngineImpl implements GameEngine{
         return null;
     }
 
-    private static boolean isPromotion(Move move, ChessPiece movedPiece) {
-        return  movedPiece.getPieceId().equals("pawn") && (move.getTo().getRow() == 8 && movedPiece.getColor().equals(PlayerColor.WHITE) || move.getTo().getRow() == 1 && movedPiece.getColor().equals(PlayerColor.BLACK));
+    private static boolean isPromotion(Move move, ChessPiece movedPiece, Board board) {
+        return  movedPiece.getPieceId().equals("pawn") && (move.getTo().getRow() == board.getHeight() && movedPiece.getColor().equals(PlayerColor.WHITE) || move.getTo().getRow() == 1 && movedPiece.getColor().equals(PlayerColor.BLACK));
     }
 
     private ChessPiece findCapturedPiece(@NotNull Move move) {
-        Tile capturedTile = game.getPieceMover().getCaptureTile(game.getBoard().getPosition(move.getFrom().getRow() - 1, move.getFrom().getColumn() - 1), game.getBoard().getPosition(move.getTo().getRow() - 1, move.getTo().getColumn() - 1));
+        Tile capturedTile = game.getPieceMover().getCaptureTile(new Tile(move.getFrom().getRow() - 1, move.getFrom().getColumn() - 1), new Tile(move.getTo().getRow() - 1, move.getTo().getColumn() - 1));
         return findPiece(new Position(capturedTile.getRow() + 1, capturedTile.getColumn() + 1));
     }
 

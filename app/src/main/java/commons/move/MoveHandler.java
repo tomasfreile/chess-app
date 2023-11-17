@@ -16,8 +16,8 @@ public class MoveHandler {
             return false;
         }
 
-        Piece p = start.getPiece();
-        Piece endPiece = end.getPiece();
+        Piece p = board.getPieceAtPosition(start.getRow(), start.getColumn());
+        Piece endPiece = board.getPieceAtPosition(end.getRow(), end.getColumn());
 
         if (isIllegalMove(start, end, p, endPiece)) {
             return false;
@@ -42,7 +42,7 @@ public class MoveHandler {
     }
 
     public boolean isPromotion(Tile from, Tile to, Board board, MoveVerifier moveVerifier) {
-        Piece p = from.getPiece();
+        Piece p = board.getPieceAtPosition(from.getRow(), from.getColumn());
         Color pieceColor = p.getColor();
         return p.getType() == PieceName.PAWN && pieceColor == Color.WHITE && to.getRow() == 7 && validateMovement(from, to, board, moveVerifier) ||
                 p.getType() == PieceName.PAWN && pieceColor == Color.BLACK && to.getRow() == 0 && validateMovement(from, to, board, moveVerifier);
