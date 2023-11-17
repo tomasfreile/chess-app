@@ -25,9 +25,9 @@ public class ChessPieceMover implements PieceMover {
         Player player1 = game.getPlayer1();
         Player player2 = game.getPlayer2();
         Player currentPlayer = game.getCurrentPlayer();
+
         // Create a new list of positions by mapping the old positions with updated or unchanged tiles.
         Map<Tile, Piece> newPositions = board.getPositions();
-        //remove from and add to
         Iterator<Tile> iterator = newPositions.keySet().iterator();
         while (iterator.hasNext()) {
             Tile tile = iterator.next();

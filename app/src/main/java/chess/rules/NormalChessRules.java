@@ -52,15 +52,15 @@ public class NormalChessRules implements Rules {
 
 
     private boolean isCheck(Board board, Color color){
-//        Tile kingPosition = findKing(board, color);
-//        Map<Tile, Piece> positions = board.getPositions();
-//        for (Map.Entry<Tile, Piece> entry : positions.entrySet()) {
-//            if (entry.getValue().getColor() != color) {
-//                if (moveValidator.validateMovement(entry.getKey(), kingPosition, board, moveVerifier)) {
-//                    return true;
-//                }
-//            }
-//        }
+        Tile kingPosition = findKing(board, color);
+        Map<Tile, Piece> positions = board.getPositions();
+        for (Map.Entry<Tile, Piece> entry : positions.entrySet()) {
+            if (entry.getValue().getColor() != color) {
+                if (entry.getValue().getMoves().isValid(entry.getKey(), kingPosition, board)) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
     private Tile findKing(Board board, Color color) {

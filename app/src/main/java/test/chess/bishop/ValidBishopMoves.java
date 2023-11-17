@@ -1,11 +1,15 @@
 package test.chess.bishop;
 
+import chess.factory.piece.PieceFactory;
 import commons.Board;
 import commons.Color;
 import commons.game.Game;
 import commons.Tile;
+import commons.piece.Piece;
 import commons.piece.PieceCreator;
+import commons.piece.PieceName;
 import org.junit.Test;
+import test.chess.Helper;
 import test.chess.TestChessGameCreator;
 
 import java.util.ArrayList;
@@ -19,34 +23,35 @@ public class ValidBishopMoves {
 
     @Test
     public void testValidBishopMoves() {
-//        Game game = testGameCreator.createGame(pieceCreator.createPiece(Color.WHITE));
-//        Board board = game.getBoard();
-//        System.out.println(game.getBoard().printBoard());
+        Piece piece = PieceFactory.createPiece(PieceName.BISHOP, Color.WHITE);
+        Game game = testGameCreator.createGame(piece);
+        Board board = game.getBoard();
+        System.out.println(game.getBoard().printBoard());
 
         List<Tile> availableMoves = new ArrayList<>();
-//        availableMoves.add(board.getPosition(0, 0));
-//        availableMoves.add(board.getPosition(1, 1));
-//        availableMoves.add(board.getPosition(2, 2));
-//        availableMoves.add(board.getPosition(4, 4));
-//        availableMoves.add(board.getPosition(5, 5));
-//        availableMoves.add(board.getPosition(6, 6));
-//        availableMoves.add(board.getPosition(7, 7));
-//        availableMoves.add(board.getPosition(0, 6));
-//        availableMoves.add(board.getPosition(1, 5));
-//        availableMoves.add(board.getPosition(2, 4));
-//        availableMoves.add(board.getPosition(4, 2));
-//        availableMoves.add(board.getPosition(5, 1));
-//        availableMoves.add(board.getPosition(6, 0));
-//
-//
-//        for (Tile p : board.getPositions()){
-//            if (availableMoves.contains(p)){
-//                assertTrue(game.getMoveHandler().validateMovement(board.getPosition(3,3), p, board, game.getMoveVerifier()));
-//            }
-//            else {
-//                assertFalse(game.getMoveHandler().validateMovement(board.getPosition(3,3), p, board, game.getMoveVerifier()));
-//            }
-//        }
+        availableMoves.add(new Tile(0, 0));
+        availableMoves.add(new Tile(1, 1));
+        availableMoves.add(new Tile(2, 2));
+        availableMoves.add(new Tile(4, 4));
+        availableMoves.add(new Tile(5, 5));
+        availableMoves.add(new Tile(6, 6));
+        availableMoves.add(new Tile(7, 7));
+        availableMoves.add(new Tile(0, 6));
+        availableMoves.add(new Tile(1, 5));
+        availableMoves.add(new Tile(2, 4));
+        availableMoves.add(new Tile(4, 2));
+        availableMoves.add(new Tile(5, 1));
+        availableMoves.add(new Tile(6, 0));
 
+        for (int i = 0; i < board.getHeight(); i++) {
+            for (int j = 0; j < board.getWidth(); j++) {
+                Tile p = new Tile(i, j);
+                if (Helper.containsTile(availableMoves, p)) {
+                    assertTrue(piece.getMoves().isValid(new Tile(3,3), p, board));
+                } else {
+                    assertFalse(piece.getMoves().isValid(new Tile(3,3), p, board));
+                }
+            }
+        }
     }
 }

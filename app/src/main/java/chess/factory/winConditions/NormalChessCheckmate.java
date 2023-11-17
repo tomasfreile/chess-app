@@ -1,6 +1,9 @@
 package chess.factory.winConditions;
 
+import chess.ChessPieceMover;
+import commons.piece.PieceMover;
 import commons.piece.PieceName;
+import commons.result.GameMoveResult;
 import commons.rules.WinCondition;
 import commons.Board;
 import commons.Color;
@@ -12,6 +15,7 @@ import java.util.stream.Collectors;
 
 public class NormalChessCheckmate implements WinCondition {
 
+    private final PieceMover pieceMover = new ChessPieceMover();
 
     @Override
     public boolean checkWin(Board board, Color color) {
@@ -19,15 +23,15 @@ public class NormalChessCheckmate implements WinCondition {
     }
 
     private boolean isCheck(Board board, Color color){
-//        Tile kingPosition = findKing(board, color);
-//        Map<Tile, Piece> positions = board.getPositions();
-//        for (Map.Entry<Tile, Piece> entry : positions.entrySet()) {
-//            if (entry.getValue().getColor() != color) {
-//                if (moveValidator.validateMovement(entry.getKey(), kingPosition, board, moveVerifier)) {
-//                    return true;
-//                }
-//            }
-//        }
+        Tile kingPosition = findKing(board, color);
+        Map<Tile, Piece> positions = board.getPositions();
+        for (Map.Entry<Tile, Piece> entry : positions.entrySet()) {
+            if (entry.getValue().getColor() != color) {
+                if (entry.getValue().getMoves().isValid(entry.getKey(), kingPosition, board)) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -39,41 +43,26 @@ public class NormalChessCheckmate implements WinCondition {
     }
 
     private boolean cannotMove(Board board, Color color){
-//        Map<Tile,Piece> pieces = board.getPositions();
-//        for (Map.Entry<Tile, Piece> entry : pieces.entrySet()) {
-//            if (entry.getValue().getColor() == color) {
-//                for (int row = 0; row < board.getHeight(); row++) {
-//                    for (int column = 0; column < board.getWidth(); column++) {
-//                        Tile start = new Tile(row, column);
-//                        Tile end = new Tile(row, column);
-//                        if (moveValidator.validateMovement(start, end, board, moveVerifier)) {
-//                            Map<Tile, Piece> newPositions = pieces.entrySet().stream()
-//                                    .collect(Collectors.toMap(
-//                                            e -> {
-//                                                Tile tile = e.getKey();
-//                                                if (tile.getRow() == start.getRow() && tile.getColumn() == start.getColumn()) {
-//                                                    return new Tile(end.getRow(), end.getColumn());
-//                                                }
-//                                                return tile;
-//                                            },
-//                                            e -> {
-//                                                Tile tile = e.getKey();
-//                                                Piece piece = e.getValue();
-//                                                if (tile.getRow() == start.getRow() && tile.getColumn() == start.getColumn()) {
-//                                                    return new Piece(PieceName.PAWN, piece.getMoves(), color, piece.getMoveCount() + 1);
-//                                                }
-//                                                return piece;
-//                                            }
-//                                    ));
-//                            Board newBoard = new Board(newPositions, board.getHeight(), board.getWidth());
-//                            if (!isCheck(newBoard, color)){
-//                                return false;
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
+        Map<Tile,Piece> pieces = board.getPositions();
+        for (Map.Entry<Tile, Piece> entry : pieces.entrySet()) {
+            if (entry.getValue().getColor() == color) {
+                for (int row = 0; row < board.getHeight(); row++) {
+                    for (int column = 0; column < board.getWidth(); column++) {
+                        Tile start = new Tile(row, column);
+                        Tile end = new Tile(row, column);
+                        if (entry.getValue().getMoves().isValid(start, end, board)) {
+                            Map<Tile, Piece> newPositions = pieces.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+                            newPositions.remove(start);
+                            newPositions.put(end, new Piece(PieceName.KING, entry.getValue().getMoves(), color, entry.getValue().getMoveCount() + 1));
+                            Board newBoard = new Board(newPositions, board.getHeight(), board.getWidth());
+                            if (!isCheck(newBoard, color)) {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+        }
         return true;
     }
 

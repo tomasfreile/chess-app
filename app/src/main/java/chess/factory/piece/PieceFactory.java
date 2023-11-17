@@ -6,18 +6,22 @@ import commons.piece.PieceName;
 import commons.validator.AndValidator;
 import commons.validator.OrValidator;
 import commons.validator.moveValidators.*;
+import commons.validator.moveValidators.distance.DiagonalMoveDistanceValidator;
+import commons.validator.moveValidators.distance.HorizontalMoveDistanceValidator;
+import commons.validator.moveValidators.distance.VerticalMoveDistanceValidator;
+import commons.validator.moveValidators.obstacles.NoObstaclesDiagonalValidator;
+import commons.validator.moveValidators.obstacles.NoObstaclesHorizontalValidator;
+import commons.validator.moveValidators.obstacles.NoObstaclesVerticalValidator;
 
 import java.util.List;
-
-import static commons.piece.PieceName.*;
 
 public class PieceFactory {
 
     private static final AndValidator horizontalOne = new AndValidator(List.of(
-            new StraightMoveDistanceValidator(1),
+            new HorizontalMoveDistanceValidator(1),
             new HorizontalMoveValidator(), new CannotCaptureOwnPieceValidator()));
     private static final AndValidator verticalOne = new AndValidator(List.of(
-            new StraightMoveDistanceValidator(1),
+            new VerticalMoveDistanceValidator(1),
             new VerticalMoveValidator(), new CannotCaptureOwnPieceValidator()));
     private static final AndValidator diagonalOne = new AndValidator(List.of(
             new DiagonalMoveDistanceValidator(1),
@@ -41,17 +45,21 @@ public class PieceFactory {
             new ForwardMoveValidator(), new CannotCaptureOwnPieceValidator()));
 
     private static final AndValidator upOneNoCapture = new AndValidator(List.of(
-            new StraightMoveDistanceValidator(1),
+            new VerticalMoveDistanceValidator(1),
             new VerticalMoveValidator(),
             new CannotCaptureValidator(),
             new ForwardMoveValidator()));
 
     private static final AndValidator upTwoNoCapture = new AndValidator(List.of(
-            new StraightMoveDistanceValidator(2),
+            new VerticalMoveDistanceValidator(2),
             new VerticalMoveValidator(),
             new CannotCaptureValidator(),
             new ForwardMoveValidator(),
             new FirstMoveValidator()));
+
+    private static final AndValidator knightMove = new AndValidator(List.of(
+            new KnightMoveValidator(), new CannotCaptureOwnPieceValidator()));
+
 
     public static Piece createPiece(PieceName pieceType, Color color) {
         return switch (pieceType) {
@@ -64,7 +72,7 @@ public class PieceFactory {
                 yield new Piece(pieceType, validator, color, 0);
             }
             case KNIGHT -> {
-                final OrValidator validator = new OrValidator(List.of(horizontalOne));
+                final OrValidator validator = new OrValidator(List.of(knightMove));
                 yield new Piece(pieceType, validator, color, 0);
             }
             case BISHOP -> {

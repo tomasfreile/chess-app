@@ -1,4 +1,4 @@
-package commons.validator.moveValidators;
+package commons.validator.moveValidators.obstacles;
 
 import commons.Board;
 import commons.Tile;
