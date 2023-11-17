@@ -2,19 +2,19 @@ package commons.piece;
 
 import commons.Color;
 import commons.move.Movement;
+import commons.validator.OrValidator;
 
-import java.util.List;
 
 public class Piece {
 
     private final PieceName pieceName;
-    private final List<Movement> moves;
+    private final OrValidator movements;
     private final Color color;
     private final int moveCount;
 
-    public Piece(PieceName pieceName, List<Movement> moves, Color color, int moveCount) {
+    public Piece(PieceName pieceName, OrValidator movements, Color color, int moveCount) {
         this.pieceName = pieceName;
-        this.moves = moves;
+        this.movements = movements;
         this.color = color;
         this.moveCount = moveCount;
     }
@@ -30,8 +30,7 @@ public class Piece {
         return moveCount;
     }
 
-    public List<Movement> getMoves() {
-        return moves;
+    public OrValidator getMoves() {
+        return movements;
     }
-
 }

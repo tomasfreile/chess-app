@@ -1,6 +1,5 @@
 package test.chess.pawn;
 
-import chess.factory.piece.pawn.PawnCreator;
 import commons.Board;
 import commons.Color;
 import commons.game.Game;
@@ -16,7 +15,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class ValidPawnMoves {
-    PieceCreator pieceCreator = new PawnCreator();
     TestChessGameCreator testGameCreator = new TestChessGameCreator();
 
     @Test

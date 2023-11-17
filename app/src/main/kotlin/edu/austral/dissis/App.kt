@@ -34,7 +34,7 @@ class ChessGameApplication : Application() {
 
         primaryStage.title = GameTitle
 
-        val root = createGameViewFrom(checkers, imageResolver)
+        val root = createGameViewFrom(chess, imageResolver)
         //val root = GameView(imageResolver)
 
         primaryStage.scene = Scene(root)

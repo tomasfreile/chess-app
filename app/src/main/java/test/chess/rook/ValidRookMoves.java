@@ -1,6 +1,5 @@
 package test.chess.rook;
 
-import chess.factory.piece.rook.RookCreator;
 import commons.*;
 import commons.game.Game;
 import commons.piece.PieceCreator;
@@ -14,7 +13,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class ValidRookMoves {
-    PieceCreator pieceCreator = new RookCreator();
     TestChessGameCreator testGameCreator = new TestChessGameCreator();
 
     @Test

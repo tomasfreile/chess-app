@@ -5,14 +5,14 @@ import commons.Tile;
 
 import java.util.List;
 
-public class OrValidator implements MoveValidator{
-    private final List<MoveValidator> validators;
-    public OrValidator(List<MoveValidator> validators) {
+public class OrValidator implements Validator {
+    private final List<Validator> validators;
+    public OrValidator(List<Validator> validators) {
         this.validators = validators;
     }
     @Override
     public boolean isValid(Tile from, Tile to, Board board) {
-        for  (MoveValidator validator : validators) {
+        for  (Validator validator : validators) {
             if (validator.isValid(from, to, board)) {
                 return true;
             }

@@ -1,6 +1,5 @@
 package test.chess.queen;
 
-import chess.factory.piece.queen.QueenCreator;
 import commons.Board;
 import commons.Color;
 import commons.game.Game;
@@ -16,7 +15,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class ValidQueenMoves {
-    PieceCreator pieceCreator = new QueenCreator();
     TestChessGameCreator testGameCreator = new TestChessGameCreator();
 
     @Test

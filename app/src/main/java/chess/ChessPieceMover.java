@@ -1,11 +1,11 @@
 package chess;
-
-import chess.factory.piece.queen.QueenCreator;
+import chess.factory.piece.PieceFactory;
 import commons.*;
 import commons.game.Game;
 import commons.piece.Piece;
 import commons.piece.PieceCreator;
 import commons.piece.PieceMover;
+import commons.piece.PieceName;
 import commons.result.GameMoveResult;
 import commons.result.GameOverResult;
 import commons.result.SuccessfulMove;
@@ -53,7 +53,7 @@ public class ChessPieceMover implements PieceMover {
         boolean gameOver = rules.checkWin(newBoard, nextPlayer.getColor());
 
         // Create a new game with the updated board, players, and game over status.
-        Game newGame = new Game(newBoard, player1, player2, rules, nextPlayer, gameOver, this, game.getMoveVerifier());
+        Game newGame = new Game(newBoard, player1, player2, rules, nextPlayer, this);
 
         if (gameOver) {
             return new GameOverResult(newGame);
@@ -65,8 +65,7 @@ public class ChessPieceMover implements PieceMover {
     @Override
     public GameMoveResult promote(Tile from, Tile to, Piece p, Game game) {
         Color pieceColor = p.getColor();
-        PieceCreator pieceCreator = new QueenCreator();
-        Piece newPiece = pieceCreator.createPiece(pieceColor);
+        Piece newPiece = PieceFactory.createPiece(PieceName.QUEEN, pieceColor);
         return move(from, to, newPiece, game);
     }
 

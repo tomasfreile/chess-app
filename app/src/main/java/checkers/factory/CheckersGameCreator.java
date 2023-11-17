@@ -1,16 +1,16 @@
 package checkers.factory;
 
-import checkers.CheckersMoveVerifier;
 import checkers.CheckersPieceMover;
-import checkers.factory.piece.CheckersPawnCreator;
 import checkers.factory.winConditions.AllPiecesCaptured;
 import checkers.factory.winConditions.NoMovesAvailable;
 import checkers.rules.CheckersRules;
+import chess.factory.piece.PieceFactory;
 import commons.game.Game;
 import commons.game.GameCreator;
 import commons.piece.Piece;
 import commons.piece.PieceCreator;
 import commons.*;
+import commons.piece.PieceName;
 import commons.rules.Rules;
 import commons.rules.StalemateCondition;
 import commons.rules.WinCondition;
@@ -27,9 +27,8 @@ public class CheckersGameCreator implements GameCreator {
     @Override
     public Game createGame() {
         //checkers piece
-        PieceCreator checkerPawnCreator = new CheckersPawnCreator();
-        Piece pawnW = checkerPawnCreator.createPiece(Color.WHITE);
-        Piece pawnB = checkerPawnCreator.createPiece(Color.BLACK);
+        Piece pawnW = PieceFactory.createPiece(PieceName.PAWN, Color.WHITE);
+        Piece pawnB = PieceFactory.createPiece(PieceName.PAWN, Color.BLACK);
 
         Map<Tile,Piece> startingPositions = new HashMap<>();
         startingPositions.put(new Tile(0,1), pawnB);
@@ -74,6 +73,6 @@ public class CheckersGameCreator implements GameCreator {
         Player player1 = new Player(Color.WHITE, "Player 1");
         Player player2 = new Player(Color.BLACK, "Player 2");
 
-        return new Game(board, player1, player2, rules, player1, false, new CheckersPieceMover(), new CheckersMoveVerifier());
+        return new Game(board, player1, player2, rules, player1, new CheckersPieceMover());
     }
 }

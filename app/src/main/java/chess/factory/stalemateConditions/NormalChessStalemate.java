@@ -1,22 +1,11 @@
 package chess.factory.stalemateConditions;
 
-import chess.ChessMoveVerifier;
-import commons.piece.PieceName;
 import commons.rules.StalemateCondition;
-import commons.move.MoveHandler;
 import commons.Board;
 import commons.Color;
-import commons.piece.Piece;
 import commons.Tile;
-import commons.validator.MoveVerifier;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class NormalChessStalemate implements StalemateCondition {
-
-    MoveHandler moveHandler = new MoveHandler();
-    MoveVerifier moveVerifier = new ChessMoveVerifier();
 
     @Override
     public boolean isStalemate(Board board, Color color) {

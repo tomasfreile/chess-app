@@ -1,16 +1,5 @@
 package test.chess;
 
-import chess.ChessMoveVerifier;
-import chess.ChessPieceMover;
-import chess.rules.NormalChessRules;
-import commons.*;
-import commons.game.Game;
-import commons.piece.Piece;
-import commons.rules.Rules;
-
-import java.util.ArrayList;
-import java.util.List;
-
 public class TestChessGameCreator {
     public TestChessGameCreator() {
     }

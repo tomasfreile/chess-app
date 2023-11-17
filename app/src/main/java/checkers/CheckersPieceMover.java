@@ -1,13 +1,14 @@
 package checkers;
 
 
-import checkers.factory.piece.CheckersQueenCreator;
 import checkers.validator.RequiredCaptureValidator;
+import chess.factory.piece.PieceFactory;
 import commons.*;
 import commons.game.Game;
 import commons.piece.Piece;
 import commons.piece.PieceCreator;
 import commons.piece.PieceMover;
+import commons.piece.PieceName;
 import commons.result.GameMoveResult;
 import commons.result.GameOverResult;
 import commons.result.SuccessfulMove;
@@ -15,9 +16,7 @@ import commons.result.UnsuccessfulMove;
 import commons.rules.Rules;
 
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class CheckersPieceMover implements PieceMover {
     private final RequiredCaptureValidator requiredCaptureValidator = new RequiredCaptureValidator();
@@ -57,10 +56,10 @@ public class CheckersPieceMover implements PieceMover {
         boolean gameOver = rules.checkWin(newBoard, nextPlayer.getColor());
 
         if (gameOver) {
-            return new GameOverResult(new Game(newBoard, player1, player2, rules, nextPlayer, true, this, game.getMoveVerifier()));
+            return new GameOverResult(new Game(newBoard, player1, player2, rules, nextPlayer, this));
         }
 
-        return canReCapture(from, to, board, newBoard) ? new SuccessfulMove(new Game(newBoard, player1, player2, rules, currentPlayer, false, this, game.getMoveVerifier())) : new SuccessfulMove(new Game(newBoard, player1, player2, rules, nextPlayer, gameOver, game.getPieceMover(), game.getMoveVerifier()));
+        return canReCapture(from, to, board, newBoard) ? new SuccessfulMove(new Game(newBoard, player1, player2, rules, currentPlayer, this)) : new SuccessfulMove(new Game(newBoard, player1, player2, rules, nextPlayer, game.getPieceMover()));
     }
 
     private boolean canReCapture(Tile from, Tile to, Board board, Board newBoard) {
@@ -70,8 +69,7 @@ public class CheckersPieceMover implements PieceMover {
     @Override
     public GameMoveResult promote(Tile from, Tile to, Piece p, Game game) {
         Color pieceColor = p.getColor();
-        PieceCreator pieceCreator = new CheckersQueenCreator();
-        Piece newPiece = pieceCreator.createPiece(pieceColor);
+        Piece newPiece = PieceFactory.createPiece(PieceName.KING, pieceColor);
         return move(from, to, newPiece, game);
     }
 

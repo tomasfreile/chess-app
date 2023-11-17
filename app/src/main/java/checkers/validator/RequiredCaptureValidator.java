@@ -1,16 +1,11 @@
 package checkers.validator;
 
-import checkers.CheckersMoveVerifier;
 import commons.Board;
 import commons.Color;
-import commons.move.MoveHandler;
 import commons.Tile;
-import commons.piece.Piece;
-import commons.validator.MoveVerifier;
 
 public class RequiredCaptureValidator {
-    private final MoveHandler moveHandler = new MoveHandler();
-    private final MoveVerifier moveVerifier = new CheckersMoveVerifier();
+
 
     public boolean hasAvailableCaptures(Board board, Color color) {
 //        for (Tile p : board.getPositions()){

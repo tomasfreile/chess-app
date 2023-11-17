@@ -1,21 +1,14 @@
 package chess.factory;
 
-import chess.ChessMoveVerifier;
 import chess.ChessPieceMover;
-import chess.factory.piece.archbishop.ArchbishopCreator;
-import chess.factory.piece.bishop.BishopCreator;
-import chess.factory.piece.king.KingCreator;
-import chess.factory.piece.knight.KnightCreator;
-import chess.factory.piece.pawn.PawnCreator;
-import chess.factory.piece.queen.QueenCreator;
-import chess.factory.piece.rook.RookCreator;
+import chess.factory.piece.PieceFactory;
 import chess.factory.stalemateConditions.NormalChessStalemate;
 import chess.factory.winConditions.NormalChessCheckmate;
 import chess.rules.NormalChessRules;
 import commons.game.GameCreator;
 import commons.game.Game;
 import commons.piece.Piece;
-import commons.piece.PieceCreator;
+import commons.piece.PieceName;
 import commons.rules.Rules;
 import commons.rules.StalemateCondition;
 import commons.rules.WinCondition;
@@ -33,35 +26,21 @@ public class ChessGameCreator implements GameCreator {
     @Override
     public Game createGame(){
 
-        //rook
-        PieceCreator rookCreator = new RookCreator();
-        Piece rookW = rookCreator.createPiece(Color.WHITE);
-        Piece rookB = rookCreator.createPiece(Color.BLACK);
 
-        //pawn
-        PieceCreator pawnCreator = new PawnCreator();
-        Piece pawnW = pawnCreator.createPiece(Color.WHITE);
-        Piece pawnB = pawnCreator.createPiece(Color.BLACK);
+        Piece rookW = PieceFactory.createPiece(PieceName.ROOK, Color.WHITE);
+        Piece knightW = PieceFactory.createPiece(PieceName.KNIGHT, Color.WHITE);
+        Piece bishopW = PieceFactory.createPiece(PieceName.BISHOP, Color.WHITE);
+        Piece queenW = PieceFactory.createPiece(PieceName.QUEEN, Color.WHITE);
+        Piece kingW = PieceFactory.createPiece(PieceName.KING, Color.WHITE);
+        Piece pawnW = PieceFactory.createPiece(PieceName.PAWN, Color.WHITE);
+        Piece rookB = PieceFactory.createPiece(PieceName.ROOK, Color.BLACK);
+        Piece knightB = PieceFactory.createPiece(PieceName.KNIGHT, Color.BLACK);
+        Piece bishopB = PieceFactory.createPiece(PieceName.BISHOP, Color.BLACK);
+        Piece queenB = PieceFactory.createPiece(PieceName.QUEEN, Color.BLACK);
+        Piece kingB = PieceFactory.createPiece(PieceName.KING, Color.BLACK);
+        Piece pawnB = PieceFactory.createPiece(PieceName.PAWN, Color.BLACK);
 
-        //knight
-        PieceCreator knightCreator = new KnightCreator();
-        Piece knightW = knightCreator.createPiece(Color.WHITE);
-        Piece knightB = knightCreator.createPiece(Color.BLACK);
 
-        //bishop
-        PieceCreator bishopCreator = new BishopCreator();
-        Piece bishopW = bishopCreator.createPiece(Color.WHITE);
-        Piece bishopB = bishopCreator.createPiece(Color.BLACK);
-
-        //queen
-        PieceCreator queenCreator = new QueenCreator();
-        Piece queenW = queenCreator.createPiece(Color.WHITE);
-        Piece queenB = queenCreator.createPiece(Color.BLACK);
-
-        //king
-        PieceCreator kingCreator = new KingCreator();
-        Piece kingW = kingCreator.createPiece(Color.WHITE);
-        Piece kingB = kingCreator.createPiece(Color.BLACK);
 
         Map<Tile,Piece> startingPositions = new HashMap<>();
         startingPositions.put(new Tile(0,0),rookW);
@@ -114,7 +93,7 @@ public class ChessGameCreator implements GameCreator {
         Player player1 = new Player(Color.WHITE, "Player 1");
         Player player2 = new Player(Color.BLACK, "Player 2");
 
-        return new Game(board, player1, player2, rules, player1, false, new ChessPieceMover(), new ChessMoveVerifier());
+        return new Game(board, player1, player2, rules, player1, new ChessPieceMover());
     }
 
 
