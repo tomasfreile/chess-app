@@ -47,7 +47,6 @@ public class Game {
         return currentPlayer;
     }
 
-
     public PieceMover getPieceMover() {
         return pieceMover;
     }

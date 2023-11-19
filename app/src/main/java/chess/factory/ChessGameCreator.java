@@ -5,6 +5,7 @@ import chess.factory.piece.PieceFactory;
 import chess.factory.stalemateConditions.NormalChessStalemate;
 import chess.factory.winConditions.NormalChessCheckmate;
 import chess.rules.NormalChessRules;
+import chess.validator.NotInCheckValidator;
 import commons.game.GameCreator;
 import commons.game.Game;
 import commons.piece.Piece;
@@ -13,6 +14,8 @@ import commons.rules.Rules;
 import commons.rules.StalemateCondition;
 import commons.rules.WinCondition;
 import commons.*;
+import commons.validator.GameValidator;
+import commons.validator.Validator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -85,7 +88,9 @@ public class ChessGameCreator implements GameCreator {
         StalemateCondition stalemateCondition = new NormalChessStalemate();
         stalemateConditions.add(stalemateCondition);
 
-        Rules rules = new NormalChessRules(winConditions, stalemateConditions);
+        List<GameValidator> gameMoveValidators = List.of(new NotInCheckValidator());
+
+        Rules rules = new NormalChessRules(winConditions, stalemateConditions, gameMoveValidators);
 
         Board board = new Board(startingPositions, 8, 8);
 

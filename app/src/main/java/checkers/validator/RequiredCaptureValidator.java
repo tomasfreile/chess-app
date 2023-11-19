@@ -21,16 +21,6 @@ public class RequiredCaptureValidator {
 //        }
         return false;
     }
-    public boolean isCapture(Board board, Tile from, Tile to) {
-//        Piece p = from.getPiece();
-//        int rowDirection = Integer.compare(to.getRow(), from.getRow());
-//        int columnDirection = Integer.compare(to.getColumn(), from.getColumn());
-//
-//        Tile possibleCapture = board.getPosition(to.getRow() - rowDirection, to.getColumn() - columnDirection);
-//
-//        return possibleCapture != null && !possibleCapture.isEmpty() && possibleCapture.getPiece().getColor() != p.getColor();
-        return false;
-    }
 
     public boolean hasAvailableCapturesFromTile(Board board, Tile from) {
 //        Piece p = from.getPiece();

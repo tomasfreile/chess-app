@@ -1,12 +1,12 @@
 package checkers;
 
 
+import checkers.factory.piece.CheckersPieceFactory;
 import checkers.validator.RequiredCaptureValidator;
 import chess.factory.piece.PieceFactory;
 import commons.*;
 import commons.game.Game;
 import commons.piece.Piece;
-import commons.piece.PieceCreator;
 import commons.piece.PieceMover;
 import commons.piece.PieceName;
 import commons.result.GameMoveResult;
@@ -15,6 +15,7 @@ import commons.result.SuccessfulMove;
 import commons.result.UnsuccessfulMove;
 import commons.rules.Rules;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -28,27 +29,28 @@ public class CheckersPieceMover implements PieceMover {
         Player player2 = game.getPlayer2();
         Player currentPlayer = game.getCurrentPlayer();
 
-        if(rules.cannotMove(board, p.getColor(), from, to)){
+        if(!rules.checkGameMoveValidators(board, p.getColor(), from, to)){
             return new UnsuccessfulMove("You have to capture a piece if you can", game);
         }
 
-            int rowDirection = Integer.compare(to.getRow(), from.getRow());
-            int columnDirection = Integer.compare(to.getColumn(), from.getColumn());
+        int rowDirection = from.getRow() < to.getRow() ? 1 : -1;
+        int columnDirection = from.getColumn() < to.getColumn() ? 1 : -1;
 
-
-        Map<Tile, Piece> newPositions = board.getPositions();
-
+        Map<Tile, Piece> newPositions = new HashMap<>(board.getPositions());
         Iterator<Tile> iterator = newPositions.keySet().iterator();
         while (iterator.hasNext()) {
             Tile tile = iterator.next();
             if (tile.getRow() == from.getRow() && tile.getColumn() == from.getColumn()) {
                 iterator.remove();
+                continue;
             }
-            if (tile.getRow() + rowDirection == to.getRow() && tile.getColumn() + columnDirection == to.getColumn()) {
+            if (tile.getRow() == to.getRow() - rowDirection && tile.getColumn() == to.getColumn() - columnDirection) {
+                // Remove the piece at the position before the 'to' tile
                 iterator.remove();
             }
         }
         newPositions.put(to, new Piece(p.getType(), p.getMoves(), p.getColor(), p.getMoveCount() + 1));
+
 
         Board newBoard = new Board(newPositions, board.getHeight(), board.getWidth());
 
@@ -63,13 +65,14 @@ public class CheckersPieceMover implements PieceMover {
     }
 
     private boolean canReCapture(Tile from, Tile to, Board board, Board newBoard) {
-        return requiredCaptureValidator.isCapture(board, from, to) && requiredCaptureValidator.hasAvailableCapturesFromTile(newBoard, to);
+        return false;
+        //return requiredCaptureValidator.isCapture(board, from, to) && requiredCaptureValidator.hasAvailableCapturesFromTile(newBoard, to);
     }
 
     @Override
     public GameMoveResult promote(Tile from, Tile to, Piece p, Game game) {
         Color pieceColor = p.getColor();
-        Piece newPiece = PieceFactory.createPiece(PieceName.KING, pieceColor);
+        Piece newPiece = CheckersPieceFactory.createQueen(pieceColor);
         return move(from, to, newPiece, game);
     }
 

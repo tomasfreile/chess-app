@@ -18,7 +18,7 @@ public class TestCheckersGameCreator {
         Map<Tile,Piece> startingPositions = new HashMap<>();
         startingPositions.put(new Tile(3,3), piece);
 
-        Rules rules = new CheckersRules(new ArrayList<>(), new ArrayList<>());
+        Rules rules = new CheckersRules(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
         Board board = new Board(startingPositions,8,8);
 
 

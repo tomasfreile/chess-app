@@ -17,20 +17,20 @@ public class NoMovesAvailable implements WinCondition {
     }
 
     private boolean cannotMove(Board board, Color color) {
-//        Map<Tile, Piece> pieces = board.getPositions();
-//        for (Piece piece : pieces.values()) {
-//            if (piece.getColor() == color) {
-//                for (int row = 0; row < board.getHeight(); row++) {
-//                    for (int column = 0; column < board.getWidth(); column++) {
-//                        Tile start = new Tile(row, column);
-//                        Tile end = new Tile(row + 1, column + 1);
-//                        if (moveHandler.validateMovement(start, end, board, moveVerifier)) {
-//                            return false;
-//                        }
-//                    }
-//                }
-//            }
-//        }
+        for (Tile tile : board.getPositions().keySet()) {
+            if (board.getPieceAtPosition(tile.getRow(), tile.getColumn()).getColor() == color) {
+                for (int row = 0; row < board.getHeight(); row++) {
+                    for (int column = 0; column < board.getWidth(); column++) {
+                        Tile to = new Tile(row, column);
+                        if (board.getPieceAtPosition(row, column) == null) {
+                            if (board.getPieceAtPosition(tile.getRow(), tile.getColumn()).getMoves().isValid(tile, to, board)) {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+        }
         return true;
     }
 }

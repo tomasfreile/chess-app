@@ -5,6 +5,8 @@ import commons.*;
 import commons.rules.Rules;
 import commons.rules.StalemateCondition;
 import commons.rules.WinCondition;
+import commons.validator.GameValidator;
+import commons.validator.Validator;
 
 import java.util.List;
 
@@ -12,13 +14,13 @@ import java.util.List;
 public class CheckersRules implements Rules {
     private final List<WinCondition> winConditions;
     private final List<StalemateCondition> stalemateConditions;
-    private final RequiredCaptureValidator requiredCaptureValidator = new RequiredCaptureValidator();
+    private final List<GameValidator> gameMoveValidators;
 
 
-    public CheckersRules(List<WinCondition> winConditions, List<StalemateCondition> stalemateConditions) {
-
+    public CheckersRules(List<WinCondition> winConditions, List<StalemateCondition> stalemateConditions, List<GameValidator> gameMoveValidators) {
         this.winConditions = winConditions;
         this.stalemateConditions = stalemateConditions;
+        this.gameMoveValidators = gameMoveValidators;
     }
 
     @Override
@@ -32,6 +34,11 @@ public class CheckersRules implements Rules {
     }
 
     @Override
+    public List<GameValidator> getGameMoveValidators() {
+        return null;
+    }
+
+    @Override
     public boolean checkWin(Board board, Color color) {
         for (WinCondition winCondition : winConditions) {
             if (winCondition.checkWin(board, color)) {
@@ -42,16 +49,13 @@ public class CheckersRules implements Rules {
     }
 
     @Override
-    public boolean cannotMove(Board board, Color color, Tile start, Tile end) {
-        if (requiredCaptureValidator.isCapture(board, start, end)){
-            return false;
-        }
-        return requiredCaptureValidator.hasAvailableCaptures(board, color);
+    public boolean checkGameMoveValidators(Board board, Color color, Tile start, Tile end) {
+        return true;
     }
 
 
     @Override
-    public boolean isStalemate(Board board, Color color) {
+    public boolean checkStalemate(Board board, Color color) {
         for (StalemateCondition stalemateCondition : stalemateConditions) {
             if (stalemateCondition.isStalemate(board, color)) {
                 return true;
@@ -59,6 +63,5 @@ public class CheckersRules implements Rules {
         }
         return false;
     }
-
 
 }

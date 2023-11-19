@@ -6,6 +6,8 @@ import commons.piece.PieceName;
 import commons.rules.Rules;
 import commons.rules.StalemateCondition;
 import commons.rules.WinCondition;
+import commons.validator.GameValidator;
+import commons.validator.Validator;
 
 import java.util.List;
 import java.util.Map;
@@ -14,10 +16,12 @@ public class NormalChessRules implements Rules {
     private final List<WinCondition> winConditions;
     private final List<StalemateCondition> stalemateConditions;
 
-    public NormalChessRules(List<WinCondition> winConditions, List<StalemateCondition> stalemateConditions) {
+    private final List<GameValidator> gameMoveValidators;
 
+    public NormalChessRules(List<WinCondition> winConditions, List<StalemateCondition> stalemateConditions, List<GameValidator> gameMoveValidators) {
         this.winConditions = winConditions;
         this.stalemateConditions = stalemateConditions;
+        this.gameMoveValidators = gameMoveValidators;
     }
     @Override
     public List<WinCondition> getWinConditions() {
@@ -27,6 +31,12 @@ public class NormalChessRules implements Rules {
     public List<StalemateCondition> getStalemateConditions() {
         return stalemateConditions;
     }
+
+    @Override
+    public List<GameValidator> getGameMoveValidators() {
+        return gameMoveValidators;
+    }
+
     @Override
     public boolean checkWin(Board board, Color color) {
         for (WinCondition winCondition : winConditions) {
@@ -37,11 +47,17 @@ public class NormalChessRules implements Rules {
         return false;
     }
     @Override
-    public boolean cannotMove(Board board, Color color, Tile start, Tile end) {
-        return isCheck(board, color);
+    public boolean checkGameMoveValidators(Board board, Color color, Tile start, Tile end) {
+        for (GameValidator validator : gameMoveValidators) {
+            if (!validator.isValid(start, end, board, color)) {
+                return false;
+            }
+        }
+        return true;
+        //return isCheck(board, color);
     }
     @Override
-    public boolean isStalemate(Board board, Color color) {
+    public boolean checkStalemate(Board board, Color color) {
         for (StalemateCondition stalemateCondition : stalemateConditions) {
             if (stalemateCondition.isStalemate(board, color)) {
                 return true;
@@ -50,29 +66,6 @@ public class NormalChessRules implements Rules {
         return false;
     }
 
-
-    private boolean isCheck(Board board, Color color){
-        Tile kingPosition = findKing(board, color);
-        Map<Tile, Piece> positions = board.getPositions();
-        for (Map.Entry<Tile, Piece> entry : positions.entrySet()) {
-            if (entry.getValue().getColor() != color) {
-                if (entry.getValue().getMoves().isValid(entry.getKey(), kingPosition, board)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-    private Tile findKing(Board board, Color color) {
-        //search the map for key with value king
-        Map<Tile, Piece> positions = board.getPositions();
-        for (Map.Entry<Tile, Piece> entry : positions.entrySet()) {
-            if (entry.getValue().getType() == PieceName.KING && entry.getValue().getColor() == color) {
-                return entry.getKey();
-            }
-        }
-        return null;
-    }
 
 
 }
