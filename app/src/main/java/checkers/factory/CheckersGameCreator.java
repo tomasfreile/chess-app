@@ -5,7 +5,7 @@ import checkers.factory.piece.CheckersPieceFactory;
 import checkers.factory.winConditions.AllPiecesCaptured;
 import checkers.factory.winConditions.NoMovesAvailable;
 import checkers.rules.CheckersRules;
-import checkers.validator.RequiredCaptureValidator;
+import checkers.validator.game.RequiredCaptureValidator;
 import commons.game.Game;
 import commons.game.GameCreator;
 import commons.piece.Piece;
@@ -14,7 +14,6 @@ import commons.rules.Rules;
 import commons.rules.StalemateCondition;
 import commons.rules.WinCondition;
 import commons.validator.GameValidator;
-import commons.validator.Validator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -64,7 +63,7 @@ public class CheckersGameCreator implements GameCreator {
 
         List<StalemateCondition> stalemateConditions = new ArrayList<>();
 
-        List<GameValidator> gameMoveValidators = List.of();
+        List<GameValidator> gameMoveValidators = List.of(new RequiredCaptureValidator());
 
         Rules rules = new CheckersRules(winConditions, stalemateConditions, gameMoveValidators);
 

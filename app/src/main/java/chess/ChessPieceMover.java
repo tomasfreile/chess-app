@@ -25,7 +25,7 @@ public class ChessPieceMover implements PieceMover {
         Player player2 = game.getPlayer2();
         Player currentPlayer = game.getCurrentPlayer();
 
-        if (isPromotion(from, to, piece, board)){
+        if (isPromotion(to, piece, board)){
             piece = PieceFactory.createPiece(PieceName.QUEEN, piece.getColor());
         }
 
@@ -64,19 +64,13 @@ public class ChessPieceMover implements PieceMover {
         return new SuccessfulMove(newGame);
     }
 
-    @Override
-    public GameMoveResult promote(Tile from, Tile to, Piece p, Game game) {
-        Color pieceColor = p.getColor();
-        Piece newPiece = PieceFactory.createPiece(PieceName.QUEEN, pieceColor);
-        return move(from, to, newPiece, game);
-    }
 
     @Override
     public Tile getCaptureTile(Tile from, Tile to) {
         return to;
     }
 
-    private boolean isPromotion(Tile from, Tile to, Piece piece, Board board) {
+    private boolean isPromotion(Tile to, Piece piece, Board board) {
         return  piece.getType().equals(PieceName.PAWN) && (to.getRow() == board.getHeight() - 1 && piece.getColor().equals(Color.WHITE) || to.getRow() == 1 && piece.getColor().equals(Color.BLACK));
     }
 

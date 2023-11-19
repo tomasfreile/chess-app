@@ -1,12 +1,10 @@
 package checkers.rules;
 
-import checkers.validator.RequiredCaptureValidator;
 import commons.*;
 import commons.rules.Rules;
 import commons.rules.StalemateCondition;
 import commons.rules.WinCondition;
 import commons.validator.GameValidator;
-import commons.validator.Validator;
 
 import java.util.List;
 
@@ -50,6 +48,11 @@ public class CheckersRules implements Rules {
 
     @Override
     public boolean checkGameMoveValidators(Board board, Color color, Tile start, Tile end) {
+        for (GameValidator gameMoveValidator : gameMoveValidators) {
+            if (!gameMoveValidator.isValid(start, end, board, color)) {
+                return false;
+            }
+        }
         return true;
     }
 

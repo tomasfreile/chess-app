@@ -6,6 +6,5 @@ import commons.result.GameMoveResult;
 
 public interface PieceMover {
     GameMoveResult move(Tile from, Tile to, Piece p, Game game);
-    GameMoveResult promote(Tile from, Tile to, Piece p, Game game);
     Tile getCaptureTile(Tile from, Tile to);
 }

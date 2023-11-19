@@ -1,8 +1,6 @@
 package checkers;
 
 
-import checkers.factory.piece.CheckersPieceFactory;
-import checkers.validator.RequiredCaptureValidator;
 import chess.factory.piece.PieceFactory;
 import commons.*;
 import commons.game.Game;
@@ -20,17 +18,20 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class CheckersPieceMover implements PieceMover {
-    private final RequiredCaptureValidator requiredCaptureValidator = new RequiredCaptureValidator();
     @Override
-    public GameMoveResult move(Tile from, Tile to, Piece p, Game game) {
+    public GameMoveResult move(Tile from, Tile to, Piece piece, Game game) {
         Board board = game.getBoard();
         Rules rules = game.getRules();
         Player player1 = game.getPlayer1();
         Player player2 = game.getPlayer2();
         Player currentPlayer = game.getCurrentPlayer();
 
-        if(!rules.checkGameMoveValidators(board, p.getColor(), from, to)){
+        if(!rules.checkGameMoveValidators(board, piece.getColor(), from, to)){
             return new UnsuccessfulMove("You have to capture a piece if you can", game);
+        }
+
+        if (isPromotion(to, piece, board)){
+            piece = PieceFactory.createPiece(PieceName.QUEEN, piece.getColor());
         }
 
         int rowDirection = from.getRow() < to.getRow() ? 1 : -1;
@@ -49,7 +50,7 @@ public class CheckersPieceMover implements PieceMover {
                 iterator.remove();
             }
         }
-        newPositions.put(to, new Piece(p.getType(), p.getMoves(), p.getColor(), p.getMoveCount() + 1));
+        newPositions.put(to, new Piece(piece.getType(), piece.getMoves(), piece.getColor(), piece.getMoveCount() + 1));
 
 
         Board newBoard = new Board(newPositions, board.getHeight(), board.getWidth());
@@ -69,18 +70,16 @@ public class CheckersPieceMover implements PieceMover {
         //return requiredCaptureValidator.isCapture(board, from, to) && requiredCaptureValidator.hasAvailableCapturesFromTile(newBoard, to);
     }
 
-    @Override
-    public GameMoveResult promote(Tile from, Tile to, Piece p, Game game) {
-        Color pieceColor = p.getColor();
-        Piece newPiece = CheckersPieceFactory.createQueen(pieceColor);
-        return move(from, to, newPiece, game);
-    }
 
     @Override
     public Tile getCaptureTile(Tile from, Tile to) {
         int rowDirection = Integer.compare(to.getRow(), from.getRow());
         int columnDirection = Integer.compare(to.getColumn(), from.getColumn());
         return new Tile(to.getRow() - rowDirection, to.getColumn() - columnDirection);
+    }
+
+    private boolean isPromotion(Tile to, Piece piece, Board board) {
+        return  piece.getType().equals(PieceName.PAWN) && (to.getRow() == board.getHeight() - 1 && piece.getColor().equals(Color.WHITE) || to.getRow() == 1 && piece.getColor().equals(Color.BLACK));
     }
 
 }
