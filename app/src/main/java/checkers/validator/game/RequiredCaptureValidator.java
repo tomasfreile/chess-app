@@ -1,12 +1,12 @@
 package checkers.validator.game;
 
-import checkers.validator.MustJumpCaptureValidator;
+import checkers.validator.move.MustJumpCaptureValidator;
 import commons.Board;
 import commons.Color;
 import commons.Tile;
 import commons.piece.Piece;
 import commons.validator.GameValidator;
-import commons.validator.Validator;
+
 
 public class RequiredCaptureValidator implements GameValidator {
     @Override
@@ -18,7 +18,6 @@ public class RequiredCaptureValidator implements GameValidator {
             return true;
         }
     }
-
 
     private boolean hasCapturesAvailable(Board board, Color color){
         for (Tile tile : board.getPositions().keySet()){
@@ -37,18 +36,5 @@ public class RequiredCaptureValidator implements GameValidator {
             }
         }
         return false;
-    }
-
-    private boolean isCapture(Tile from, Tile to, Board board, Color color){
-        int rowDirection = from.getRow() < to.getRow() ? 1 : -1;
-        int columnDirection = from.getColumn() < to.getColumn() ? 1 : -1;
-
-        Tile possibleCapture = new Tile(to.getRow() - rowDirection, to.getColumn() - columnDirection);
-        if (board.isPositionOccupied(possibleCapture)){
-            Piece piece = board.getPieceAtPosition(possibleCapture.getRow(), possibleCapture.getColumn());
-            return piece.getColor() != board.getPieceAtPosition(from.getRow(),from.getColumn()).getColor();
-        } else {
-            return false;
-        }
     }
 }

@@ -1,6 +1,7 @@
 package checkers;
 
 
+import checkers.factory.piece.CheckersPieceFactory;
 import chess.factory.piece.PieceFactory;
 import commons.*;
 import commons.game.Game;
@@ -31,7 +32,7 @@ public class CheckersPieceMover implements PieceMover {
         }
 
         if (isPromotion(to, piece, board)){
-            piece = PieceFactory.createPiece(PieceName.QUEEN, piece.getColor());
+            piece = CheckersPieceFactory.createQueen(piece.getColor());
         }
 
         int rowDirection = from.getRow() < to.getRow() ? 1 : -1;
@@ -61,13 +62,7 @@ public class CheckersPieceMover implements PieceMover {
         if (gameOver) {
             return new GameOverResult(new Game(newBoard, player1, player2, rules, nextPlayer, this));
         }
-
-        return canReCapture(from, to, board, newBoard) ? new SuccessfulMove(new Game(newBoard, player1, player2, rules, currentPlayer, this)) : new SuccessfulMove(new Game(newBoard, player1, player2, rules, nextPlayer, game.getPieceMover()));
-    }
-
-    private boolean canReCapture(Tile from, Tile to, Board board, Board newBoard) {
-        return false;
-        //return requiredCaptureValidator.isCapture(board, from, to) && requiredCaptureValidator.hasAvailableCapturesFromTile(newBoard, to);
+        return new SuccessfulMove(new Game(newBoard, player1, player2, rules, nextPlayer, game.getPieceMover()));
     }
 
 
@@ -79,7 +74,7 @@ public class CheckersPieceMover implements PieceMover {
     }
 
     private boolean isPromotion(Tile to, Piece piece, Board board) {
-        return  piece.getType().equals(PieceName.PAWN) && (to.getRow() == board.getHeight() - 1 && piece.getColor().equals(Color.WHITE) || to.getRow() == 1 && piece.getColor().equals(Color.BLACK));
+        return  piece.getType().equals(PieceName.PAWN) && (to.getRow() == board.getHeight() - 1 && piece.getColor().equals(Color.WHITE) || to.getRow() == 0 && piece.getColor().equals(Color.BLACK));
     }
 
 }

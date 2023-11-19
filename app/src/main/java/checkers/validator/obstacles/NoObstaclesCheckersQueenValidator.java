@@ -1,10 +1,10 @@
-package commons.validator.moveValidators.obstacles;
+package checkers.validator.obstacles;
 
 import commons.Board;
 import commons.Tile;
 import commons.validator.Validator;
 
-public class NoObstaclesDiagonalValidator implements Validator {
+public class NoObstaclesCheckersQueenValidator implements Validator {
     @Override
     public boolean isValid(Tile from, Tile to, Board board) {
         int rowDirection = from.getRow() < to.getRow() ? 1 : -1;
@@ -13,7 +13,7 @@ public class NoObstaclesDiagonalValidator implements Validator {
         int row = from.getRow() + rowDirection;
         int column = from.getColumn() + columnDirection;
 
-        while (row != to.getRow() && column != to.getColumn()) {
+        while (row != to.getRow() - rowDirection && column != to.getColumn() - columnDirection) {
             if (board.getPieceAtPosition(row, column) != null) {
                 return false;
             }

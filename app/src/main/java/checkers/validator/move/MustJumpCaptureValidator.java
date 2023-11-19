@@ -1,4 +1,4 @@
-package checkers.validator;
+package checkers.validator.move;
 
 import commons.Board;
 import commons.Tile;

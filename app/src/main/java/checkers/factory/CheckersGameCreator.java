@@ -26,7 +26,6 @@ public class CheckersGameCreator implements GameCreator {
 
     @Override
     public Game createGame() {
-        //checkers piece
         Piece pawnW = CheckersPieceFactory.createPawn(Color.WHITE);
         Piece pawnB = CheckersPieceFactory.createPawn(Color.BLACK);
 

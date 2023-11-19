@@ -1,7 +1,8 @@
 package checkers.factory.piece;
 
 
-import checkers.validator.MustJumpCaptureValidator;
+import checkers.validator.move.MustJumpCaptureValidator;
+import checkers.validator.obstacles.NoObstaclesCheckersQueenValidator;
 import commons.Color;
 import commons.piece.Piece;
 import commons.piece.PieceName;
@@ -27,11 +28,11 @@ public class CheckersPieceFactory {
 
     private static final AndValidator diagonalLimitless = new AndValidator(List.of(
             new DiagonalMoveValidator(), new CannotCaptureOwnPieceValidator(),
-            new NoObstaclesDiagonalValidator(), new CannotCaptureValidator(), new CannotCaptureValidator()));
+            new NoObstaclesDiagonalValidator(), new CannotCaptureValidator()));
 
     private static final AndValidator diagonalLimitlessCapture = new AndValidator(List.of(
             new DiagonalMoveValidator(), new CannotCaptureOwnPieceValidator(),
-            new NoObstaclesDiagonalValidator(), new MustJumpCaptureValidator(), new CannotCaptureValidator()));
+            new MustJumpCaptureValidator(), new CannotCaptureValidator(), new NoObstaclesCheckersQueenValidator()));
 
     public static Piece createPawn(Color color){
         return new Piece(PieceName.PAWN, new OrValidator(List.of(diagonalOneForward, diagonalTwoForward)), color, 0);

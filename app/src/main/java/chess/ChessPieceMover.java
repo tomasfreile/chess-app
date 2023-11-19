@@ -71,7 +71,7 @@ public class ChessPieceMover implements PieceMover {
     }
 
     private boolean isPromotion(Tile to, Piece piece, Board board) {
-        return  piece.getType().equals(PieceName.PAWN) && (to.getRow() == board.getHeight() - 1 && piece.getColor().equals(Color.WHITE) || to.getRow() == 1 && piece.getColor().equals(Color.BLACK));
+        return  piece.getType().equals(PieceName.PAWN) && (to.getRow() == board.getHeight() - 1 && piece.getColor().equals(Color.WHITE) || to.getRow() == 0 && piece.getColor().equals(Color.BLACK));
     }
 
 }
