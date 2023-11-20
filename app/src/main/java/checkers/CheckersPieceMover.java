@@ -91,7 +91,6 @@ public class CheckersPieceMover implements PieceMover {
     }
 
     private boolean hasAvailableCapturesFromTile(Tile to, Board newBoard) {
-        Piece piece = newBoard.getPieceAtPosition(to.getRow(), to.getColumn());
         for (int i = 0; i < newBoard.getHeight(); i++)
             for (int j = 0; j < newBoard.getWidth(); j++) {
                 Tile destination = new Tile(i, j);

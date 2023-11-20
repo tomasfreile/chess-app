@@ -4,6 +4,7 @@
 package edu.austral.dissis
 
 import checkers.factory.CheckersGameCreator
+import chess.factory.CapablancaGameCreator
 import chess.factory.ChessGameCreator
 import commons.game.GameEngineImpl
 import edu.austral.dissis.chess.gui.CachedImageResolver
@@ -22,7 +23,7 @@ fun main() {
 class ChessGameApplication : Application() {
     private val chess = GameEngineImpl(ChessGameCreator().createGame())
     private val checkers = GameEngineImpl(CheckersGameCreator().createGame())
-    //private val capablanca = GameEngineImpl(CapablancaChessGameCreator().createGame())
+    private val capablanca = GameEngineImpl(CapablancaGameCreator().createGame())
 
     private val imageResolver = CachedImageResolver(DefaultImageResolver())
 
@@ -34,7 +35,7 @@ class ChessGameApplication : Application() {
 
         primaryStage.title = GameTitle
 
-        val root = createGameViewFrom(checkers, imageResolver)
+        val root = createGameViewFrom(capablanca, imageResolver)
 
         primaryStage.scene = Scene(root)
 

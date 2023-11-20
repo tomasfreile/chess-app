@@ -51,7 +51,7 @@ public class Game {
         return pieceMover;
     }
 
-    public GameMoveResult moveAndSwitchPlayer(Tile from, Tile to) {
+    public GameMoveResult move(Tile from, Tile to) {
         if (!board.isPositionOccupied(from)) {
             return new UnsuccessfulMove("Choose a position with a piece", this);
         }

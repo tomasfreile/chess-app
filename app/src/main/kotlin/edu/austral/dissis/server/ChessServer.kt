@@ -50,7 +50,7 @@ class ChessServer(private var game: Game, private val builder: ServerBuilder = N
     fun handleInit() {
         server.broadcast(Message("init", InitialState(
             BoardSize(game.board.width, game.board.height),
-            PieceTranslator().translatePieceList(game.board.positions),
+            PieceTranslator.translatePieceList(game.board.positions),
             if (game.currentPlayer.color == Color.WHITE) PlayerColor.WHITE else PlayerColor.BLACK
         )
         ))

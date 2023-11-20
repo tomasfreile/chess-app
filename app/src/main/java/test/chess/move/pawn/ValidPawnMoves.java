@@ -1,11 +1,12 @@
-package test.checkers.pawn;
+package test.chess.move.pawn;
 
-import checkers.factory.piece.CheckersPieceFactory;
+import chess.factory.piece.PieceFactory;
 import commons.Board;
 import commons.Color;
-import commons.Tile;
 import commons.game.Game;
+import commons.Tile;
 import commons.piece.Piece;
+import commons.piece.PieceName;
 import org.junit.Test;
 import test.Helper;
 import test.TestBoardCreator;
@@ -16,20 +17,21 @@ import java.util.List;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class TestValidChPawnMoves {
-
+public class ValidPawnMoves {
     TestBoardCreator testGameCreator = new TestBoardCreator();
 
     @Test
-    public void testValidChPawnMoves() {
-        Piece piece = CheckersPieceFactory.createPawn(Color.WHITE);
+    public void testValidPawnMoves() {
+        Piece piece = PieceFactory.createPiece(PieceName.PAWN, Color.WHITE);
         Game game = testGameCreator.createGame(piece);
         Board board = game.getBoard();
         System.out.println(game.getBoard().printBoard());
 
         List<Tile> availableMoves = new ArrayList<>();
-        availableMoves.add(new Tile(4,4));
-        availableMoves.add(new Tile(4,2));
+        availableMoves.add(new Tile(4, 3));
+        availableMoves.add(new Tile(5, 3));
+
+
 
         for (int i = 0; i < board.getHeight(); i++) {
             for (int j = 0; j < board.getWidth(); j++) {
@@ -42,5 +44,4 @@ public class TestValidChPawnMoves {
             }
         }
     }
-
 }

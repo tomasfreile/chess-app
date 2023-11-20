@@ -15,18 +15,18 @@ import java.util.List;
 public class GameEngineImpl implements GameEngine{
     Game game;
     List<ChessPiece> pieces;
-    private PieceTranslator pieceTranslator = new PieceTranslator();
+
 
     public GameEngineImpl(Game game) {
         this.game = game;
-        pieces = pieceTranslator.translatePieceList(game.getBoard().getPositions());
+        pieces = PieceTranslator.translatePieceList(game.getBoard().getPositions());
     }
     @NotNull
     @Override
     public MoveResult applyMove(@NotNull Move move) {
         Tile from = new Tile(move.getFrom().getRow() - 1, move.getFrom().getColumn() - 1);
         Tile to = new Tile(move.getTo().getRow() - 1, move.getTo().getColumn() - 1);
-        GameMoveResult result = game.moveAndSwitchPlayer(from, to);
+        GameMoveResult result = game.move(from, to);
 
         if (result instanceof UnsuccessfulMove) {
             return new InvalidMove(result.getMessage());
@@ -75,13 +75,13 @@ public class GameEngineImpl implements GameEngine{
         return null;
     }
 
-    private static boolean isPromotion(Move move, ChessPiece movedPiece, Board board) {
-        return  movedPiece.getPieceId().equals("pawn") && (move.getTo().getRow() == board.getHeight() && movedPiece.getColor().equals(PlayerColor.WHITE) || move.getTo().getRow() == 1 && movedPiece.getColor().equals(PlayerColor.BLACK));
-    }
-
     private ChessPiece findCapturedPiece(@NotNull Move move) {
         Tile capturedTile = game.getPieceMover().getCapturedTile(new Tile(move.getFrom().getRow() - 1, move.getFrom().getColumn() - 1), new Tile(move.getTo().getRow() - 1, move.getTo().getColumn() - 1));
         return findPiece(new Position(capturedTile.getRow() + 1, capturedTile.getColumn() + 1));
+    }
+
+    private boolean isPromotion(Move move, ChessPiece movedPiece, Board board) {
+        return  movedPiece.getPieceId().equals("pawn") && (move.getTo().getRow() == board.getHeight() && movedPiece.getColor().equals(PlayerColor.WHITE) || move.getTo().getRow() == 1 && movedPiece.getColor().equals(PlayerColor.BLACK));
     }
 
 }

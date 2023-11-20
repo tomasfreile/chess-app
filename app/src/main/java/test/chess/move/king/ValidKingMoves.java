@@ -1,4 +1,4 @@
-package test.chess.king;
+package test.chess.move.king;
 
 import chess.factory.piece.PieceFactory;
 import commons.Board;

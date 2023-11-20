@@ -6,24 +6,26 @@ import chess.factory.stalemateConditions.NormalChessStalemate;
 import chess.factory.winConditions.NormalChessCheckmate;
 import chess.rules.NormalChessRules;
 import chess.validator.NotInCheckValidator;
-import commons.game.GameCreator;
+import commons.Board;
+import commons.Color;
+import commons.Player;
+import commons.Tile;
 import commons.game.Game;
+import commons.game.GameCreator;
 import commons.piece.Piece;
 import commons.piece.PieceName;
 import commons.rules.Rules;
 import commons.rules.StalemateCondition;
 import commons.rules.WinCondition;
-import commons.*;
 import commons.validator.GameValidator;
-import commons.validator.Validator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ChessGameCreator implements GameCreator {
-    public ChessGameCreator() {
+public class CapablancaGameCreator implements GameCreator {
+    public CapablancaGameCreator() {
     }
 
     @Override
@@ -36,6 +38,8 @@ public class ChessGameCreator implements GameCreator {
         Piece queenW = PieceFactory.createPiece(PieceName.QUEEN, Color.WHITE);
         Piece kingW = PieceFactory.createPiece(PieceName.KING, Color.WHITE);
         Piece pawnW = PieceFactory.createPiece(PieceName.PAWN, Color.WHITE);
+        Piece archbishopW = PieceFactory.createPiece(PieceName.ARCHBISHOP, Color.WHITE);
+        Piece archbishopB = PieceFactory.createPiece(PieceName.ARCHBISHOP, Color.BLACK);
         Piece rookB = PieceFactory.createPiece(PieceName.ROOK, Color.BLACK);
         Piece knightB = PieceFactory.createPiece(PieceName.KNIGHT, Color.BLACK);
         Piece bishopB = PieceFactory.createPiece(PieceName.BISHOP, Color.BLACK);
@@ -48,37 +52,29 @@ public class ChessGameCreator implements GameCreator {
         Map<Tile,Piece> startingPositions = new HashMap<>();
         startingPositions.put(new Tile(0,0),rookW);
         startingPositions.put(new Tile(0,1),knightW);
-        startingPositions.put(new Tile(0,2),bishopW);
-        startingPositions.put(new Tile(0,3),queenW);
-        startingPositions.put(new Tile(0,4),kingW);
-        startingPositions.put(new Tile(0,5),bishopW);
-        startingPositions.put(new Tile(0,6),knightW);
-        startingPositions.put(new Tile(0,7),rookW);
-        startingPositions.put(new Tile(1,0),pawnW);
-        startingPositions.put(new Tile(1,1),pawnW);
-        startingPositions.put(new Tile(1,2),pawnW);
-        startingPositions.put(new Tile(1,3),pawnW);
-        startingPositions.put(new Tile(1,4),pawnW);
-        startingPositions.put(new Tile(1,5),pawnW);
-        startingPositions.put(new Tile(1,6),pawnW);
-        startingPositions.put(new Tile(1,7),pawnW);
-        startingPositions.put(new Tile(6,0),pawnB);
-        startingPositions.put(new Tile(6,1),pawnB);
-        startingPositions.put(new Tile(6,2),pawnB);
-        startingPositions.put(new Tile(6,3),pawnB);
-        startingPositions.put(new Tile(6,4),pawnB);
-        startingPositions.put(new Tile(6,5),pawnB);
-        startingPositions.put(new Tile(6,6),pawnB);
-        startingPositions.put(new Tile(6,7),pawnB);
+        startingPositions.put(new Tile(0,2),archbishopW);
+        startingPositions.put(new Tile(0,3),bishopW);
+        startingPositions.put(new Tile(0,4),queenW);
+        startingPositions.put(new Tile(0,5),kingW);
+        startingPositions.put(new Tile(0,6),bishopW);
+        startingPositions.put(new Tile(0,7),archbishopW);
+        startingPositions.put(new Tile(0,8),knightW);
+        startingPositions.put(new Tile(0,9),rookW);
         startingPositions.put(new Tile(7,0),rookB);
         startingPositions.put(new Tile(7,1),knightB);
-        startingPositions.put(new Tile(7,2),bishopB);
-        startingPositions.put(new Tile(7,3),queenB);
-        startingPositions.put(new Tile(7,4),kingB);
-        startingPositions.put(new Tile(7,5),bishopB);
-        startingPositions.put(new Tile(7,6),knightB);
-        startingPositions.put(new Tile(7,7),rookB);
+        startingPositions.put(new Tile(7,2),archbishopB);
+        startingPositions.put(new Tile(7,3),bishopB);
+        startingPositions.put(new Tile(7,4),queenB);
+        startingPositions.put(new Tile(7,5),kingB);
+        startingPositions.put(new Tile(7,6),bishopB);
+        startingPositions.put(new Tile(7,7),archbishopB);
+        startingPositions.put(new Tile(7,8),knightB);
+        startingPositions.put(new Tile(7,9),rookB);
 
+        for (int i = 0; i < 10; i++) {
+            startingPositions.put(new Tile(1,i),pawnW);
+            startingPositions.put(new Tile(6,i),pawnB);
+        }
 
         List<WinCondition> winConditions = new ArrayList<>();
         WinCondition winCondition = new NormalChessCheckmate(PieceName.KING);
@@ -92,8 +88,7 @@ public class ChessGameCreator implements GameCreator {
 
         Rules rules = new NormalChessRules(winConditions, stalemateConditions, gameMoveValidators);
 
-        Board board = new Board(startingPositions, 8, 8);
-
+        Board board = new Board(startingPositions, 8, 10);
 
         Player player1 = new Player(Color.WHITE, "Player 1");
         Player player2 = new Player(Color.BLACK, "Player 2");

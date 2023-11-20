@@ -15,7 +15,7 @@ public class PieceTranslator {
     public PieceTranslator() {
     }
 
-    public List<ChessPiece> translatePieceList(Map<Tile,Piece> positions){
+    public static List<ChessPiece> translatePieceList(Map<Tile,Piece> positions){
         List<ChessPiece> pieces = new ArrayList<>();
         String id = "1";
         for (Map.Entry<Tile, Piece> entry : positions.entrySet()) {

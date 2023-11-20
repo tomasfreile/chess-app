@@ -87,7 +87,10 @@ public class PieceFactory {
                 final OrValidator validator = new OrValidator(List.of(horizontalOne, verticalOne, diagonalOne));
                 yield new Piece(pieceType, validator, color, 0);
             }
-            case ARCHBISHOP -> null;
+            case ARCHBISHOP -> {
+                final OrValidator validator = new OrValidator(List.of(diagonalLimitless, knightMove));
+                yield new Piece(pieceType, validator, color, 0);
+            }
         };
     }
 }

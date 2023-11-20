@@ -19,8 +19,15 @@ import java.util.stream.Collectors;
 
 public class NormalChessCheckmate implements WinCondition {
 
-    private final GameValidator notInCheckValidator = new NotInCheckValidator();
+    private final PieceName checkedPiece;
 
+    private final GameValidator notInCheckValidator;
+
+
+    public NormalChessCheckmate(PieceName checkedPiece) {
+        this.checkedPiece = checkedPiece;
+        this.notInCheckValidator = new NotInCheckValidator(checkedPiece);
+    }
     @Override
     public boolean checkWin(Board board, Color color) {
         return isCheckmate(board, color);
