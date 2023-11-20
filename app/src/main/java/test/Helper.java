@@ -1,4 +1,4 @@
-package test.chess;
+package test;
 
 import commons.Tile;
 

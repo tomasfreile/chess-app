@@ -80,7 +80,7 @@ public class GameEngineImpl implements GameEngine{
     }
 
     private ChessPiece findCapturedPiece(@NotNull Move move) {
-        Tile capturedTile = game.getPieceMover().getCaptureTile(new Tile(move.getFrom().getRow() - 1, move.getFrom().getColumn() - 1), new Tile(move.getTo().getRow() - 1, move.getTo().getColumn() - 1));
+        Tile capturedTile = game.getPieceMover().getCapturedTile(new Tile(move.getFrom().getRow() - 1, move.getFrom().getColumn() - 1), new Tile(move.getTo().getRow() - 1, move.getTo().getColumn() - 1));
         return findPiece(new Position(capturedTile.getRow() + 1, capturedTile.getColumn() + 1));
     }
 

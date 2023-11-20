@@ -6,11 +6,10 @@ import commons.Color;
 import commons.game.Game;
 import commons.Tile;
 import commons.piece.Piece;
-import commons.piece.PieceCreator;
 import commons.piece.PieceName;
 import org.junit.Test;
-import test.chess.Helper;
-import test.chess.TestChessGameCreator;
+import test.Helper;
+import test.TestBoardCreator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +18,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class ValidBishopMoves {
-    TestChessGameCreator testGameCreator = new TestChessGameCreator();
+    TestBoardCreator testGameCreator = new TestBoardCreator();
 
     @Test
     public void testValidBishopMoves() {

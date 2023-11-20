@@ -66,7 +66,7 @@ public class ChessPieceMover implements PieceMover {
 
 
     @Override
-    public Tile getCaptureTile(Tile from, Tile to) {
+    public Tile getCapturedTile(Tile from, Tile to) {
         return to;
     }
 

@@ -1,4 +1,4 @@
-package test.chess;
+package test;
 
 import chess.ChessPieceMover;
 import commons.Board;
@@ -11,8 +11,8 @@ import commons.piece.Piece;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TestChessGameCreator {
-    public TestChessGameCreator() {
+public class TestBoardCreator {
+    public TestBoardCreator() {
     }
     public Game createGame(Piece piece) {
         Map<Tile, Piece> startingPositions = new HashMap<>();

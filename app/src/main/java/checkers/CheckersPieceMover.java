@@ -2,7 +2,7 @@ package checkers;
 
 
 import checkers.factory.piece.CheckersPieceFactory;
-import chess.factory.piece.PieceFactory;
+import checkers.validator.move.MustJumpCaptureValidator;
 import commons.*;
 import commons.game.Game;
 import commons.piece.Piece;
@@ -13,9 +13,16 @@ import commons.result.GameOverResult;
 import commons.result.SuccessfulMove;
 import commons.result.UnsuccessfulMove;
 import commons.rules.Rules;
+import commons.validator.AndValidator;
+import commons.validator.moveValidators.CannotCaptureOwnPieceValidator;
+import commons.validator.moveValidators.CannotCaptureValidator;
+import commons.validator.moveValidators.DiagonalMoveValidator;
+import commons.validator.moveValidators.ForwardMoveValidator;
+import commons.validator.moveValidators.distance.DiagonalMoveDistanceValidator;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 public class CheckersPieceMover implements PieceMover {
@@ -62,12 +69,18 @@ public class CheckersPieceMover implements PieceMover {
         if (gameOver) {
             return new GameOverResult(new Game(newBoard, player1, player2, rules, nextPlayer, this));
         }
+
+        if (new MustJumpCaptureValidator().isValid(from, to, board) && hasAvailableCapturesFromTile(to, newBoard)) {
+            //if just captured a piece and can capture another piece, return the same player
+            return new SuccessfulMove(new Game(newBoard, player1, player2, rules, currentPlayer, game.getPieceMover()));
+        }
+
         return new SuccessfulMove(new Game(newBoard, player1, player2, rules, nextPlayer, game.getPieceMover()));
     }
 
 
     @Override
-    public Tile getCaptureTile(Tile from, Tile to) {
+    public Tile getCapturedTile(Tile from, Tile to) {
         int rowDirection = Integer.compare(to.getRow(), from.getRow());
         int columnDirection = Integer.compare(to.getColumn(), from.getColumn());
         return new Tile(to.getRow() - rowDirection, to.getColumn() - columnDirection);
@@ -77,4 +90,20 @@ public class CheckersPieceMover implements PieceMover {
         return  piece.getType().equals(PieceName.PAWN) && (to.getRow() == board.getHeight() - 1 && piece.getColor().equals(Color.WHITE) || to.getRow() == 0 && piece.getColor().equals(Color.BLACK));
     }
 
+    private boolean hasAvailableCapturesFromTile(Tile to, Board newBoard) {
+        Piece piece = newBoard.getPieceAtPosition(to.getRow(), to.getColumn());
+        for (int i = 0; i < newBoard.getHeight(); i++)
+            for (int j = 0; j < newBoard.getWidth(); j++) {
+                Tile destination = new Tile(i, j);
+                //if piece can capture another piece, return true
+                AndValidator diagonalTwoForward = new AndValidator(List.of(
+                        new DiagonalMoveDistanceValidator(2),
+                        new DiagonalMoveValidator(), new CannotCaptureOwnPieceValidator(),
+                        new ForwardMoveValidator(), new MustJumpCaptureValidator(), new CannotCaptureValidator()));
+                if (diagonalTwoForward.isValid(to, destination, newBoard)) {
+                    return true;
+                }
+            }
+        return false;
+    }
 }

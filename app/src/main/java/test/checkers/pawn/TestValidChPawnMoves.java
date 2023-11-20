@@ -1,12 +1,11 @@
-package test.chess.knight;
+package test.checkers.pawn;
 
-import chess.factory.piece.PieceFactory;
+import checkers.factory.piece.CheckersPieceFactory;
 import commons.Board;
 import commons.Color;
-import commons.game.Game;
 import commons.Tile;
+import commons.game.Game;
 import commons.piece.Piece;
-import commons.piece.PieceName;
 import org.junit.Test;
 import test.Helper;
 import test.TestBoardCreator;
@@ -17,26 +16,20 @@ import java.util.List;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class ValidKnightMoves {
+public class TestValidChPawnMoves {
+
     TestBoardCreator testGameCreator = new TestBoardCreator();
 
     @Test
-    public void testValidKnightMoves() {
-        Piece piece = PieceFactory.createPiece(PieceName.KNIGHT, Color.WHITE);
+    public void testValidChPawnMoves() {
+        Piece piece = CheckersPieceFactory.createPawn(Color.WHITE);
         Game game = testGameCreator.createGame(piece);
         Board board = game.getBoard();
         System.out.println(game.getBoard().printBoard());
 
         List<Tile> availableMoves = new ArrayList<>();
-        availableMoves.add(new Tile(1, 2));
-        availableMoves.add(new Tile(2, 1));
-        availableMoves.add(new Tile(4, 1));
-        availableMoves.add(new Tile(5, 2));
-        availableMoves.add(new Tile(1, 4));
-        availableMoves.add(new Tile(2, 5));
-        availableMoves.add(new Tile(4, 5));
-        availableMoves.add(new Tile(5, 4));
-
+        availableMoves.add(new Tile(4,4));
+        availableMoves.add(new Tile(4,2));
 
         for (int i = 0; i < board.getHeight(); i++) {
             for (int j = 0; j < board.getWidth(); j++) {
@@ -49,4 +42,5 @@ public class ValidKnightMoves {
             }
         }
     }
+
 }
